@@ -258,3 +258,71 @@ footer p {
     font-size: 14px;
     color: #555;
 }
+/* ======== CONTACTO ======== */
+.contacto-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.contacto-container h2 {
+    font-size: 28px;
+    color: #4a2b78;
+    margin-bottom: 15px;
+    font-family: 'Rubik';
+}
+
+.contacto-container p {
+    margin-bottom: 25px;
+    color: #555;
+    font-family: 'Rubik';
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #333;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+    font-size: 15px;
+    font-family: 'Rubik';
+    transition: border-color 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #f5a938;
+    outline: none;
+}
+
+.btn-enviar {
+    background-color: #f5a938;
+    color: white;
+    font-size: 17px;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-family: 'Rubik';
+}
+
+.btn-enviar:hover {
+    background-color: #e08c1b;
+}

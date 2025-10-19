@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - Lorena Fusillo Cosmética</title>
+    <link rel="stylesheet" href="../CSS/styles.css">
+
+    <!-- EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+   <script>
+  (function() {
+    emailjs.init({
+      publicKey: "47vcgvhb2FQNRr2zE" // 🔹 Tu clave pública real
+    });
+  })();
+
+  function enviarConsulta(e) {
+    e.preventDefault();
+
+    const templateParams = {
+      name: document.getElementById("nombre").value,
+      message:
+        "📞 Teléfono: " + document.getElementById("telefono").value + "\n" +
+        "📧 Correo: " + document.getElementById("email").value + "\n\n" +
+        "📝 Consulta:\n" + document.getElementById("mensaje").value,
+      time: new Date().toLocaleString()
+    };
+
+    emailjs.send("service_th3q0er", "template_jb5gbsf", templateParams)
+      .then(function(response) {
+        console.log("✅ Envío exitoso:", response);
+        alert("Tu consulta fue enviada correctamente. ¡Gracias por contactarte!");
+        document.getElementById("form-contacto").reset();
+      }, function(error) {
+        console.error("❌ Error al enviar:", error);
+        alert("Ocurrió un error al enviar la consulta. Revisá la consola para más detalles.");
+      });
+  }
+</script>
+</head>
+
+<body>
+    <header>
+        <div class="top-bar">
+            <div class="logo">
+                <img src="../img/Logo.png" width="150" alt="Logo Lore">
+                <h1>Lorena Fusillo <br>Cosmética</h1>
+            </div>
+            <input type="text" placeholder="Buscar productos...">
+            <div class="user-icon">👤</div>
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="../../index.html">Promociones</a></li>
+                <li><a href="./natura.html">Natura</a></li>
+                <li><a href="./avon.html">Avon</a></li>
+                <li><a href="./arbell.html">Arbell</a></li>
+                <li><a href="./contacto.html">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="contacto-container">
+        <h2>Contáctanos</h2>
+        <p>Completá el siguiente formulario y te responderemos a la brevedad.</p>
+
+        <form id="form-contacto" onsubmit="enviarConsulta(event); return false;">
+            <div class="form-group">
+                <label for="nombre">Nombre y Apellido</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Ej: Lorena Fusillo" required>
+            </div>
+
+            <div class="form-group">
+                <label for="telefono">Teléfono</label>
+                <input type="tel" id="telefono" name="telefono" placeholder="Ej: +54 9 11 1234-5678" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Correo Electrónico</label>
+                <input type="email" id="email" name="email" placeholder="Ej: ejemplo@gmail.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="mensaje">Detalle de la consulta</label>
+                <textarea id="mensaje" name="mensaje" rows="5" placeholder="Escribí tu mensaje aquí..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn-enviar">Enviar</button>
+        </form>
+    </main>
+
+    <footer>
+        <div class="contacto">
+            <h3><a href="#">Lorena Fusillo Cosmética</a></h3>
+            <p>Buenos Aires, Argentina</p>
+            <p>© 2025 - Todos los derechos reservados</p>
+        </div>
+        <div class="redes">
+            <p>Instagram:</p>
+            <div class="icons">
+            <img src="../img/ig.png" width="30px">
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
