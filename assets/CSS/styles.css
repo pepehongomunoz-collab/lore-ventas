@@ -158,14 +158,14 @@ main {
 footer {
     margin-top: 30px;
     display: flex;
-    justify-content: space-around;
-    padding: 20px;
+    justify-content: space-between;
+    padding: 20px 40px;
     border-top: 1px solid #ccc;
     background-color: #ddb28a5b;
 }
 
 .contacto {
-    margin-left: -500px;
+    align-self: flex-start;
     margin-bottom: 10px;
     font-family: 'Rubik';
 }
