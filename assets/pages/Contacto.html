@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,36 +9,36 @@
 
     <!-- EmailJS SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-   <script>
-  (function() {
-    emailjs.init({
-      publicKey: "47vcgvhb2FQNRr2zE" // 🔹 Tu clave pública real
-    });
-  })();
+    <script>
+        (function () {
+            emailjs.init({
+                publicKey: "zN5poxSAc6404Q5HP" // 🔹 Tu clave pública real
+            });
+        })();
 
-  function enviarConsulta(e) {
-    e.preventDefault();
+        function enviarConsulta(e) {
+            e.preventDefault();
 
-    const templateParams = {
-      name: document.getElementById("nombre").value,
-      message:
-        "📞 Teléfono: " + document.getElementById("telefono").value + "\n" +
-        "📧 Correo: " + document.getElementById("email").value + "\n\n" +
-        "📝 Consulta:\n" + document.getElementById("mensaje").value,
-      time: new Date().toLocaleString()
-    };
+            const templateParams = {
+                name: document.getElementById("nombre").value,
+                message:
+                    "📞 Teléfono: " + document.getElementById("telefono").value + "\n" +
+                    "📧 Correo: " + document.getElementById("email").value + "\n\n" +
+                    "📝 Consulta:\n" + document.getElementById("mensaje").value,
+                time: new Date().toLocaleString()
+            };
 
-    emailjs.send("service_th3q0er", "template_jb5gbsf", templateParams)
-      .then(function(response) {
-        console.log("✅ Envío exitoso:", response);
-        alert("Tu consulta fue enviada correctamente. ¡Gracias por contactarte!");
-        document.getElementById("form-contacto").reset();
-      }, function(error) {
-        console.error("❌ Error al enviar:", error);
-        alert("Ocurrió un error al enviar la consulta. Revisá la consola para más detalles.");
-      });
-  }
-</script>
+            emailjs.send("service_bnvn7b9", "template_x1rc0b3", templateParams)
+                .then(function (response) {
+                    console.log("✅ Envío exitoso:", response);
+                    alert("Tu consulta fue enviada correctamente. ¡Gracias por contactarte!");
+                    document.getElementById("form-contacto").reset();
+                }, function (error) {
+                    console.error("❌ Error al enviar:", error);
+                    alert("Ocurrió un error al enviar la consulta. Revisá la consola para más detalles.");
+                });
+        }
+    </script>
 </head>
 
 <body>
@@ -84,7 +85,8 @@
 
             <div class="form-group">
                 <label for="mensaje">Detalle de la consulta</label>
-                <textarea id="mensaje" name="mensaje" rows="5" placeholder="Escribí tu mensaje aquí..." required></textarea>
+                <textarea id="mensaje" name="mensaje" rows="5" placeholder="Escribí tu mensaje aquí..."
+                    required></textarea>
             </div>
 
             <button type="submit" class="btn-enviar">Enviar</button>
@@ -100,9 +102,10 @@
         <div class="redes">
             <p>Instagram:</p>
             <div class="icons">
-            <img src="../img/ig.png" width="30px">
+                <img src="../img/ig.png" width="30px">
             </div>
         </div>
     </footer>
 </body>
+
 </html>
