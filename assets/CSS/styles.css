@@ -178,6 +178,19 @@ footer h3 a {
     font-family: 'Rubik';
 }
 
+
+.contacto h3 {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.contacto h3 img.contact-icon {
+    width: 22px;
+    height: auto;
+    display: inline-block;
+}
+
 footer p {
     margin: 10px 0 5px;
     font-weight: 500;
