@@ -156,6 +156,61 @@ main {
     border-radius: 50%;
 }
 
+/* === SLIDER === */
+.promo-slider {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-width: auto;
+    margin: 0 auto;
+    border-radius: 10px;
+}
+
+.slides {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.slides img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto; /* 🔹 Se ajusta al alto real de la imagen */
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+    border-radius: 8px;
+}
+
+.slides img.active {
+    position: relative; /* 🔹 La imagen activa ocupa el flujo normal */
+    opacity: 1;
+    z-index: 1;
+}
+
+/* Dots (indicadores del slider) */
+.slider-dots {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.slider-dots .dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin: 0 5px;
+    background-color: #ccc;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.slider-dots .dot.active {
+    background-color: #f5a938;
+}
+
 /* Footer */
 footer {
     margin-top: 30px;
