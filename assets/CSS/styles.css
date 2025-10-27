@@ -19,7 +19,7 @@ body {
 
 body header h1 {
     font-family: 'Rubik';
-    font-size: 28px;
+    font-size: 24px;
     color: #333;
     margin-bottom: 10px;
     margin-top: 10px;
@@ -252,9 +252,12 @@ footer p {
     font-family: 'Rubik';
 }
 
-.icons {
-    display: flex;
-    gap: 10px;
+.redes a {
+    color: #000000b2;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 16px;
+    text-decoration: none;
 }
 
 /* Alineación de métodos de pago en el footer */
