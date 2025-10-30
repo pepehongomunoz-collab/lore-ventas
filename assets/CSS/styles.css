@@ -29,48 +29,106 @@ header {
     background-color: #ddb28a5b;
     border-bottom: 1px solid #ccc;
     padding: 10px 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Barra superior y todo lo que contiene*/
 .top-bar {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 20px;
+    padding-bottom: 15px;
 }
 
 .logo {
-    margin-top: 30px;
-    width: 60px;
-    height: 60px;
+    margin-top: 10px;
+    min-width: 250px;
     display: flex;
     align-items: center;
     white-space: nowrap;
+    cursor: default;
+    gap: 10px;
+    user-select: none;
 }
 
-.top-bar input {
-    width: 50%;
-    padding: 8px;
-    border-radius: 4px;
+.logo img {
+    pointer-events: none;
+}
+
+.logo h1 {
+    pointer-events: none;
+    user-select: none;
+}
+
+.search-container {
+    flex: 1;
+    max-width: 500px;
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+    user-select: none;
+}
+
+.search-form {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.search-form input[type="search"] {
+    width: 100%;
+    padding: 8px 12px;
     border: 1px solid #aaa;
+    border-radius: 4px 0 0 4px;
+    font-family: 'Rubik';
+    outline: none;
+    pointer-events: auto;
+}
+
+.search-form input[type="search"]:focus {
+    border-color: #f5a938;
+}
+
+.search-form button {
+    padding: 8px 16px;
+    background: #f5a938;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    pointer-events: auto;
+}
+
+.search-form button:hover {
+    background: #e08c1b;
 }
 
 .user-icon {
     font-size: 24px;
+    cursor: pointer;
 }
 /* FIN BARRA superior */
 
 
 /* Navegación horizontal centrada -  en todas las paginas*/ 
 /* PROMOCIONES - NATURA - AVON - ARBELL */
+.nav-bar {
+    margin-top: 10px;
+    border-top: 1px solid #ccc;
+    padding-top: 15px;
+}
+
 nav ul {
     list-style: none;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 40px;
-    margin-top: 10px;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 8px;
+    margin: 0;
+    padding: 0;
 }
 
 nav ul li {
@@ -410,4 +468,68 @@ footer p {
 
 .btn-enviar:hover {
     background-color: #e08c1b;
+}
+
+/* ======== RESPONSIVE DESIGN ======== */
+/*icono de menu hamburguesa en pantallas pequeñas*/
+.hamburguesa {
+    display: none;
+    color: #555;
+    font-size: 24px; /* Mismo tamaño que user-icon */
+    cursor: pointer;
+}
+
+@media (max-width: 991px) {
+    header {
+        position: relative;
+    }
+    
+    .hamburguesa {
+        display: block;
+        position: absolute;
+        right: 20px;
+        top: 20px;
+    }
+
+    .nav-bar {
+        display: none;
+    }
+
+    .top-bar {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 10px;
+        border-bottom: none;
+    }
+
+    .logo {
+        width: auto;
+        margin: 0;
+    }
+
+    .search-container {
+        order: 3;
+        width: 100%;
+        max-width: none;
+        margin: 15px 0 5px;
+    }
+
+    .user-icon {
+        margin-right: 40px;
+    }
+}
+
+@media (max-width: 576px) {
+    .logo {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+        margin-right: 0;
+    }
+
+    .user-icon {
+        position: absolute;
+        right: 60px;
+        top: 20px;
+    }
 }
