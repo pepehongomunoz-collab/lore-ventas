@@ -407,4 +407,8 @@ footer p {
         max-width: 90%;
         justify-content: center;
     }
+
+    nav ul li a {
+        display: none;
+    }
 }
