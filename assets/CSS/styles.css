@@ -411,4 +411,46 @@ footer p {
     nav ul li a {
         display: none;
     }
+
+        nav {
+        width: 100%;
+        position: absolute;
+        top: 70px; /* debajo del header */
+        left: 0;
+        background-color: #ddb28a; 
+        border-top: 1px solid #ccc;
+        display: none; /* oculto por defecto */
+        flex-direction: column;
+        align-items: center;
+        z-index: 1000;
+        transition: all 0.3s ease;
+    }
+
+    nav.active {
+        display: flex; /* se muestra cuando tiene la clase "active" */
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 20px;
+        width: 100%;
+        padding: 20px 0;
+    }
+
+    nav ul li {
+        width: 100%;
+        text-align: center;
+    }
+
+    nav ul li a {
+        font-size: 20px;
+        display: block;
+        padding: 10px;
+        color: #333;
+    }
+
+    nav ul li a:hover {
+        background-color: #f5a938;
+        color: #fff;
+    }
 }
