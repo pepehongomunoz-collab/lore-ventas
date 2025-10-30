@@ -1,15 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Paprika&family=Rubik:ital,wght@0,300..900;1,300..900&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap');
-.rubik-headers {
-    font-family: "Rubik", sans-serif;
-    font-optical-sizing: auto;
-    font-style: normal;
-}
+/* ========== IMPORTACIÓN DE FUENTES ========== */
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap');
 
+/* ========== RESETEO GENERAL ========== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
+    font-family: "Rubik", Arial, sans-serif;
 }
 
 body {
@@ -17,14 +14,7 @@ body {
     color: #333;
 }
 
-body header h1 {
-    font-family: 'Rubik';
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 10px;
-    margin-top: 10px;
-}
-
+/* ========== ENCABEZADO Y TOP BAR ========== */
 header {
     background-color: #ddb28a5b;
     border-bottom: 1px solid #ccc;
@@ -33,30 +23,31 @@ header {
     flex-direction: column;
 }
 
-/* Barra superior y todo lo que contiene*/
+header h1 {
+    font-size: 24px;
+    color: #333;
+    margin: 10px 0;
+}
+
 .top-bar {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
     gap: 20px;
     padding-bottom: 15px;
+    position: relative;
 }
 
 .logo {
-    margin-top: 10px;
-    min-width: 250px;
     display: flex;
     align-items: center;
-    white-space: nowrap;
-    cursor: default;
     gap: 10px;
+    min-width: 250px;
+    cursor: default;
     user-select: none;
 }
 
-.logo img {
-    pointer-events: none;
-}
-
+.logo img,
 .logo h1 {
     pointer-events: none;
     user-select: none;
@@ -65,26 +56,21 @@ header {
 .search-container {
     flex: 1;
     max-width: 500px;
-    margin-right: auto;
     display: flex;
-    align-items: center;
-    user-select: none;
+    justify-content: center;
 }
 
 .search-form {
-    width: 100%;
     display: flex;
-    align-items: center;
+    width: 100%;
 }
 
 .search-form input[type="search"] {
-    width: 100%;
+    flex: 1;
     padding: 8px 12px;
     border: 1px solid #aaa;
     border-radius: 4px 0 0 4px;
-    font-family: 'Rubik';
     outline: none;
-    pointer-events: auto;
 }
 
 .search-form input[type="search"]:focus {
@@ -96,10 +82,9 @@ header {
     background: #f5a938;
     border: none;
     border-radius: 0 4px 4px 0;
-    color: white;
+    color: #fff;
     cursor: pointer;
-    transition: background-color 0.2s;
-    pointer-events: auto;
+    transition: background 0.2s;
 }
 
 .search-form button:hover {
@@ -110,43 +95,31 @@ header {
     font-size: 24px;
     cursor: pointer;
 }
-/* FIN BARRA superior */
 
-
-/* Navegación horizontal centrada -  en todas las paginas*/ 
-/* PROMOCIONES - NATURA - AVON - ARBELL */
+/* ========== NAVEGACIÓN ========== */
 nav {
     margin-top: 10px;
     border-top: 1px solid #ccc;
     padding-top: 15px;
-    position: relative;
 }
 
 nav ul {
     list-style: none;
     display: flex;
     justify-content: center;
-    align-items: center;
     gap: 40px;
-    margin: 0;
-    padding: 0;
 }
 
-nav ul li {
-    display: inline-block;
-}
-
-nav ul li a {
+nav a {
     text-decoration: none;
     color: #000000b2;
     font-weight: 500;
     font-size: 25px;
     position: relative;
     padding-bottom: 4px;
-    font-family: 'Rubik';
 }
 
-nav ul li a::after {
+nav a::after {
     content: "";
     position: absolute;
     bottom: 0;
@@ -157,79 +130,29 @@ nav ul li a::after {
     transition: width 0.3s ease;
 }
 
-nav ul li a:hover::after {
+nav a:hover::after {
     width: 100%;
 }
 
-/* Contenido pagina principal - promos */
+/* ========== SECCIÓN PRINCIPAL ========== */
 main {
     padding: 20px;
 }
 
-.promos h2 {
-    margin-bottom: 10px;
-}
-
+/* ========== SLIDER PROMOCIONES ========== */
 .promo-slider {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    background-color: #ddb28a5b;
     border: 1px solid #ccc;
-    border-radius: 6px;
-    background-color: #ddb28a5b;
-    padding: 10px;
-    width: 100%;
-    height: auto;
-    max-width: 100%;
-    overflow: hidden;
-
-}
-
-.promo-image {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    justify-content: center;
-    align-items: center;
-    background-color: #ddb28a5b;
-}
-
-.promo-image img {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 4px;
-}
-
-.slider-bar {
-    height: 4px;
-    background-color: #ccc;
-    margin-top: 10px;
-    position: relative;
-}
-
-.slider-dot {
-    position: absolute;
-    top: -4px;
-    left: 40%;
-    width: 10px;
-    height: 10px;
-    background-color: #5b5bff;
-    border-radius: 50%;
-}
-
-/* === SLIDER === */
-.promo-slider {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    max-width: auto;
-    margin: 0 auto;
     border-radius: 10px;
+    padding: 10px;
 }
 
 .slides {
     position: relative;
     width: 100%;
-    display: flex;
-    flex-direction: column;
 }
 
 .slides img {
@@ -237,25 +160,24 @@ main {
     top: 0;
     left: 0;
     width: 100%;
-    height: auto; /* 🔹 Se ajusta al alto real de la imagen */
+    height: auto;
     opacity: 0;
     transition: opacity 0.8s ease-in-out;
     border-radius: 8px;
 }
 
 .slides img.active {
-    position: relative; /* 🔹 La imagen activa ocupa el flujo normal */
+    position: relative;
     opacity: 1;
     z-index: 1;
 }
 
-/* Dots (indicadores del slider) */
 .slider-dots {
     text-align: center;
     margin-top: 10px;
 }
 
-.slider-dots .dot {
+.dot {
     display: inline-block;
     width: 12px;
     height: 12px;
@@ -263,52 +185,53 @@ main {
     background-color: #ccc;
     border-radius: 50%;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background 0.3s ease;
 }
 
-.slider-dots .dot.active {
+.dot.active {
     background-color: #f5a938;
 }
 
-/* Footer */
+/* ========== FOOTER ========== */
 footer {
     margin-top: 30px;
     display: flex;
     justify-content: space-between;
+    align-items: center; /* ✅ alinea verticalmente los elementos */
     padding: 20px 40px;
     border-top: 1px solid #ccc;
     background-color: #ddb28a5b;
 }
 
 .contacto {
-    align-self: flex-start;
-    margin-bottom: 10px;
-    font-family: 'Rubik';
+    font-family: "Rubik";
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
 }
-
-footer h2 a {
-    color: #000000b2;
-    text-decoration: none;
-    font-family: 'Rubik';
-}
-
 
 .contacto h2 {
     display: inline-flex;
     align-items: center;
     gap: 8px;
+    font-size: 16px;
 }
 
-.contacto h2 img.contact-icon {
+.payment-methods {
+    font-family: "Rubik";
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+}
+
+.contact-icon {
     width: 22px;
     height: auto;
-    display: inline-block;
 }
 
 footer p {
     margin: 10px 0 5px;
     font-weight: 500;
-    font-family: 'Rubik';
 }
 
 .redes a {
@@ -316,42 +239,23 @@ footer p {
     text-decoration: none;
     margin: 0 10px;
     font-size: 16px;
-    text-decoration: none;
-}
-
-/* Alineación de métodos de pago en el footer */
-.contacto .payment {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 12px;
+    gap: 6px;
+
 }
 
-.contacto .payment p {
-    margin: 0;
-}
-
-.icon {
-    width: 30px;
-    height: 30px;
-    border: 1px solid #aaa;
-    border-radius: 4px;
-}
-
-/* ======== NATURA PAGE (GRID FIJO 4x2) ======== */
+/* ========== CATÁLOGO (NATURA, AVON, ARBELL) ========== */
 .catalogo {
     padding: 30px 0;
     text-align: center;
 }
 
-
 .productos-contenedor {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(2, auto);
     gap: 40px;
     justify-items: center;
-    max-width: auto;
-    margin: 0 auto;
 }
 
 .producto {
@@ -359,7 +263,7 @@ footer p {
     height: 280px;
     border: 1px solid #ccc;
     border-radius: 8px;
-    background-color: #f9f9f9;
+    background: #f9f9f9;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
@@ -383,31 +287,23 @@ footer p {
 }
 
 .img-box img {
-    width: 100%;
-    height: auto;
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
-    overflow: hidden;
 }
 
-.producto p {
-    margin: 5px 0;
+.producto p,
+.producto label {
     color: #333;
     font-size: 15px;
 }
 
-.producto label {
-    font-size: 14px;
-    color: #555;
-}
-
-/* ======== CONTACTO ======== */
+/* ========== CONTACTO (FORMULARIO) ========== */
 .contacto-container {
     max-width: 600px;
     margin: 50px auto;
     padding: 30px;
-    background-color: #ffffff;
+    background: #fff;
     border-radius: 8px;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
@@ -417,13 +313,11 @@ footer p {
     font-size: 28px;
     color: #4a2b78;
     margin-bottom: 15px;
-    font-family: 'Rubik';
 }
 
 .contacto-container p {
     margin-bottom: 25px;
     color: #555;
-    font-family: 'Rubik';
 }
 
 .form-group {
@@ -435,7 +329,6 @@ footer p {
     display: block;
     margin-bottom: 6px;
     font-weight: 500;
-    color: #333;
 }
 
 .form-group input,
@@ -445,7 +338,6 @@ footer p {
     border: 1px solid #bbb;
     border-radius: 6px;
     font-size: 15px;
-    font-family: 'Rubik';
     transition: border-color 0.2s ease;
 }
 
@@ -463,16 +355,14 @@ footer p {
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.2s ease;
-    font-family: 'Rubik';
+    transition: background 0.2s ease;
 }
 
 .btn-enviar:hover {
     background-color: #e08c1b;
 }
 
-/* ======== RESPONSIVE DESIGN ======== */
-/*icono de menu hamburguesa en pantallas pequeñas*/
+/* ========== RESPONSIVE ========== */
 .hamburguesa {
     display: none !important;
     color: #555;
@@ -484,7 +374,7 @@ footer p {
     header {
         position: relative;
     }
-    
+
     .hamburguesa {
         display: block !important;
         position: absolute;
@@ -492,45 +382,29 @@ footer p {
         top: 15px;
     }
 
-    nav ul {
-        display: none;
+    .user-icon {
+        position: absolute;
+        left: 20px;
+        top: 15px;
     }
 
     .top-bar {
-        flex-wrap: wrap;
-        justify-content: space-between;
-        padding: 10px;
-        border-bottom: none;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        padding: 50px 10px 10px; /* espacio para los iconos arriba */
     }
 
     .logo {
-        width: auto;
-        margin: 0;
+        order: 1;
+        justify-content: center;
+        text-align: center;
     }
 
     .search-container {
-        order: 3;
+        order: 2;
         width: 100%;
-        max-width: none;
-        margin: 15px 0 5px;
-    }
-
-    .user-icon {
-        margin-right: 40px;
-    }
-}
-
-@media (max-width: 576px) {
-    .logo {
-        width: 100%;
+        max-width: 90%;
         justify-content: center;
-        text-align: center;
-        margin-right: 0;
-    }
-
-    .user-icon {
-        position: absolute;
-        right: 60px;
-        top: 20px;
     }
 }
