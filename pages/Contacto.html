@@ -49,19 +49,28 @@
                 <img src="../assets/img/Logo.png" width="150" alt="Logo Lore">
                 <h1>Lorena Fusillo <br>Cosmética</h1>
             </div>
-            <input type="text" placeholder="Buscar productos...">
-            <div class="user-icon">👤</div>
+            <div class="search-container">
+                <form class="search-form" role="search">
+                    <input type="search" name="buscar" placeholder="Buscar productos..." aria-label="Buscar productos">
+                    <button type="submit" aria-label="Buscar">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </form>
+            </div>
+            <div class="user-icon">
+                <i class="fa-solid fa-user"></i>
+            </div>
         </div>
-
         <nav>
             <ul>
                 <li><a href="../index.html">Promociones</a></li>
                 <li><a href="./natura.html">Natura</a></li>
                 <li><a href="./avon.html">Avon</a></li>
                 <li><a href="./arbell.html">Arbell</a></li>
-                <li><a href="./contacto.html">Contacto</a></li>
+                <li><a href="./contacto.html" class="active">Contacto</a></li>
             </ul>
         </nav>
+        <i class="fa-solid fa-bars hamburguesa"></i>
     </header>
 
     <main class="contacto-container">

@@ -115,10 +115,11 @@ header {
 
 /* Navegación horizontal centrada -  en todas las paginas*/ 
 /* PROMOCIONES - NATURA - AVON - ARBELL */
-.nav-bar {
+nav {
     margin-top: 10px;
     border-top: 1px solid #ccc;
     padding-top: 15px;
+    position: relative;
 }
 
 nav ul {
@@ -473,9 +474,9 @@ footer p {
 /* ======== RESPONSIVE DESIGN ======== */
 /*icono de menu hamburguesa en pantallas pequeñas*/
 .hamburguesa {
-    display: none;
+    display: none !important;
     color: #555;
-    font-size: 24px; /* Mismo tamaño que user-icon */
+    font-size: 24px;
     cursor: pointer;
 }
 
@@ -485,13 +486,13 @@ footer p {
     }
     
     .hamburguesa {
-        display: block;
+        display: block !important;
         position: absolute;
         right: 20px;
-        top: 20px;
+        top: 15px;
     }
 
-    .nav-bar {
+    nav ul {
         display: none;
     }
 
