@@ -84,7 +84,7 @@ header h1 {
     border-radius: 0 4px 4px 0;
     color: #fff;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: background-color 0.2s;
 }
 
 .search-form button:hover {
@@ -185,7 +185,7 @@ main {
     background-color: #ccc;
     border-radius: 50%;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: 0.3s ease;
 }
 
 .dot.active {
@@ -355,7 +355,7 @@ footer p {
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    transition: background 0.2s ease;
+    transition: background-color 0.2s ease;
 }
 
 .btn-enviar:hover {
@@ -412,3 +412,4 @@ footer p {
         display: none;
     }
 }
+
