@@ -103,6 +103,46 @@ nav {
     padding-top: 15px;
 }
 
+/* User name and menu */
+.user-name {
+    font-size: 14px;
+    color: #333;
+    text-align: center;
+    margin-top: 4px;
+    cursor: pointer;
+}
+
+.user-menu {
+    position: absolute;
+    background: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    padding: 6px;
+    border-radius: 6px;
+    min-width: 140px;
+    display: none;
+    z-index: 2000;
+}
+
+.user-menu.open {
+    display: block;
+}
+
+.user-menu .user-menu-item {
+    padding: 8px 10px;
+    font-size: 14px;
+    color: #333;
+    background: transparent;
+    border: none;
+    text-align: left;
+    width: 100%;
+}
+
+.user-menu .user-logout {
+    color: #d33;
+    cursor: pointer;
+}
+
 nav ul {
     list-style: none;
     display: flex;
