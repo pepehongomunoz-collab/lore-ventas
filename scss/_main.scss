@@ -1,10 +1,16 @@
-// ========== MAIN CONTENT ==========
+/**
+ * MAIN CONTENT - CON ANIDAMIENTO SCSS
+ * 
+ * EXPLICACIÓN:
+ * Anidamos los elementos del slider y contenido principal
+ */
 
+// ========== MAIN ==========
 main {
     padding: $spacing-xl;
 }
 
-// Promo Slider
+// ========== PROMO SLIDER ==========
 .promo-slider {
     position: relative;
     overflow: hidden;
@@ -15,10 +21,13 @@ main {
     padding: $spacing-md;
 }
 
+// ========== SLIDES ==========
 .slides {
     position: relative;
     width: 100%;
 
+    // EXPLICACIÓN: Anidamos img dentro de .slides
+    // Esto genera: .slides img { ... }
     img {
         position: absolute;
         top: 0;
@@ -29,6 +38,8 @@ main {
         transition: opacity $transition-slow;
         border-radius: $border-radius-lg;
 
+        // EXPLICACIÓN: & = .slides img
+        // Esto genera: .slides img.active { ... }
         &.active {
             position: relative;
             opacity: 1;
@@ -37,11 +48,13 @@ main {
     }
 }
 
+// ========== SLIDER DOTS ==========
 .slider-dots {
     text-align: center;
     margin-top: $spacing-md;
 }
 
+// ========== DOT ==========
 .dot {
     display: inline-block;
     width: 12px;
@@ -52,7 +65,37 @@ main {
     cursor: pointer;
     transition: background $transition-normal;
 
+    // EXPLICACIÓN: & = .dot
+    // Esto genera: .dot.active { ... }
     &.active {
         background-color: $primary-color;
     }
+
+    // EXPLICACIÓN: Podríamos agregar hover
+    // &:hover {
+    //   background-color: darken($border-color, 10%);
+    // }
 }
+
+/**
+ * PATRÓN COMÚN EN NESTING:
+ * 
+ * Cuando tienes un elemento con modificadores (clases adicionales),
+ * usa & para referirte al selector padre:
+ * 
+ * .dot {
+ *   // estilos base
+ *   
+ *   &.active {  // .dot.active
+ *     // estilos cuando está activo
+ *   }
+ *   
+ *   &:hover {  // .dot:hover
+ *     // estilos en hover
+ *   }
+ *   
+ *   &:disabled {  // .dot:disabled
+ *     // estilos cuando está deshabilitado
+ *   }
+ * }
+ */

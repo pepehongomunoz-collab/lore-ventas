@@ -1,10 +1,21 @@
-// ========== RESPONSIVE DESIGN ==========
+/**
+ * RESPONSIVE DESIGN - CON ANIDAMIENTO SCSS
+ * 
+ * EXPLICACIÓN:
+ * En responsive, el anidamiento es especialmente útil
+ * porque podemos agrupar todos los cambios de un elemento
+ * dentro de su media query
+ */
 
+// ========== RESPONSIVE ==========
 @media (max-width: $breakpoint-mobile) {
+
+    // ========== HEADER ==========
     header {
         position: relative;
     }
 
+    // ========== HAMBURGUESA ==========
     .hamburguesa {
         display: block !important;
         position: absolute;
@@ -12,12 +23,14 @@
         top: $spacing-lg;
     }
 
+    // ========== USER ICON ==========
     .user-icon {
         position: absolute;
         left: $spacing-xl;
         top: $spacing-lg;
     }
 
+    // ========== TOP BAR ==========
     .top-bar {
         @include flex-column;
         align-items: center;
@@ -25,12 +38,14 @@
         padding: 50px $spacing-md $spacing-md;
     }
 
+    // ========== LOGO ==========
     .logo {
         order: 1;
         justify-content: center;
         text-align: center;
     }
 
+    // ========== SEARCH ==========
     .search-container {
         order: 2;
         width: 100%;
@@ -38,11 +53,8 @@
         justify-content: center;
     }
 
+    // ========== NAV ==========
     nav {
-        ul li a {
-            display: none;
-        }
-
         width: 100%;
         position: absolute;
         top: 70px;
@@ -55,26 +67,36 @@
         z-index: 1000;
         transition: all $transition-normal;
 
+        // EXPLICACIÓN: & = nav
+        // Esto genera: nav.active { ... }
         &.active {
             display: flex;
         }
 
+        // EXPLICACIÓN: Anidamos ul dentro de nav
+        // Esto genera: nav ul { ... } (dentro del media query)
         ul {
             @include flex-column;
             gap: $spacing-xl;
             width: 100%;
             padding: $spacing-xl 0;
 
+            // EXPLICACIÓN: Anidamos li dentro de ul
+            // Esto genera: nav ul li { ... }
             li {
                 width: 100%;
                 text-align: center;
 
+                // EXPLICACIÓN: Anidamos a dentro de li
+                // Esto genera: nav ul li a { ... }
                 a {
                     font-size: $font-size-xlarge;
                     display: block;
                     padding: $spacing-md;
                     color: $text-color;
 
+                    // EXPLICACIÓN: Hover para enlaces móviles
+                    // Esto genera: nav ul li a:hover { ... }
                     &:hover {
                         background-color: $primary-color;
                         color: $white;
@@ -84,7 +106,46 @@
         }
     }
 
+    // ========== MENU GRID ==========
     .menu-grid {
         grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     }
 }
+
+/**
+ * VENTAJA DEL NESTING EN RESPONSIVE:
+ * 
+ * ANTES (sin nesting):
+ * @media (max-width: 991px) {
+ *   nav { ... }
+ *   nav.active { ... }
+ *   nav ul { ... }
+ *   nav ul li { ... }
+ *   nav ul li a { ... }
+ *   nav ul li a:hover { ... }
+ * }
+ * 
+ * AHORA (con nesting):
+ * @media (max-width: 991px) {
+ *   nav {
+ *     ...
+ *     &.active { ... }
+ *     ul {
+ *       ...
+ *       li {
+ *         ...
+ *         a {
+ *           ...
+ *           &:hover { ... }
+ *         }
+ *       }
+ *     }
+ *   }
+ * }
+ * 
+ * BENEFICIOS:
+ * - Estructura clara que refleja el HTML
+ * - Fácil ver qué estilos se aplican en móvil
+ * - Menos repetición de selectores
+ * - Más fácil de mantener
+ */

@@ -1,98 +1,118 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Determine API base URL
-    const API_BASE = (location.protocol === 'http:' || location.protocol === 'https:')
-        ? `${location.protocol}//${location.host}`
-        : 'http://localhost:3000';
+/**
+ * PERFIL DE USUARIO - REFACTORIZADO
+ * 
+ * CAMBIOS PRINCIPALES:
+ * 1. Usamos funciones de utils.js para consistencia
+ * 2. Código más limpio y organizado
+ * 3. Mejor manejo de errores
+ */
 
-    // Check if user is logged in
-    const token = localStorage.getItem('token');
+import {
+    getApiBase,
+    handleApiResponse,
+    getAuthToken,
+    getUserData,
+    saveAuthData,
+    getPageHref,
+    clearAuthData
+} from './utils.js';
+
+document.addEventListener('DOMContentLoaded', () => {
+    // ANTES: const API_BASE = (location.protocol === 'http:' || location.protocol === 'https:')...
+    // AHORA: Función centralizada
+    const API_BASE = getApiBase();
+
+    // ANTES: const token = localStorage.getItem('token');
+    // AHORA: Función centralizada
+    const token = getAuthToken();
+
     if (!token) {
-        // Redirect to login if not authenticated
-        window.location.href = './login.html';
+        // Redirigir a login si no hay token
+        window.location.href = getPageHref('login.html');
         return;
     }
 
     let currentUser = null;
 
-    // Get elements
+    // Elementos del DOM
     const viewMode = document.getElementById('view-mode');
     const editMode = document.getElementById('edit-mode');
     const editBtn = document.getElementById('edit-btn');
     const cancelBtn = document.getElementById('cancel-btn');
     const profileForm = document.getElementById('profile-form');
 
-    // Get user data from localStorage first (for immediate display)
-    const userJson = localStorage.getItem('user');
-    if (userJson) {
-        try {
-            currentUser = JSON.parse(userJson);
-            displayUserInfo(currentUser);
-        } catch (e) {
-            console.error('Error parsing user data:', e);
-        }
+    // ANTES: const userJson = localStorage.getItem('user'); try { ... } catch
+    // AHORA: Función que maneja errores automáticamente
+    currentUser = getUserData();
+    if (currentUser) {
+        displayUserInfo(currentUser);
     }
 
-    // Fetch fresh user data from the server
+    // Obtener datos frescos del servidor
     fetchUserData();
 
-    // Edit button click
+    // Event listeners
     editBtn.addEventListener('click', () => {
         enterEditMode();
     });
 
-    // Cancel button click
     cancelBtn.addEventListener('click', () => {
         exitEditMode();
     });
 
-    // Form submit
     profileForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         await saveProfile();
     });
 
-    function fetchUserData() {
-        fetch(`${API_BASE}/api/auth/me`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
-            .then(async r => {
-                if (!r.ok) {
-                    if (r.status === 401) {
-                        // Token expired or invalid
-                        localStorage.removeItem('token');
-                        localStorage.removeItem('user');
-                        window.location.href = './login.html';
-                        return;
-                    }
-                    throw new Error(`Error del servidor: ${r.status}`);
+    /**
+     * OBTENER DATOS DEL USUARIO DESDE EL SERVIDOR
+     * 
+     * OPTIMIZACIÓN:
+     * - Usamos handleApiResponse() para manejar errores consistentemente
+     * - Usamos saveAuthData() para guardar datos
+     */
+    async function fetchUserData() {
+        try {
+            const response = await fetch(`${API_BASE}/api/auth/me`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
                 }
-                return r.json();
-            })
-            .then(data => {
-                if (data && data.user) {
-                    currentUser = data.user;
-                    // Update localStorage with fresh data
-                    localStorage.setItem('user', JSON.stringify(data.user));
-                    displayUserInfo(data.user);
-                }
-            })
-            .catch(err => {
-                console.error('Error fetching user data:', err);
-                // Keep showing cached data if fetch fails
             });
+
+            // ANTES: Código duplicado de manejo de respuesta
+            // AHORA: Función centralizada
+            const data = await handleApiResponse(response);
+
+            if (data && data.user) {
+                currentUser = data.user;
+                // ANTES: localStorage.setItem('user', JSON.stringify(data.user));
+                // AHORA: Función centralizada (saveAuthData maneja el token también)
+                saveAuthData(token, data.user);
+                displayUserInfo(data.user);
+            }
+        } catch (err) {
+            console.error('Error fetching user data:', err);
+
+            // Si el token expiró, limpiar y redirigir
+            if (err.message.includes('401') || err.message.includes('Invalid token')) {
+                clearAuthData();
+                window.location.href = getPageHref('login.html');
+            }
+        }
     }
 
+    /**
+     * MOSTRAR INFORMACIÓN DEL USUARIO
+     */
     function displayUserInfo(user) {
-        // View mode
         document.getElementById('view-name').textContent = user.name || 'No especificado';
         document.getElementById('view-email').textContent = user.email || 'No especificado';
         document.getElementById('view-phone').textContent = user.phone || 'No especificado';
         document.getElementById('view-id').textContent = user.id || user._id || 'No disponible';
 
-        // Format address
+        // Formatear dirección
         if (user.address && (user.address.street || user.address.city)) {
             const parts = [];
             if (user.address.street) parts.push(user.address.street);
@@ -104,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('view-address').textContent = 'No especificada';
         }
 
-        // Format creation date
+        // Formatear fecha
         if (user.createdAt) {
             const date = new Date(user.createdAt);
             document.getElementById('view-created').textContent = date.toLocaleDateString('es-AR', {
@@ -117,8 +137,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    /**
+     * ENTRAR EN MODO EDICIÓN
+     */
     function enterEditMode() {
-        // Populate edit form with current data
+        // Llenar formulario con datos actuales
         document.getElementById('edit-name').value = currentUser.name || '';
         document.getElementById('edit-email').value = currentUser.email || '';
         document.getElementById('edit-phone').value = currentUser.phone || '';
@@ -130,17 +153,26 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('edit-postal').value = currentUser.address.postalCode || '';
         }
 
-        // Toggle modes
+        // Cambiar a modo edición
         viewMode.style.display = 'none';
         editMode.style.display = 'block';
     }
 
+    /**
+     * SALIR DEL MODO EDICIÓN
+     */
     function exitEditMode() {
-        // Toggle modes
         viewMode.style.display = 'block';
         editMode.style.display = 'none';
     }
 
+    /**
+     * GUARDAR PERFIL
+     * 
+     * OPTIMIZACIÓN:
+     * - Usamos handleApiResponse() para consistencia
+     * - Usamos saveAuthData() para guardar
+     */
     async function saveProfile() {
         const name = document.getElementById('edit-name').value.trim();
         const phone = document.getElementById('edit-phone').value.trim();
@@ -170,16 +202,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify(updateData)
             });
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || 'Error al actualizar perfil');
-            }
-
-            const data = await response.json();
+            // ANTES: Código duplicado de manejo de respuesta
+            // AHORA: Función centralizada
+            const data = await handleApiResponse(response);
 
             if (data.user) {
                 currentUser = data.user;
-                localStorage.setItem('user', JSON.stringify(data.user));
+                // ANTES: localStorage.setItem('user', JSON.stringify(data.user));
+                // AHORA: Función centralizada
+                saveAuthData(token, data.user);
+
                 displayUserInfo(data.user);
                 exitEditMode();
                 alert('✅ Perfil actualizado exitosamente');
@@ -190,3 +222,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 });
+
+/**
+ * RESUMEN DE MEJORAS:
+ * 
+ * ANTES:
+ * - Código duplicado de manejo de API
+ * - Lógica de localStorage repetida
+ * - Inconsistente con otros archivos
+ * 
+ * AHORA:
+ * - Usa funciones compartidas de utils.js
+ * - Consistente con auth.js y userMenu.js
+ * - Más fácil de mantener
+ * - Mejor manejo de errores
+ */

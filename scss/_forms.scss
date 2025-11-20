@@ -1,26 +1,38 @@
-// ========== FORMS & INPUTS ==========
+/**
+ * FORMS & INPUTS - CON ANIDAMIENTO SCSS
+ * 
+ * EXPLICACIÓN:
+ * Agrupamos todos los elementos de formulario con anidamiento
+ * para mejor organización y mantenimiento
+ */
 
+// ========== FORM GROUP ==========
 .form-group {
     margin-bottom: $spacing-xl;
     text-align: left;
 
+    // EXPLICACIÓN: Anidamos label dentro de .form-group
+    // Esto genera: .form-group label { ... }
     label {
         display: block;
         margin-bottom: $spacing-sm;
         font-weight: 500;
     }
 
+    // EXPLICACIÓN: Anidamos inputs y textarea
+    // Esto genera: .form-group input { ... } y .form-group textarea { ... }
     input,
     textarea {
         @include input-base;
     }
 
+    // EXPLICACIÓN: Configuración específica para textarea
     textarea {
         resize: vertical;
     }
 }
 
-// Profile Info Display
+// ========== PROFILE INFO ==========
 .profile-info {
     padding: $spacing-md 12px;
     background-color: $background-gray;
@@ -31,13 +43,23 @@
     margin: 0;
 }
 
-// Buttons
+// ========== BUTTONS ==========
 .btn-enviar {
     @include button-base;
     background-color: $primary-color;
     color: $white;
 
-    @include hover-effect($primary-hover);
+    // EXPLICACIÓN: & = .btn-enviar
+    // Esto genera: .btn-enviar:hover { ... }
+    &:hover {
+        background-color: $primary-hover;
+    }
+
+    // EXPLICACIÓN: Si tuviéramos un estado disabled
+    // &:disabled {
+    //   opacity: 0.5;
+    //   cursor: not-allowed;
+    // }
 }
 
 .btn-cancelar {
@@ -50,14 +72,14 @@
     }
 }
 
-// Disabled Input
+// ========== DISABLED INPUT ==========
 .disabled-input {
     background-color: $background-disabled;
     cursor: not-allowed;
     opacity: 0.7;
 }
 
-// Contact Form Container
+// ========== CONTACT CONTAINER ==========
 .contacto-container {
     max-width: 600px;
     margin: 50px auto;
@@ -67,14 +89,36 @@
     @include box-shadow;
     text-align: center;
 
+    // EXPLICACIÓN: Anidamos h2 dentro del container
     h2 {
         font-size: $font-size-huge;
         color: #4a2b78;
         margin-bottom: $spacing-lg;
     }
 
+    // EXPLICACIÓN: Anidamos p dentro del container
     p {
         margin-bottom: 25px;
         color: $text-light;
     }
 }
+
+/**
+ * VENTAJA DEL NESTING EN FORMULARIOS:
+ * 
+ * ANTES (sin nesting):
+ * .form-group { ... }
+ * .form-group label { ... }
+ * .form-group input { ... }
+ * .form-group textarea { ... }
+ * 
+ * AHORA (con nesting):
+ * .form-group {
+ *   ...
+ *   label { ... }
+ *   input, textarea { ... }
+ *   textarea { ... }
+ * }
+ * 
+ * Es más fácil ver que todos estos elementos pertenecen a .form-group
+ */

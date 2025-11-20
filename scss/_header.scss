@@ -1,11 +1,35 @@
-// ========== HEADER & NAVIGATION ==========
+/**
+ * HEADER & NAVIGATION - CON ANIDAMIENTO SCSS
+ * 
+ * CONCEPTO DE NESTING (ANIDAMIENTO):
+ * En lugar de escribir selectores separados como:
+ *   header { ... }
+ *   header h1 { ... }
+ *   header nav { ... }
+ * 
+ * Podemos anidarlos para reflejar la estructura HTML:
+ *   header {
+ *     ...
+ *     h1 { ... }
+ *     nav { ... }
+ *   }
+ * 
+ * BENEFICIOS:
+ * 1. Más fácil de leer - refleja la estructura HTML
+ * 2. Menos repetición de selectores padre
+ * 3. Mejor organización del código
+ * 4. Más fácil de mantener
+ */
 
+// ========== HEADER ==========
 header {
     background-color: $secondary-color;
     border-bottom: 1px solid $border-color;
     padding: $spacing-md $spacing-xl;
     @include flex-column;
 
+    // EXPLICACIÓN: h1 está anidado dentro de header
+    // Esto genera: header h1 { ... }
     h1 {
         font-size: $font-size-xxlarge;
         color: $text-color;
@@ -13,7 +37,7 @@ header {
     }
 }
 
-// Top Bar
+// ========== TOP BAR ==========
 .top-bar {
     display: flex;
     align-items: center;
@@ -23,6 +47,7 @@ header {
     position: relative;
 }
 
+// ========== LOGO ==========
 .logo {
     display: flex;
     align-items: center;
@@ -31,6 +56,8 @@ header {
     cursor: default;
     user-select: none;
 
+    // EXPLICACIÓN: Anidamos img y h1 dentro de .logo
+    // Esto genera: .logo img { ... } y .logo h1 { ... }
     img,
     h1 {
         pointer-events: none;
@@ -38,7 +65,7 @@ header {
     }
 }
 
-// Search
+// ========== SEARCH ==========
 .search-container {
     flex: 1;
     max-width: 500px;
@@ -50,6 +77,8 @@ header {
     display: flex;
     width: 100%;
 
+    // EXPLICACIÓN: Anidamos los elementos del formulario
+    // Esto genera: .search-form input[type="search"] { ... }
     input[type="search"] {
         flex: 1;
         padding: 8px 12px;
@@ -57,6 +86,9 @@ header {
         border-radius: $border-radius-sm 0 0 $border-radius-sm;
         outline: none;
 
+        // EXPLICACIÓN: & representa el selector padre
+        // Aquí & = input[type="search"]
+        // Esto genera: .search-form input[type="search"]:focus { ... }
         &:focus {
             border-color: $primary-color;
         }
@@ -71,11 +103,12 @@ header {
         cursor: pointer;
         transition: background $transition-fast;
 
+        // EXPLICACIÓN: Usando mixin para hover
         @include hover-effect($primary-hover);
     }
 }
 
-// User Container & Icon
+// ========== USER CONTAINER & ICON ==========
 .user-container {
     @include flex-column;
     align-items: center;
@@ -96,7 +129,7 @@ header {
     cursor: pointer;
 }
 
-// User Menu
+// ========== USER MENU ==========
 .user-menu {
     position: absolute;
     background: $white;
@@ -108,10 +141,14 @@ header {
     display: none;
     z-index: 2000;
 
+    // EXPLICACIÓN: & representa .user-menu
+    // Esto genera: .user-menu.open { ... }
     &.open {
         display: block;
     }
 
+    // EXPLICACIÓN: Anidamos los items del menú
+    // Esto genera: .user-menu .user-menu-item { ... }
     .user-menu-item {
         padding: 8px $spacing-md;
         font-size: $font-size-small;
@@ -124,23 +161,27 @@ header {
         text-decoration: none;
         cursor: pointer;
 
+        // EXPLICACIÓN: Hover para todos los items
         &:hover {
             background-color: #f5f5f5;
         }
     }
 
+    // EXPLICACIÓN: Selector específico para logout
+    // Esto genera: .user-menu .user-logout { ... }
     .user-logout {
         color: $error-color;
         cursor: pointer;
     }
 }
 
-// Navigation
+// ========== NAVIGATION ==========
 nav {
     margin-top: $spacing-md;
     border-top: 1px solid $border-color;
     padding-top: $spacing-lg;
 
+    // EXPLICACIÓN: Anidamos ul dentro de nav
     ul {
         list-style: none;
         display: flex;
@@ -148,6 +189,8 @@ nav {
         gap: $spacing-xxxl;
     }
 
+    // EXPLICACIÓN: Anidamos a dentro de nav
+    // Esto genera: nav a { ... }
     a {
         text-decoration: none;
         color: #000000b2;
@@ -156,6 +199,8 @@ nav {
         position: relative;
         padding-bottom: $spacing-xs;
 
+        // EXPLICACIÓN: Pseudo-elemento ::after
+        // & = nav a, entonces esto genera: nav a::after { ... }
         &::after {
             content: "";
             position: absolute;
@@ -167,16 +212,43 @@ nav {
             transition: width $transition-normal;
         }
 
+        // EXPLICACIÓN: Hover que afecta al ::after
+        // Esto genera: nav a:hover::after { ... }
         &:hover::after {
             width: 100%;
         }
     }
 }
 
-// Hamburger Menu
+// ========== HAMBURGER MENU ==========
 .hamburguesa {
     display: none !important;
     color: $text-light;
     font-size: $font-size-xxlarge;
     cursor: pointer;
 }
+
+/**
+ * RESUMEN DE NESTING:
+ * 
+ * ANTES (sin nesting):
+ * .search-form { ... }
+ * .search-form input[type="search"] { ... }
+ * .search-form input[type="search"]:focus { ... }
+ * .search-form button { ... }
+ * 
+ * AHORA (con nesting):
+ * .search-form {
+ *   ...
+ *   input[type="search"] {
+ *     ...
+ *     &:focus { ... }
+ *   }
+ *   button { ... }
+ * }
+ * 
+ * VENTAJAS:
+ * - Estructura más clara
+ * - Menos repetición
+ * - Más fácil de modificar
+ */

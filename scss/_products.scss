@@ -1,10 +1,17 @@
-// ========== PRODUCTS CATALOG ==========
+/**
+ * PRODUCTS CATALOG - CON ANIDAMIENTO SCSS
+ * 
+ * EXPLICACIÓN:
+ * Anidamos los elementos del catálogo de productos
+ */
 
+// ========== CATALOGO ==========
 .catalogo {
     padding: $spacing-xxl 0;
     text-align: center;
 }
 
+// ========== PRODUCTOS CONTENEDOR ==========
 .productos-contenedor {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -12,6 +19,7 @@
     justify-items: center;
 }
 
+// ========== PRODUCTO ==========
 .producto {
     width: 250px;
     height: 280px;
@@ -25,10 +33,14 @@
     padding: $spacing-lg;
     transition: transform $transition-fast;
 
+    // EXPLICACIÓN: & = .producto
+    // Esto genera: .producto:hover { ... }
     &:hover {
         transform: scale(1.03);
     }
 
+    // EXPLICACIÓN: Anidamos p y label dentro de .producto
+    // Esto genera: .producto p { ... } y .producto label { ... }
     p,
     label {
         color: $text-color;
@@ -36,15 +48,43 @@
     }
 }
 
+// ========== IMG BOX ==========
 .img-box {
     width: 100%;
     height: 140px;
     background-color: #f5c161be;
     @include flex-center;
 
+    // EXPLICACIÓN: Anidamos img dentro de .img-box
+    // Esto genera: .img-box img { ... }
     img {
         max-width: 100%;
         max-height: 100%;
         object-fit: contain;
     }
 }
+
+/**
+ * EJEMPLO DE NESTING AVANZADO:
+ * 
+ * Si tuviéramos diferentes tipos de productos:
+ * 
+ * .producto {
+ *   // estilos base
+ *   
+ *   &.destacado {  // .producto.destacado
+ *     border-color: $primary-color;
+ *     box-shadow: 0 0 10px rgba($primary-color, 0.3);
+ *   }
+ *   
+ *   &.agotado {  // .producto.agotado
+ *     opacity: 0.6;
+ *     
+ *     &::after {  // .producto.agotado::after
+ *       content: "AGOTADO";
+ *       position: absolute;
+ *       // ...
+ *     }
+ *   }
+ * }
+ */
