@@ -1,0 +1,90 @@
+// ========== RESPONSIVE DESIGN ==========
+
+@media (max-width: $breakpoint-mobile) {
+    header {
+        position: relative;
+    }
+
+    .hamburguesa {
+        display: block !important;
+        position: absolute;
+        right: $spacing-xl;
+        top: $spacing-lg;
+    }
+
+    .user-icon {
+        position: absolute;
+        left: $spacing-xl;
+        top: $spacing-lg;
+    }
+
+    .top-bar {
+        @include flex-column;
+        align-items: center;
+        gap: $spacing-md;
+        padding: 50px $spacing-md $spacing-md;
+    }
+
+    .logo {
+        order: 1;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .search-container {
+        order: 2;
+        width: 100%;
+        max-width: 90%;
+        justify-content: center;
+    }
+
+    nav {
+        ul li a {
+            display: none;
+        }
+
+        width: 100%;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        background-color: #ddb28a;
+        border-top: 1px solid $border-color;
+        display: none;
+        @include flex-column;
+        align-items: center;
+        z-index: 1000;
+        transition: all $transition-normal;
+
+        &.active {
+            display: flex;
+        }
+
+        ul {
+            @include flex-column;
+            gap: $spacing-xl;
+            width: 100%;
+            padding: $spacing-xl 0;
+
+            li {
+                width: 100%;
+                text-align: center;
+
+                a {
+                    font-size: $font-size-xlarge;
+                    display: block;
+                    padding: $spacing-md;
+                    color: $text-color;
+
+                    &:hover {
+                        background-color: $primary-color;
+                        color: $white;
+                    }
+                }
+            }
+        }
+    }
+
+    .menu-grid {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    }
+}

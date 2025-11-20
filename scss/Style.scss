@@ -1,0 +1,21 @@
+// ========== LORE VENTAS - MAIN STYLESHEET ==========
+// Organized SCSS structure with modular partials
+
+// 1. Configuration
+@import 'variables';
+@import 'mixins';
+
+// 2. Base & Reset
+@import 'base';
+
+// 3. Layout Components
+@import 'header';
+@import 'footer';
+@import 'main';
+
+// 4. Components
+@import 'forms';
+@import 'products';
+
+// 5. Responsive
+@import 'responsive';

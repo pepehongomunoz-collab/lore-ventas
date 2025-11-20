@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
     ? `${location.protocol}//${location.host}`
     : 'http://localhost:3000';
 
+  console.log('API_BASE URL:', API_BASE);
+  console.log('Current location:', location.href);
+
   if (registerLink) {
     registerLink.addEventListener('click', (e) => {
       e.preventDefault();
@@ -20,7 +23,18 @@ document.addEventListener('DOMContentLoaded', () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password })
-      }).then(r => r.json()).then(data => {
+      }).then(async r => {
+        if (!r.ok) {
+          const text = await r.text();
+          try {
+            const data = JSON.parse(text);
+            throw new Error(data.message || 'Error en registro');
+          } catch {
+            throw new Error(`Error del servidor: ${r.status}`);
+          }
+        }
+        return r.json();
+      }).then(data => {
         if (data.token) {
           localStorage.setItem('token', data.token);
           if (data.user) {
@@ -57,7 +71,21 @@ document.addEventListener('DOMContentLoaded', () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
-      }).then(r => r.json()).then(data => {
+      }).then(async r => {
+        if (!r.ok) {
+          const text = await r.text();
+          try {
+            const data = JSON.parse(text);
+            throw new Error(data.message || 'Login falló');
+          } catch (e) {
+            if (e.message.includes('Login falló') || e.message.includes('Invalid credentials')) {
+              throw e;
+            }
+            throw new Error(`Error del servidor: ${r.status}`);
+          }
+        }
+        return r.json();
+      }).then(data => {
         if (data.token) {
           localStorage.setItem('token', data.token);
           if (data.user) {

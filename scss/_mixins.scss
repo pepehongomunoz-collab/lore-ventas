@@ -1,0 +1,55 @@
+// ========== MIXINS ==========
+
+// Flexbox center
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+// Flexbox column
+@mixin flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+// Button base
+@mixin button-base {
+    padding: 12px 30px;
+    border: none;
+    border-radius: $border-radius-md;
+    font-size: $font-size-large;
+    cursor: pointer;
+    transition: background $transition-fast;
+}
+
+// Hover effect
+@mixin hover-effect($bg-color) {
+    &:hover {
+        background-color: $bg-color;
+    }
+}
+
+// Box shadow
+@mixin box-shadow($color: $shadow-color) {
+    box-shadow: 0 2px 6px $color;
+}
+
+@mixin box-shadow-large($color: $shadow-dark) {
+    box-shadow: 0 4px 10px $color;
+}
+
+// Input base
+@mixin input-base {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #bbb;
+    border-radius: $border-radius-md;
+    font-size: $font-size-base;
+    transition: border-color $transition-fast;
+
+    &:focus {
+        border-color: $primary-color;
+        outline: none;
+    }
+}

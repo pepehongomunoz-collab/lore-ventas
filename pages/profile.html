@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil - Lore Ventas</title>
+    <!-- Enlace a Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link rel="stylesheet" href="../assets/CSS/style.css">
+</head>
+
+<body>
+    <header>
+        <div class="top-bar">
+            <div class="logo">
+                <img src="../assets/img/Logo.png" width="150" alt="Logo Lore">
+                <h1>Lorena Fusillo <br>Cosmetica</h1>
+            </div>
+            <div class="search-container">
+                <form class="search-form" role="search">
+                    <input type="search" name="buscar" placeholder="Buscar productos..." aria-label="Buscar productos">
+                    <button type="submit" aria-label="Buscar">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </form>
+            </div>
+            <div class="user-container">
+                <div class="user-icon">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Promociones</a></li>
+                <li><a href="./natura.html">Natura</a></li>
+                <li><a href="./avon.html">Avon</a></li>
+                <li><a href="./arbell.html">Arbell</a></li>
+                <li><a href="./Contacto.html">Contacto</a></li>
+            </ul>
+        </nav>
+        <i class="fa-solid fa-bars hamburguesa"></i>
+    </header>
+
+    <main class="contacto-container">
+        <h2>Mi Perfil</h2>
+        <p>Información de tu cuenta</p>
+
+        <div id="profile-content">
+            <!-- View Mode -->
+            <div id="view-mode">
+                <div class="form-group">
+                    <label><i class="fa-solid fa-user"></i> Nombre</label>
+                    <p id="view-name" class="profile-info">Cargando...</p>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fa-solid fa-envelope"></i> Correo Electrónico</label>
+                    <p id="view-email" class="profile-info">Cargando...</p>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fa-solid fa-phone"></i> Teléfono</label>
+                    <p id="view-phone" class="profile-info">No especificado</p>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fa-solid fa-location-dot"></i> Dirección</label>
+                    <p id="view-address" class="profile-info">No especificada</p>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fa-solid fa-calendar"></i> Miembro desde</label>
+                    <p id="view-created" class="profile-info">Cargando...</p>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fa-solid fa-key"></i> ID de Usuario</label>
+                    <p id="view-id" class="profile-info">Cargando...</p>
+                </div>
+
+                <button id="edit-btn" class="btn-enviar">
+                    <i class="fa-solid fa-pen"></i> Editar Perfil
+                </button>
+            </div>
+
+            <!-- Edit Mode -->
+            <div id="edit-mode" style="display: none;">
+                <form id="profile-form">
+                    <div class="form-group">
+                        <label for="edit-name"><i class="fa-solid fa-user"></i> Nombre</label>
+                        <input type="text" id="edit-name" placeholder="Tu nombre completo">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="edit-email"><i class="fa-solid fa-envelope"></i> Correo Electrónico</label>
+                        <input type="email" id="edit-email" disabled class="disabled-input">
+                        <small style="color: #888;">El correo no se puede modificar</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="edit-phone"><i class="fa-solid fa-phone"></i> Teléfono</label>
+                        <input type="tel" id="edit-phone" placeholder="Ej: +54 9 11 1234-5678">
+                    </div>
+
+                    <h3 style="margin-top: 20px; margin-bottom: 10px; color: #333;">
+                        <i class="fa-solid fa-location-dot"></i> Dirección
+                    </h3>
+
+                    <div class="form-group">
+                        <label for="edit-street">Calle</label>
+                        <input type="text" id="edit-street" placeholder="Nombre de la calle">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="edit-number">Número</label>
+                        <input type="text" id="edit-number" placeholder="Número de casa/depto">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="edit-city">Ciudad</label>
+                        <input type="text" id="edit-city" placeholder="Ciudad">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="edit-postal">Código Postal</label>
+                        <input type="text" id="edit-postal" placeholder="Código postal">
+                    </div>
+
+                    <div style="display: flex; gap: 10px; margin-top: 20px;">
+                        <button type="submit" class="btn-enviar">
+                            <i class="fa-solid fa-save"></i> Guardar Cambios
+                        </button>
+                        <button type="button" id="cancel-btn" class="btn-cancelar">
+                            <i class="fa-solid fa-times"></i> Cancelar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <button onclick="window.history.back()" class="btn-enviar" style="margin-top: 20px;">
+            <i class="fa-solid fa-arrow-left"></i> Volver
+        </button>
+    </main>
+
+    <footer>
+        <div class="contacto">
+            <div class="payment">
+                <p>Métodos de pago:</p>
+                <div class="icons">
+                    <img src="../assets/img/metodos.png" width="100" alt="Métodos de pago">
+                </div>
+            </div>
+            <h2>
+                <p>Contacto</p>
+                <a href="./Contacto.html" target="_blank" rel="noopener noreferrer">
+                    <img src="../assets/img/contacto.png" class="contact-icon" alt="Contacto">
+                </a>
+            </h2>
+        </div>
+        <div class="redes">
+            <a href="https://www.instagram.com/lore.fusillo.makeup" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-instagram"></i>Instagram</a>
+            <a href="https://www.facebook.com/Natura.Argentina/?brand_redir=382381445421" target="_blank"
+                rel="noopener noreferrer">
+                <i class="fa-brands fa-facebook"></i> facebook</a>
+            <a href="https://x.com/NaturaArgentina" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-twitter"></i>X</a>
+        </div>
+        </div>
+    </footer>
+
+    <script src="../assets/JS/menu.js"></script>
+    <script src="../assets/JS/userMenu.js"></script>
+    <script src="../assets/JS/profile.js"></script>
+</body>
+
+</html>

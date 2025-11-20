@@ -1,0 +1,50 @@
+// ========== PRODUCTS CATALOG ==========
+
+.catalogo {
+    padding: $spacing-xxl 0;
+    text-align: center;
+}
+
+.productos-contenedor {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: $spacing-xxxl;
+    justify-items: center;
+}
+
+.producto {
+    width: 250px;
+    height: 280px;
+    border: 1px solid $border-color;
+    border-radius: $border-radius-lg;
+    background: $background-gray;
+    @include box-shadow;
+    @include flex-column;
+    align-items: center;
+    justify-content: space-between;
+    padding: $spacing-lg;
+    transition: transform $transition-fast;
+
+    &:hover {
+        transform: scale(1.03);
+    }
+
+    p,
+    label {
+        color: $text-color;
+        font-size: $font-size-base;
+    }
+}
+
+.img-box {
+    width: 100%;
+    height: 140px;
+    background-color: #f5c161be;
+    @include flex-center;
+
+    img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
+}

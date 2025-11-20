@@ -12,6 +12,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Serve static files from the parent directory (frontend)
+const path = require('path');
+app.use(express.static(path.join(__dirname, '..')));
+
 const PORT = process.env.PORT || 3000;
 
 // Connect to MongoDB

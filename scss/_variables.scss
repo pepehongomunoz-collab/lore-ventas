@@ -1,0 +1,51 @@
+// ========== COLORS ==========
+$primary-color: #f5a938;
+$primary-hover: #e08c1b;
+$secondary-color: #ddb28a5b;
+$text-color: #333;
+$text-light: #555;
+$text-muted: #888;
+$border-color: #ccc;
+$border-light: #ddd;
+$background-light: #f8f9fb;
+$background-gray: #f9f9f9;
+$background-disabled: #e9ecef;
+$white: #fff;
+$error-color: #d33;
+$shadow-color: rgba(0, 0, 0, 0.1);
+$shadow-dark: rgba(0, 0, 0, 0.08);
+
+// ========== FONTS ==========
+$font-family: "Rubik", Arial, sans-serif;
+$font-size-base: 15px;
+$font-size-large: 17px;
+$font-size-xlarge: 20px;
+$font-size-xxlarge: 24px;
+$font-size-xxxlarge: 25px;
+$font-size-huge: 28px;
+$font-size-small: 14px;
+
+// ========== SPACING ==========
+$spacing-xs: 4px;
+$spacing-sm: 6px;
+$spacing-md: 10px;
+$spacing-lg: 15px;
+$spacing-xl: 20px;
+$spacing-xxl: 30px;
+$spacing-xxxl: 40px;
+
+// ========== BORDER RADIUS ==========
+$border-radius-sm: 4px;
+$border-radius-md: 6px;
+$border-radius-lg: 8px;
+$border-radius-xl: 10px;
+$border-radius-round: 50%;
+
+// ========== TRANSITIONS ==========
+$transition-fast: 0.2s ease;
+$transition-normal: 0.3s ease;
+$transition-slow: 0.8s ease-in-out;
+
+// ========== BREAKPOINTS ==========
+$breakpoint-mobile: 991px;
+$breakpoint-tablet: 768px;

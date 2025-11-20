@@ -1,0 +1,182 @@
+// ========== HEADER & NAVIGATION ==========
+
+header {
+    background-color: $secondary-color;
+    border-bottom: 1px solid $border-color;
+    padding: $spacing-md $spacing-xl;
+    @include flex-column;
+
+    h1 {
+        font-size: $font-size-xxlarge;
+        color: $text-color;
+        margin: $spacing-md 0;
+    }
+}
+
+// Top Bar
+.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $spacing-xl;
+    padding-bottom: $spacing-lg;
+    position: relative;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    min-width: 250px;
+    cursor: default;
+    user-select: none;
+
+    img,
+    h1 {
+        pointer-events: none;
+        user-select: none;
+    }
+}
+
+// Search
+.search-container {
+    flex: 1;
+    max-width: 500px;
+    display: flex;
+    justify-content: center;
+}
+
+.search-form {
+    display: flex;
+    width: 100%;
+
+    input[type="search"] {
+        flex: 1;
+        padding: 8px 12px;
+        border: 1px solid #aaa;
+        border-radius: $border-radius-sm 0 0 $border-radius-sm;
+        outline: none;
+
+        &:focus {
+            border-color: $primary-color;
+        }
+    }
+
+    button {
+        padding: 8px 16px;
+        background: $primary-color;
+        border: none;
+        border-radius: 0 $border-radius-sm $border-radius-sm 0;
+        color: $white;
+        cursor: pointer;
+        transition: background $transition-fast;
+
+        @include hover-effect($primary-hover);
+    }
+}
+
+// User Container & Icon
+.user-container {
+    @include flex-column;
+    align-items: center;
+    gap: $spacing-xs;
+    position: relative;
+}
+
+.user-icon {
+    font-size: $font-size-xxlarge;
+    cursor: pointer;
+}
+
+.user-name {
+    font-size: $font-size-small;
+    color: $text-color;
+    text-align: center;
+    margin-top: $spacing-xs;
+    cursor: pointer;
+}
+
+// User Menu
+.user-menu {
+    position: absolute;
+    background: $white;
+    border: 1px solid $border-light;
+    @include box-shadow-large;
+    padding: $spacing-sm;
+    border-radius: $border-radius-md;
+    min-width: 140px;
+    display: none;
+    z-index: 2000;
+
+    &.open {
+        display: block;
+    }
+
+    .user-menu-item {
+        padding: 8px $spacing-md;
+        font-size: $font-size-small;
+        color: $text-color;
+        background: transparent;
+        border: none;
+        text-align: left;
+        width: 100%;
+        display: block;
+        text-decoration: none;
+        cursor: pointer;
+
+        &:hover {
+            background-color: #f5f5f5;
+        }
+    }
+
+    .user-logout {
+        color: $error-color;
+        cursor: pointer;
+    }
+}
+
+// Navigation
+nav {
+    margin-top: $spacing-md;
+    border-top: 1px solid $border-color;
+    padding-top: $spacing-lg;
+
+    ul {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        gap: $spacing-xxxl;
+    }
+
+    a {
+        text-decoration: none;
+        color: #000000b2;
+        font-weight: 500;
+        font-size: $font-size-xxxlarge;
+        position: relative;
+        padding-bottom: $spacing-xs;
+
+        &::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background-color: $primary-color;
+            transition: width $transition-normal;
+        }
+
+        &:hover::after {
+            width: 100%;
+        }
+    }
+}
+
+// Hamburger Menu
+.hamburguesa {
+    display: none !important;
+    color: $text-light;
+    font-size: $font-size-xxlarge;
+    cursor: pointer;
+}

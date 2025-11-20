@@ -13,6 +13,17 @@ document.addEventListener('DOMContentLoaded', () => {
     return './pages/login.html';
   }
 
+  function getProfileHref() {
+    // If served via http(s), use site-relative path; otherwise compute relative path
+    if (location.protocol === 'http:' || location.protocol === 'https:') {
+      return '/pages/profile.html';
+    }
+    if (location.pathname.includes('/pages/') || location.pathname.includes('\\pages\\')) {
+      return './profile.html';
+    }
+    return './pages/profile.html';
+  }
+
   function render() {
     // Clear previous name/menu
     const existingName = document.querySelector('.user-name');
@@ -29,14 +40,22 @@ document.addEventListener('DOMContentLoaded', () => {
       const nameEl = document.createElement('div');
       nameEl.className = 'user-name';
       nameEl.textContent = name;
-      // place the name under the icon
-      userIcon.insertAdjacentElement('afterend', nameEl);
+
+      // Insert the name inside the user-container (after the user-icon)
+      const userContainer = document.querySelector('.user-container');
+      if (userContainer) {
+        userContainer.appendChild(nameEl);
+      } else {
+        // Fallback: if no container, insert after icon
+        userIcon.insertAdjacentElement('afterend', nameEl);
+      }
 
       // dropdown menu with logout
       const menu = document.createElement('div');
       menu.className = 'user-menu';
       menu.innerHTML = `
         <div class="user-menu-item user-menu-name">${name}</div>
+        <a href="${getProfileHref()}" class="user-menu-item user-profile">Información del usuario</a>
         <button class="user-menu-item user-logout">Cerrar sesión</button>
       `;
       nameEl.insertAdjacentElement('afterend', menu);
