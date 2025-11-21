@@ -7,6 +7,7 @@ dotenv.config();
 
 const authRoutes = require('./routes/auth');
 const productRoutes = require('./routes/products');
+const uploadRoutes = require('./routes/uploads');
 
 const app = express();
 app.use(cors());
@@ -29,8 +30,10 @@ mongoose.connect(process.env.MONGODB_URI, {
   process.exit(1);
 });
 
+// Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
+app.use('/api/uploads', uploadRoutes);
 
 app.get('/', (req, res) => res.json({ ok: true }));
 

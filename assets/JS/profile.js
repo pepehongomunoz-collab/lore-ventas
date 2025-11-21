@@ -14,7 +14,9 @@ import {
     getUserData,
     saveAuthData,
     getPageHref,
-    clearAuthData
+    clearAuthData,
+    getRoleName,          // NUEVO: Para nombre del rol
+    getRoleBadgeClass     // NUEVO: Para clase CSS del badge
 } from './utils.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -105,12 +107,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /**
      * MOSTRAR INFORMACIÓN DEL USUARIO
+     * ACTUALIZADO: Incluye rol con badge visual
      */
     function displayUserInfo(user) {
         document.getElementById('view-name').textContent = user.name || 'No especificado';
         document.getElementById('view-email').textContent = user.email || 'No especificado';
         document.getElementById('view-phone').textContent = user.phone || 'No especificado';
         document.getElementById('view-id').textContent = user.id || user._id || 'No disponible';
+
+        // NUEVO: Mostrar rol con badge
+        const roleElement = document.getElementById('view-role');
+        if (roleElement && user.role) {
+            const roleName = getRoleName(user.role);
+            const badgeClass = getRoleBadgeClass(user.role);
+            roleElement.innerHTML = `${roleName} <span class="${badgeClass}">${roleName.toUpperCase()}</span>`;
+        }
 
         // Formatear dirección
         if (user.address && (user.address.street || user.address.city)) {

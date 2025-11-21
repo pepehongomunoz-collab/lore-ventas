@@ -10,4 +10,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const expanded = nav.classList.contains('active');
     menuBtn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
   });
+
+  // Cerrar menú al hacer click en un enlace
+  const navLinks = nav.querySelectorAll('a');
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      nav.classList.remove('active');
+      menuBtn.setAttribute('aria-expanded', 'false');
+    });
+  });
 });

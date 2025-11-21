@@ -1,11 +1,10 @@
 /**
- * RUTAS DE AUTENTICACIÓN - REFACTORIZADO
+ * RUTAS DE AUTENTICACIÓN - CON ROLES
  * 
- * CAMBIOS PRINCIPALES:
- * 1. Importamos el middleware verifyToken
- * 2. Eliminamos código duplicado de verificación de token
- * 3. Creamos función helper para formatear respuestas de usuario
- * 4. Código más limpio y mantenible
+ * NUEVAS FUNCIONALIDADES:
+ * 1. Role incluido en JWT tokens
+ * 2. Endpoints de administración para gestionar usuarios
+ * 3. Cambio de roles (solo admin/developer)
  */
 
 const express = require('express');
@@ -14,20 +13,12 @@ const jwt = require('jsonwebtoken');
 const router = express.Router();
 const User = require('../models/User');
 const { verifyToken } = require('../middleware/auth');
+const { authorize } = require('../middleware/authorize');
 
 const jwtSecret = process.env.JWT_SECRET || 'secret123';
 
 /**
- * FUNCIÓN HELPER: Formatear respuesta de usuario
- * 
- * PROPÓSITO:
- * Evitar duplicación del formato de respuesta de usuario.
- * 
- * ANTES: Este objeto se creaba en 3 lugares diferentes
- * AHORA: Una función centralizada
- * 
- * @param {Object} user - Documento de usuario de MongoDB
- * @returns {Object} Objeto con datos del usuario (sin password)
+ * ACTUALIZADO: Incluye role en la respuesta
  */
 function formatUserResponse(user) {
   return {
@@ -36,15 +27,14 @@ function formatUserResponse(user) {
     name: user.name,
     phone: user.phone,
     address: user.address,
+    role: user.role,  // NUEVO: Incluir rol
     createdAt: user.createdAt
   };
 }
 
 /**
  * REGISTRO DE USUARIO
- * 
- * NO CAMBIÓ: Esta ruta no necesita autenticación previa
- * OPTIMIZACIÓN: Usa formatUserResponse() para consistencia
+ * Todos los nuevos usuarios son 'user' por defecto
  */
 router.post('/register', async (req, res) => {
   try {
@@ -61,17 +51,21 @@ router.post('/register', async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
 
+    // El rol 'user' se asigna automáticamente por el default en el modelo
     const user = new User({ name, email, password: hash });
     await user.save();
 
+    // ACTUALIZADO: Incluir role en el JWT
     const token = jwt.sign(
-      { id: user._id, email: user.email },
+      {
+        id: user._id,
+        email: user.email,
+        role: user.role  // NUEVO: Incluir rol en el token
+      },
       jwtSecret,
       { expiresIn: '7d' }
     );
 
-    // ANTES: { token, user: { id: user._id, email: user.email, name: user.name } }
-    // AHORA: Función centralizada
     res.json({
       token,
       user: formatUserResponse(user)
@@ -84,9 +78,6 @@ router.post('/register', async (req, res) => {
 
 /**
  * LOGIN DE USUARIO
- * 
- * NO CAMBIÓ: Esta ruta no necesita autenticación previa
- * OPTIMIZACIÓN: Usa formatUserResponse() para consistencia
  */
 router.post('/login', async (req, res) => {
   try {
@@ -105,14 +96,17 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
+    // ACTUALIZADO: Incluir role en el JWT
     const token = jwt.sign(
-      { id: user._id, email: user.email },
+      {
+        id: user._id,
+        email: user.email,
+        role: user.role  // NUEVO: Incluir rol en el token
+      },
       jwtSecret,
       { expiresIn: '7d' }
     );
 
-    // ANTES: { token, user: { id: user._id, email: user.email, name: user.name } }
-    // AHORA: Función centralizada
     res.json({
       token,
       user: formatUserResponse(user)
@@ -125,27 +119,9 @@ router.post('/login', async (req, res) => {
 
 /**
  * OBTENER DATOS DEL USUARIO ACTUAL
- * 
- * CAMBIO PRINCIPAL: Usa middleware verifyToken
- * 
- * ANTES (código duplicado):
- * router.get('/me', async (req, res) => {
- *   const auth = req.headers.authorization;
- *   if (!auth) return res.status(401).json({ message: 'No token' });
- *   const token = auth.split(' ')[1];
- *   const decoded = jwt.verify(token, jwtSecret);
- *   // ... resto del código
- * });
- * 
- * AHORA (usando middleware):
- * - verifyToken se ejecuta primero
- * - Si el token es válido, req.user tiene los datos decodificados
- * - Código más limpio y corto
  */
 router.get('/me', verifyToken, async (req, res) => {
   try {
-    // ANTES: Teníamos que decodificar el token aquí
-    // AHORA: req.user ya tiene los datos (gracias al middleware)
     const user = await User.findById(req.user.id).select('-password');
 
     if (!user) {
@@ -161,19 +137,9 @@ router.get('/me', verifyToken, async (req, res) => {
 
 /**
  * ACTUALIZAR PERFIL DE USUARIO
- * 
- * CAMBIO PRINCIPAL: Usa middleware verifyToken
- * 
- * BENEFICIOS:
- * - Eliminamos 5 líneas de código duplicado
- * - Más fácil de leer
- * - Consistente con /me
  */
 router.put('/profile', verifyToken, async (req, res) => {
   try {
-    // ANTES: Teníamos que extraer y verificar el token aquí
-    // AHORA: req.user.id ya tiene el ID del usuario autenticado
-
     const { name, phone, address } = req.body;
 
     // Construir objeto de actualización
@@ -183,7 +149,7 @@ router.put('/profile', verifyToken, async (req, res) => {
     if (address !== undefined) updateData.address = address;
 
     const user = await User.findByIdAndUpdate(
-      req.user.id,  // ANTES: decoded.id, AHORA: req.user.id
+      req.user.id,
       updateData,
       { new: true, runValidators: true }
     ).select('-password');
@@ -202,25 +168,92 @@ router.put('/profile', verifyToken, async (req, res) => {
   }
 });
 
+/**
+ * NUEVO: LISTAR TODOS LOS USUARIOS
+ * Solo accesible para admin y developer
+ * 
+ * EXPLICACIÓN:
+ * - verifyToken: verifica que el usuario esté autenticado
+ * - authorize('admin', 'developer'): verifica que tenga uno de estos roles
+ */
+router.get('/users', verifyToken, authorize('admin', 'developer'), async (req, res) => {
+  try {
+    // Obtener todos los usuarios sin el password
+    const users = await User.find().select('-password').sort({ createdAt: -1 });
+
+    res.json({
+      users,
+      count: users.length
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+/**
+ * NUEVO: CAMBIAR ROL DE UN USUARIO
+ * Solo accesible para admin y developer
+ * 
+ * EXPLICACIÓN:
+ * Permite cambiar el rol de cualquier usuario.
+ * Los admin pueden cambiar a 'user' o 'admin'.
+ * Los developer pueden cambiar a cualquier rol.
+ */
+router.put('/users/:id/role', verifyToken, authorize('admin', 'developer'), async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { role } = req.body;
+
+    // Validar que el rol sea válido
+    if (!['user', 'admin', 'developer'].includes(role)) {
+      return res.status(400).json({
+        message: 'Invalid role. Must be: user, admin, or developer'
+      });
+    }
+
+    // RESTRICCIÓN: Solo developers pueden crear otros developers
+    if (role === 'developer' && req.user.role !== 'developer') {
+      return res.status(403).json({
+        message: 'Only developers can assign developer role'
+      });
+    }
+
+    // Actualizar el rol
+    const user = await User.findByIdAndUpdate(
+      id,
+      { role },
+      { new: true, runValidators: true }
+    ).select('-password');
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.json({
+      user,
+      message: `User role updated to ${role}`
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 module.exports = router;
 
 /**
- * RESUMEN DE MEJORAS EN BACKEND:
+ * RESUMEN DE ENDPOINTS:
  * 
- * ANTES:
- * - 105 líneas
- * - Código de verificación de token duplicado 2 veces
- * - Formato de respuesta de usuario duplicado 3 veces
+ * PÚBLICOS (sin autenticación):
+ * - POST /api/auth/register - Registrar nuevo usuario
+ * - POST /api/auth/login - Iniciar sesión
  * 
- * AHORA:
- * - ~90 líneas (14% menos)
- * - Middleware reutilizable para autenticación
- * - Función helper para formatear respuestas
- * - Más fácil de mantener y testear
+ * PROTEGIDOS (requieren token):
+ * - GET /api/auth/me - Obtener datos del usuario actual
+ * - PUT /api/auth/profile - Actualizar perfil
  * 
- * BENEFICIOS:
- * 1. Si necesitamos cambiar cómo verificamos tokens, lo hacemos en middleware/auth.js
- * 2. Si necesitamos agregar campos a la respuesta de usuario, lo hacemos en formatUserResponse()
- * 3. Código más limpio y profesional
- * 4. Más fácil agregar nuevas rutas protegidas (solo agregar verifyToken)
+ * ADMIN/DEVELOPER (requieren token + rol):
+ * - GET /api/auth/users - Listar todos los usuarios
+ * - PUT /api/auth/users/:id/role - Cambiar rol de un usuario
  */

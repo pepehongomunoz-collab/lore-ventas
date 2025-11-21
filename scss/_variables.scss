@@ -49,3 +49,9 @@ $transition-slow: 0.8s ease-in-out;
 // ========== BREAKPOINTS ==========
 $breakpoint-mobile: 991px;
 $breakpoint-tablet: 768px;
+
+// ========== ROLE BADGES (NUEVO) ==========
+// Colores para los badges de roles de usuario
+$role-user-color: #6c757d; // Gris para usuario regular
+$role-admin-color: #28a745; // Verde para administrador
+$role-developer-color: #007bff; // Azul para desarrollador

@@ -32,6 +32,12 @@
                 <div class="user-icon">
                     <i class="fa-solid fa-user"></i>
                 </div>
+                <div class="cart-container">
+                    <a href="./pages/cart.html" class="cart-icon">
+                        <i class="fa-solid fa-shopping-cart"></i>
+                        <span class="cart-badge">0</span>
+                    </a>
+                </div>
             </div>
         </div>
         <nav class="nav-bar">
@@ -94,6 +100,10 @@
     <script src="./assets/JS/menu.js"></script>
     <script src="./assets/JS/userMenu.js" type="module"></script>
     <script src="./assets/JS/slider.js"></script>
+    <script type="module">
+        import { initCartBadge } from './assets/JS/cart.js';
+        initCartBadge();
+    </script>
 </body>
 
 </html>

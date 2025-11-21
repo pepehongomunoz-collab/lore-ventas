@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Productos - Lore Ventas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link rel="stylesheet" href="../assets/CSS/style.css">
+</head>
+
+<body>
+    <header>
+        <div class="top-bar">
+            <div class="logo">
+                <img src="../assets/img/Logo.png" width="150" alt="Logo Lore">
+                <h1>Lorena Fusillo <br>Cosmetica</h1>
+            </div>
+            <div class="search-container">
+                <form class="search-form" role="search">
+                    <input type="search" name="buscar" placeholder="Buscar productos..." aria-label="Buscar productos">
+                    <button type="submit" aria-label="Buscar">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </form>
+            </div>
+            <div class="user-container">
+                <div class="user-icon">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Promociones</a></li>
+                <li><a href="./natura.html">Natura</a></li>
+                <li><a href="./avon.html">Avon</a></li>
+                <li><a href="./arbell.html">Arbell</a></li>
+                <li><a href="./Contacto.html">Contacto</a></li>
+            </ul>
+        </nav>
+        <i class="fa-solid fa-bars hamburguesa"></i>
+    </header>
+
+    <main class="contacto-container">
+        <h2><i class="fa-solid fa-boxes-stacked"></i> Gestión de Productos</h2>
+        <p>Panel de administración para agregar y gestionar productos</p>
+
+        <!-- Formulario para agregar/editar producto -->
+        <div id="product-form-container" style="margin-bottom: 40px;">
+            <h3 id="form-title"><i class="fa-solid fa-plus"></i> Agregar Nuevo Producto</h3>
+            <form id="product-form">
+                <input type="hidden" id="product-id">
+
+                <div class="form-group">
+                    <label for="product-name"><i class="fa-solid fa-tag"></i> Nombre del Producto *</label>
+                    <input type="text" id="product-name" placeholder="Ej: Perfume Kaiak Oceano" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="product-description"><i class="fa-solid fa-align-left"></i> Descripción</label>
+                    <textarea id="product-description" rows="3"
+                        placeholder="Descripción del producto (opcional)"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="product-price"><i class="fa-solid fa-dollar-sign"></i> Precio *</label>
+                    <input type="number" id="product-price" placeholder="Ej: 50200" min="0" step="0.01" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="product-image"><i class="fa-solid fa-image"></i> Imagen del Producto *</label>
+                    <input type="file" id="product-image" accept="image/*" required>
+                    <small style="color: #888;">Selecciona una imagen (máx. 5MB)</small>
+                    <div id="image-preview" style="margin-top: 10px; display: none;">
+                        <img id="preview-img" src="" alt="Preview"
+                            style="max-width: 200px; max-height: 200px; border-radius: 4px; border: 1px solid #ddd;">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="product-brand"><i class="fa-solid fa-building"></i> Marca *</label>
+                    <select id="product-brand" required>
+                        <option value="">Selecciona una marca</option>
+                        <option value="natura">Natura</option>
+                        <option value="avon">Avon</option>
+                        <option value="arbell">Arbell</option>
+                    </select>
+                </div>
+
+                <div style="display: flex; gap: 10px;">
+                    <button type="submit" class="btn-enviar">
+                        <i class="fa-solid fa-save"></i> <span id="submit-text">Agregar Producto</span>
+                    </button>
+                    <button type="button" id="cancel-edit-btn" class="btn-cancelar" style="display: none;">
+                        <i class="fa-solid fa-times"></i> Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Filtro por marca -->
+        <div style="margin-bottom: 20px;">
+            <label for="filter-brand" style="margin-right: 10px; font-weight: 600;">
+                <i class="fa-solid fa-filter"></i> Filtrar por marca:
+            </label>
+            <select id="filter-brand" style="padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
+                <option value="">Todas las marcas</option>
+                <option value="natura">Natura</option>
+                <option value="avon">Avon</option>
+                <option value="arbell">Arbell</option>
+            </select>
+        </div>
+
+        <!-- Lista de productos -->
+        <div id="products-list">
+            <h3><i class="fa-solid fa-list"></i> Productos Existentes</h3>
+            <div id="products-container">
+                <p style="text-align: center; color: #888;">Cargando productos...</p>
+            </div>
+        </div>
+
+        <button onclick="window.history.back()" class="btn-enviar" style="margin-top: 30px;">
+            <i class="fa-solid fa-arrow-left"></i> Volver
+        </button>
+    </main>
+
+    <footer>
+        <div class="contacto">
+            <div class="payment">
+                <p>Métodos de pago:</p>
+                <div class="icons">
+                    <img src="../assets/img/metodos.png" width="100" alt="Métodos de pago">
+                </div>
+            </div>
+            <h2>
+                <p>Contacto</p>
+                <a href="./Contacto.html" target="_blank" rel="noopener noreferrer">
+                    <img src="../assets/img/contacto.png" class="contact-icon" alt="Contacto">
+                </a>
+            </h2>
+        </div>
+        <div class="redes">
+            <a href="https://www.instagram.com/lore.fusillo.makeup" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-instagram"></i>Instagram</a>
+            <a href="https://www.facebook.com/Natura.Argentina/?brand_redir=382381445421" target="_blank"
+                rel="noopener noreferrer">
+                <i class="fa-brands fa-facebook"></i> facebook</a>
+            <a href="https://x.com/NaturaArgentina" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-twitter"></i>X</a>
+        </div>
+        </div>
+    </footer>
+
+    <script src="../assets/JS/menu.js"></script>
+    <script src="../assets/JS/userMenu.js" type="module"></script>
+    <script src="../assets/JS/admin.js" type="module"></script>
+</body>
+
+</html>

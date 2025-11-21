@@ -1,10 +1,39 @@
+/**
+ * PRODUCT MODEL - ACTUALIZADO
+ * 
+ * Modelo para productos de las marcas Natura, Avon y Arbell
+ */
+
 const mongoose = require('mongoose');
 
 const ProductSchema = new mongoose.Schema({
-  title: String,
-  description: String,
-  price: Number,
-  createdAt: { type: Date, default: Date.now }
+  name: {
+    type: String,
+    required: true
+  },
+  description: {
+    type: String,
+    required: false
+  },
+  price: {
+    type: Number,
+    required: true,
+    min: 0
+  },
+  image: {
+    type: String,
+    required: true
+  },
+  brand: {
+    type: String,
+    required: true,
+    enum: ['natura', 'avon', 'arbell'],
+    lowercase: true
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
 });
 
 module.exports = mongoose.model('Product', ProductSchema);

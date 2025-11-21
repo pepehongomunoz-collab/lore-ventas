@@ -1,0 +1,51 @@
+/**
+ * BADGES - ESTILOS PARA BADGES DE ROLES
+ * 
+ * EXPLICACIÓN:
+ * Badges visuales para mostrar el rol del usuario
+ * con colores distintivos para cada tipo
+ */
+
+// ========== BASE BADGE ==========
+.role-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: $border-radius-sm;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-left: $spacing-sm;
+
+    // EXPLICACIÓN: Anidamos los diferentes tipos de badges
+    // usando & para referir al selector padre
+
+    // Badge para usuario regular
+    &.role-user {
+        background-color: lighten($role-user-color, 40%);
+        color: darken($role-user-color, 10%);
+        border: 1px solid $role-user-color;
+    }
+
+    // Badge para administrador
+    &.role-admin {
+        background-color: lighten($role-admin-color, 45%);
+        color: darken($role-admin-color, 15%);
+        border: 1px solid $role-admin-color;
+    }
+
+    // Badge para desarrollador
+    &.role-developer {
+        background-color: lighten($role-developer-color, 45%);
+        color: darken($role-developer-color, 10%);
+        border: 1px solid $role-developer-color;
+    }
+}
+
+/**
+ * EJEMPLO DE USO EN HTML:
+ * 
+ * <span class="role-badge role-user">Usuario</span>
+ * <span class="role-badge role-admin">Administrador</span>
+ * <span class="role-badge role-developer">Desarrollador</span>
+ */
