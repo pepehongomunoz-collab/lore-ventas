@@ -106,6 +106,114 @@
         }
     }
 
+    // ========== CART PAGE ==========
+    .cart-page {
+        padding: $spacing-md;
+        margin: $spacing-md auto;
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: $spacing-lg;
+        }
+    }
+
+    // ========== CART EMPTY STATE ==========
+    .cart-empty {
+        padding: 40px $spacing-md;
+
+        i {
+            font-size: 48px;
+        }
+
+        h3 {
+            font-size: 18px;
+        }
+
+        p {
+            font-size: 14px;
+        }
+    }
+
+    // ========== CART ITEMS ==========
+    .cart-item {
+        @include flex-column;
+        gap: $spacing-md;
+        padding: $spacing-md;
+        align-items: flex-start;
+
+        // Image on mobile
+        &-image {
+            width: 80px;
+            height: 80px;
+            align-self: center;
+        }
+
+        // Info section
+        &-info {
+            width: 100%;
+            text-align: center;
+        }
+
+        &-name {
+            font-size: 16px;
+        }
+
+        &-brand {
+            font-size: 11px;
+        }
+
+        &-price {
+            font-size: 18px;
+        }
+
+        // Quantity controls
+        &-quantity {
+            align-self: center;
+            gap: $spacing-md;
+        }
+
+        // Subtotal
+        &-subtotal {
+            align-self: center;
+            font-size: 18px;
+        }
+
+        // Remove button
+        &-remove {
+            align-self: center;
+            width: 100%;
+            max-width: 200px;
+            padding: $spacing-sm $spacing-md;
+        }
+    }
+
+    // ========== CART SUMMARY ==========
+    .cart-summary {
+        padding: $spacing-lg;
+
+        &-row {
+            font-size: 14px;
+            margin-bottom: $spacing-sm;
+
+            &.total {
+                font-size: 20px;
+                padding-top: $spacing-sm;
+            }
+        }
+    }
+
+    // ========== CART ACTIONS ==========
+    .cart-actions {
+        @include flex-column;
+        gap: $spacing-sm;
+
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 14px;
+        }
+    }
+
     // ========== MENU GRID ==========
     .menu-grid {
         grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
