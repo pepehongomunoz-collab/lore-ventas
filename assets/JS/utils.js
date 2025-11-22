@@ -37,8 +37,15 @@ export async function handleApiResponse(response) {
 
 export function redirectToHome() {
     if (location.protocol === 'http:' || location.protocol === 'https:') {
-        window.location.href = '/index.html';
+        // Detectar si estamos en GitHub Pages y extraer el prefijo base
+        const pathSegments = location.pathname.split('/').filter(Boolean);
+        const basePrefix = pathSegments.length > 0 && !pathSegments[0].endsWith('.html')
+            ? `/${pathSegments[0]}/`
+            : '/';
+
+        window.location.href = `${basePrefix}index.html`;
     } else {
+        // Para archivos locales
         if (location.pathname.includes('/pages/') || location.pathname.includes('\\pages\\')) {
             window.location.href = '../index.html';
         } else {
@@ -48,10 +55,24 @@ export function redirectToHome() {
 }
 
 export function getPageHref(pageName) {
+    // Si estamos en un servidor web (GitHub Pages o servidor local)
     if (location.protocol === 'http:' || location.protocol === 'https:') {
-        return `/pages/${pageName}`;
+        // Detectar si estamos en GitHub Pages
+        // GitHub Pages sirve desde: username.github.io/repo-name/
+        // Necesitamos extraer el path base (por ejemplo, /lore-ventas/)
+        const pathSegments = location.pathname.split('/').filter(Boolean);
+
+        // Si estamos en la raíz o en index.html, usar el primer segmento como base
+        // Ejemplo: /lore-ventas/index.html -> base = /lore-ventas/
+        // Ejemplo: /index.html -> base = /
+        const basePrefix = pathSegments.length > 0 && !pathSegments[0].endsWith('.html')
+            ? `/${pathSegments[0]}/`
+            : '/';
+
+        return `${basePrefix}pages/${pageName}`;
     }
 
+    // Para archivos locales
     if (location.pathname.includes('/pages/') || location.pathname.includes('\\pages\\')) {
         return `./${pageName}`;
     }
