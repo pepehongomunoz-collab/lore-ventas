@@ -240,6 +240,65 @@ router.put('/users/:id/role', verifyToken, authorize('admin', 'developer'), asyn
   }
 });
 
+/**
+ * NUEVO: CAMBIAR CONTRASEÑA
+ * Permite al usuario cambiar su contraseña después de validar la contraseña actual
+ * 
+ * EXPLICACIÓN:
+ * - Requiere autenticación (verifyToken)
+ * - Valida que la contraseña actual sea correcta
+ * - Valida que la nueva contraseña tenga al menos 6 caracteres
+ * - Hashea y actualiza la contraseña
+ */
+router.put('/change-password', verifyToken, async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+
+    // Validar que se enviaron ambas contraseñas
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({
+        message: 'Se requieren la contraseña actual y la nueva contraseña'
+      });
+    }
+
+    // Validar longitud mínima de la nueva contraseña
+    if (newPassword.length < 6) {
+      return res.status(400).json({
+        message: 'La nueva contraseña debe tener al menos 6 caracteres'
+      });
+    }
+
+    // Obtener el usuario de la base de datos
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    // Verificar que la contraseña actual sea correcta
+    const isValidPassword = await bcrypt.compare(currentPassword, user.password);
+    if (!isValidPassword) {
+      return res.status(400).json({
+        message: 'La contraseña actual es incorrecta'
+      });
+    }
+
+    // Hashear la nueva contraseña
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    // Actualizar la contraseña
+    user.password = hashedPassword;
+    await user.save();
+
+    res.json({
+      message: 'Contraseña actualizada exitosamente'
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Error del servidor' });
+  }
+});
+
 module.exports = router;
 
 /**
