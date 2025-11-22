@@ -75,9 +75,11 @@ document.addEventListener('DOMContentLoaded', () => {
           // AHORA: Una función hace todo
           redirectToHome();
         } else {
+          console.error('Registro falló:', data);
           alert(data.message || 'Error en registro');
         }
       } catch (err) {
+        console.error('Error de registro:', err);
         alert('Error: ' + err.message);
       }
     });
@@ -112,9 +114,11 @@ document.addEventListener('DOMContentLoaded', () => {
           saveAuthData(data.token, data.user);
           redirectToHome();
         } else {
+          console.error('Login falló:', data);
           alert(data.message || 'Login falló');
         }
       } catch (err) {
+        console.error('Error de login:', err);
         alert('Error: ' + err.message);
       }
     });
