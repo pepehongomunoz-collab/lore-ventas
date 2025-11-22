@@ -7,9 +7,11 @@
 // ========== API Y RESPUESTAS ==========
 
 // Constante para la base de la API
-export const API_BASE = (location.protocol === 'http:' || location.protocol === 'https:')
-    ? `${location.protocol}//${location.host}`
-    : 'http://localhost:3000';
+// Si estamos en producción (GitHub Pages), usamos el backend de Render
+// Si estamos en desarrollo local, usamos localhost
+export const API_BASE = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+    ? 'http://localhost:3000'
+    : 'https://lore-ventas-api.onrender.com';
 
 export function getApiBase() {
     return API_BASE;
