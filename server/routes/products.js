@@ -35,6 +35,40 @@ router.get('/', async (req, res) => {
 });
 
 /**
+ * GET /api/products/search?q=perfume
+ * Buscar productos por texto (público)
+ */
+router.get('/search', async (req, res) => {
+  try {
+    const { q } = req.query;
+
+    // Validar query mínimo
+    if (!q || q.trim().length < 2) {
+      return res.json({ products: [], count: 0, message: 'Query too short' });
+    }
+
+    const searchQuery = q.trim();
+
+    // Búsqueda con regex para mayor flexibilidad (case-insensitive)
+    const products = await Product.find({
+      $or: [
+        { name: { $regex: searchQuery, $options: 'i' } },
+        { description: { $regex: searchQuery, $options: 'i' } },
+        { brand: { $regex: searchQuery, $options: 'i' } }
+      ]
+    })
+      .sort({ createdAt: -1 })
+      .limit(50)
+      .lean();
+
+    res.json({ products, count: products.length, query: searchQuery });
+  } catch (err) {
+    console.error('Search error:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+/**
  * GET /api/products/all
  * Obtener todos los productos (solo admin/developer)
  */

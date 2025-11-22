@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carrito de Compras - Lore Ventas</title>
+    <title>Búsqueda de Productos - Lore Ventas</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <link rel="stylesheet" href="../assets/CSS/style.css">
 </head>
@@ -18,7 +18,8 @@
             </div>
             <div class="search-container">
                 <form class="search-form" role="search">
-                    <input type="search" name="buscar" placeholder="Buscar productos..." aria-label="Buscar productos">
+                    <input type="search" name="buscar" id="search-input" placeholder="Buscar productos..."
+                        aria-label="Buscar productos">
                     <button type="submit" aria-label="Buscar">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
@@ -48,36 +49,31 @@
         <i class="fa-solid fa-bars hamburguesa"></i>
     </header>
 
-    <main class="cart-page">
-        <h2><i class="fa-solid fa-shopping-cart"></i> Mi Carrito</h2>
-
-        <!-- Contenedor de items del carrito -->
-        <div id="cart-items-container">
-            <!-- Se llenará dinámicamente con JavaScript -->
-        </div>
-
-        <!-- Resumen del carrito -->
-        <div id="cart-summary" style="display: none;">
-            <div class="cart-summary">
-                <div class="cart-summary-row">
-                    <span>Subtotal:</span>
-                    <span id="cart-subtotal">$0</span>
-                </div>
-                <div class="cart-summary-row total">
-                    <span>Total:</span>
-                    <span id="cart-total">$0</span>
-                </div>
-
-                <div class="cart-actions">
-                    <button class="btn-clear-cart" id="clear-cart-btn">
-                        <i class="fa-solid fa-trash"></i> Vaciar Carrito
-                    </button>
-                    <button class="btn-continue-shopping" onclick="window.location.href='../index.html'">
-                        <i class="fa-solid fa-arrow-left"></i> Seguir Comprando
-                    </button>
-                </div>
+    <main>
+        <section class="search-results-page">
+            <div class="search-header">
+                <h2><i class="fa-solid fa-magnifying-glass"></i> Resultados de Búsqueda</h2>
+                <p id="search-query-display"></p>
             </div>
-        </div>
+
+            <!-- Loading state -->
+            <div id="search-loading" class="search-loading" style="display: none;">
+                <i class="fa-solid fa-spinner fa-spin"></i>
+                <p>Buscando productos...</p>
+            </div>
+
+            <!-- Resultados -->
+            <div id="search-results-container" class="productos-contenedor">
+                <!-- Los productos se cargarán aquí dinámicamente -->
+            </div>
+
+            <!-- No results message -->
+            <div id="no-results" class="no-results" style="display: none;">
+                <i class="fa-solid fa-search"></i>
+                <h3>No se encontraron productos</h3>
+                <p>Intenta con otros términos de búsqueda</p>
+            </div>
+        </section>
     </main>
 
     <footer>
@@ -111,10 +107,11 @@
     <script type="module">
         import { initCartBadge } from '../assets/JS/cart.js';
         import { initSearch } from '../assets/JS/search.js';
-        import '../assets/JS/cartPage.js';
+        import { performSearchOnPage } from '../assets/JS/searchPage.js';
 
         initCartBadge();
         initSearch();
+        performSearchOnPage();
     </script>
 </body>
 

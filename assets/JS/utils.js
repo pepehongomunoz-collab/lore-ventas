@@ -6,10 +6,13 @@
 
 // ========== API Y RESPUESTAS ==========
 
+// Constante para la base de la API
+export const API_BASE = (location.protocol === 'http:' || location.protocol === 'https:')
+    ? `${location.protocol}//${location.host}`
+    : 'http://localhost:3000';
+
 export function getApiBase() {
-    return (location.protocol === 'http:' || location.protocol === 'https:')
-        ? `${location.protocol}//${location.host}`
-        : 'http://localhost:3000';
+    return API_BASE;
 }
 
 export async function handleApiResponse(response) {

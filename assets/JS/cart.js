@@ -108,6 +108,14 @@ export function getCartTotal() {
 }
 
 /**
+ * Verificar si un producto está en el carrito
+ */
+export function isInCart(productId) {
+    const cart = getCart();
+    return cart.items.some(item => item.id === productId);
+}
+
+/**
  * Vaciar carrito completamente
  */
 export function clearCart() {

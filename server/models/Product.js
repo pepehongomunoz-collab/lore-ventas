@@ -36,4 +36,11 @@ const ProductSchema = new mongoose.Schema({
   }
 });
 
+// Índice de texto para búsqueda eficiente
+ProductSchema.index({
+  name: 'text',
+  description: 'text',
+  brand: 'text'
+});
+
 module.exports = mongoose.model('Product', ProductSchema);

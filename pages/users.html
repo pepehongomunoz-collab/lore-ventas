@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carrito de Compras - Lore Ventas</title>
+    <title>Gestión de Usuarios - Lore Ventas</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <link rel="stylesheet" href="../assets/CSS/style.css">
 </head>
@@ -48,35 +48,45 @@
         <i class="fa-solid fa-bars hamburguesa"></i>
     </header>
 
-    <main class="cart-page">
-        <h2><i class="fa-solid fa-shopping-cart"></i> Mi Carrito</h2>
-
-        <!-- Contenedor de items del carrito -->
-        <div id="cart-items-container">
-            <!-- Se llenará dinámicamente con JavaScript -->
+    <main class="users-page">
+        <div class="users-header">
+            <h2><i class="fa-solid fa-users-gear"></i> Gestión de Usuarios</h2>
+            <p class="users-subtitle">Administra los roles de los usuarios de la plataforma</p>
         </div>
 
-        <!-- Resumen del carrito -->
-        <div id="cart-summary" style="display: none;">
-            <div class="cart-summary">
-                <div class="cart-summary-row">
-                    <span>Subtotal:</span>
-                    <span id="cart-subtotal">$0</span>
-                </div>
-                <div class="cart-summary-row total">
-                    <span>Total:</span>
-                    <span id="cart-total">$0</span>
-                </div>
+        <!-- Loading state -->
+        <div id="users-loading" class="loading-state">
+            <i class="fa-solid fa-spinner fa-spin"></i>
+            <p>Cargando usuarios...</p>
+        </div>
 
-                <div class="cart-actions">
-                    <button class="btn-clear-cart" id="clear-cart-btn">
-                        <i class="fa-solid fa-trash"></i> Vaciar Carrito
-                    </button>
-                    <button class="btn-continue-shopping" onclick="window.location.href='../index.html'">
-                        <i class="fa-solid fa-arrow-left"></i> Seguir Comprando
-                    </button>
-                </div>
-            </div>
+        <!-- Error state -->
+        <div id="users-error" class="error-state" style="display: none;">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <p id="error-message">Error al cargar usuarios</p>
+        </div>
+
+        <!-- Users table -->
+        <div id="users-table-container" style="display: none;">
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Rol Actual</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="users-tbody">
+                    <!-- Se llenará dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Notification -->
+        <div id="notification" class="notification" style="display: none;">
+            <i class="fa-solid fa-check-circle"></i>
+            <span id="notification-message"></span>
         </div>
     </main>
 
@@ -111,10 +121,11 @@
     <script type="module">
         import { initCartBadge } from '../assets/JS/cart.js';
         import { initSearch } from '../assets/JS/search.js';
-        import '../assets/JS/cartPage.js';
+        import { initUsersPage } from '../assets/JS/users.js';
 
         initCartBadge();
         initSearch();
+        initUsersPage();
     </script>
 </body>
 

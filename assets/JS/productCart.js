@@ -7,6 +7,20 @@
 
 import { addToCart, removeFromCart, getCart } from './cart.js';
 
+// Export a helper to initialize cart checkboxes and observer from other modules
+export function initCart() {
+    // Initialize existing checkboxes
+    initializeCartCheckboxes();
+    // Set up observer for dynamic additions (e.g., after search renders)
+    const observer = new MutationObserver(() => {
+        initializeCartCheckboxes();
+    });
+    const productsContainer = document.querySelector('.productos-contenedor') || document.getElementById('search-results-container');
+    if (productsContainer) {
+        observer.observe(productsContainer, { childList: true, subtree: true });
+    }
+}
+
 /**
  * Inicializar event listeners para checkboxes
  */
@@ -18,9 +32,10 @@ document.addEventListener('DOMContentLoaded', () => {
         initializeCartCheckboxes();
     });
 
-    const productsContainer = document.querySelector('.productos-contenedor');
+    // Observe the container that holds product cards. Use generic selector to cover both main and search pages.
+    const productsContainer = document.querySelector('.productos-contenedor') || document.getElementById('search-results-container');
     if (productsContainer) {
-        observer.observe(productsContainer, { childList: true });
+        observer.observe(productsContainer, { childList: true, subtree: true });
     }
 });
 
