@@ -57,22 +57,28 @@ export function redirectToHome() {
 export function getPageHref(pageName) {
     // Si estamos en un servidor web (GitHub Pages o servidor local)
     if (location.protocol === 'http:' || location.protocol === 'https:') {
-        // Detectar si estamos en GitHub Pages
-        // GitHub Pages sirve desde: username.github.io/repo-name/
-        // Necesitamos extraer el path base (por ejemplo, /lore-ventas/)
-        const pathSegments = location.pathname.split('/').filter(Boolean);
+        const currentPath = location.pathname;
 
-        // Si estamos en la raíz o en index.html, usar el primer segmento como base
-        // Ejemplo: /lore-ventas/index.html -> base = /lore-ventas/
-        // Ejemplo: /index.html -> base = /
-        const basePrefix = pathSegments.length > 0 && !pathSegments[0].endsWith('.html')
-            ? `/${pathSegments[0]}/`
-            : '/';
+        // Si ya estamos en /pages/, usar ruta relativa
+        if (currentPath.includes('/pages/')) {
+            return `./${pageName}`;
+        }
 
-        return `${basePrefix}pages/${pageName}`;
+        // Si estamos en GitHub Pages (detectar por dominio)
+        if (location.hostname.includes('github.io')) {
+            const pathSegments = currentPath.split('/').filter(Boolean);
+            const repoName = pathSegments.length > 0 && !pathSegments[0].endsWith('.html')
+                ? pathSegments[0]
+                : '';
+
+            return repoName ? `/${repoName}/pages/${pageName}` : `/pages/${pageName}`;
+        }
+
+        // Localhost u otro servidor - desde raíz
+        return `/pages/${pageName}`;
     }
 
-    // Para archivos locales
+    // Para archivos locales (file://)
     if (location.pathname.includes('/pages/') || location.pathname.includes('\\pages\\')) {
         return `./${pageName}`;
     }
