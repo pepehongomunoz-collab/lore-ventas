@@ -119,6 +119,11 @@ function createUserRow(user) {
     <td>${roleBadge}</td>
     <td class="actions-cell">
       ${roleSelector}
+      ${canChangeRole ? `
+        <button class="btn-reset-password" data-user-id="${user._id}" data-user-email="${user.email}" style="margin-left: 10px; background-color: #dc3545;">
+          <i class="fa-solid fa-key"></i> Resetear Contraseña
+        </button>
+      ` : ''}
     </td>
   `;
 
@@ -136,6 +141,14 @@ function createUserRow(user) {
             const newRole = select.value;
             await updateUserRole(user._id, newRole, select, saveBtn);
         });
+
+        // Add reset password button event listener
+        const resetBtn = tr.querySelector('.btn-reset-password');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', async () => {
+                await resetUserPassword(user._id, user.email, resetBtn);
+            });
+        }
     }
 
     return tr;
@@ -185,6 +198,55 @@ async function updateUserRole(userId, newRole, selectEl, saveBtn) {
         showNotification(error.message, 'error');
         saveBtn.disabled = false;
         saveBtn.innerHTML = '<i class="fa-solid fa-check"></i> Guardar';
+    }
+}
+
+/**
+ * NUEVO: Reset user password to default
+ */
+async function resetUserPassword(userId, userEmail, resetBtn) {
+    // Confirm reset
+    const confirmed = confirm(
+        `¿Estás seguro de resetear la contraseña de ${userEmail}?\n\n` +
+        `La nueva contraseña será: 1234abcd`
+    );
+    if (!confirmed) return;
+
+    try {
+        resetBtn.disabled = true;
+        resetBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Reseteando...';
+
+        const token = getAuthToken();
+        const response = await fetch(`${API_BASE}/api/auth/users/${userId}/reset-password`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || 'Error al resetear contraseña');
+        }
+
+        // Show success with the default password
+        alert(
+            `✅ Contraseña reseteada exitosamente\n\n` +
+            `Usuario: ${userEmail}\n` +
+            `Nueva contraseña temporal: ${data.defaultPassword}\n\n` +
+            `El usuario puede cambiarla desde su perfil.`
+        );
+
+        showNotification(`Contraseña de ${userEmail} reseteada a: ${data.defaultPassword}`, 'success');
+
+        resetBtn.disabled = false;
+        resetBtn.innerHTML = '<i class="fa-solid fa-key"></i> Resetear Contraseña';
+    } catch (error) {
+        console.error('Error resetting password:', error);
+        alert('❌ Error: ' + error.message);
+        resetBtn.disabled = false;
+        resetBtn.innerHTML = '<i class="fa-solid fa-key"></i> Resetear Contraseña';
     }
 }
 

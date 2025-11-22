@@ -299,6 +299,44 @@ router.put('/change-password', verifyToken, async (req, res) => {
   }
 });
 
+/**
+ * NUEVO: RESETEAR CONTRASEÑA DE USUARIO (ADMIN/DEVELOPER)
+ * Permite a administradores resetear la contraseña de cualquier usuario a un valor por defecto
+ * 
+ * EXPLICACIÓN:
+ * - Solo accesible para admin y developer
+ * - Resetea la contraseña a "1234abcd"
+ * - El usuario puede cambiarla después desde su perfil
+ */
+router.put('/users/:id/reset-password', verifyToken, authorize('admin', 'developer'), async (req, res) => {
+  try {
+    const { id } = req.params;
+    const defaultPassword = '1234abcd';
+
+    // Obtener el usuario
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    // Hashear la contraseña por defecto
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(defaultPassword, salt);
+
+    // Actualizar la contraseña
+    user.password = hashedPassword;
+    await user.save();
+
+    res.json({
+      message: `Contraseña de ${user.email} reseteada exitosamente`,
+      defaultPassword: defaultPassword  // Enviar la contraseña temporal para mostrar al admin
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Error del servidor' });
+  }
+});
+
 module.exports = router;
 
 /**
