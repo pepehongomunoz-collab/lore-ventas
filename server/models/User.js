@@ -30,6 +30,9 @@ const UserSchema = new mongoose.Schema({
     enum: ['user', 'admin', 'developer'],
     default: 'user'
   },
+  // NUEVO: Campos para recuperación de contraseña
+  resetPasswordToken: { type: String, required: false },
+  resetPasswordExpires: { type: Date, required: false },
   createdAt: { type: Date, default: Date.now }
 });
 

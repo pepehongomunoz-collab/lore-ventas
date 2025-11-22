@@ -120,8 +120,8 @@ function createUserRow(user) {
     <td class="actions-cell">
       ${roleSelector}
       ${canChangeRole ? `
-        <button class="btn-reset-password" data-user-id="${user._id}" data-user-email="${user.email}" style="margin-left: 10px; background-color: #dc3545;">
-          <i class="fa-solid fa-key"></i> Resetear Contraseña
+        <button class="btn-reset-style" data-user-id="${user._id}" data-user-email="${user.email}">
+          <i class="fa-solid fa-key"></i> Resetear
         </button>
       ` : ''}
     </td>
@@ -143,7 +143,7 @@ function createUserRow(user) {
         });
 
         // Add reset password button event listener
-        const resetBtn = tr.querySelector('.btn-reset-password');
+        const resetBtn = tr.querySelector('.btn-reset-style');
         if (resetBtn) {
             resetBtn.addEventListener('click', async () => {
                 await resetUserPassword(user._id, user.email, resetBtn);
