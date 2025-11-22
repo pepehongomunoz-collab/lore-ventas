@@ -37,15 +37,28 @@ export async function handleApiResponse(response) {
 
 export function redirectToHome() {
     if (location.protocol === 'http:' || location.protocol === 'https:') {
-        // Detectar si estamos en GitHub Pages y extraer el prefijo base
-        const pathSegments = location.pathname.split('/').filter(Boolean);
-        const basePrefix = pathSegments.length > 0 && !pathSegments[0].endsWith('.html')
-            ? `/${pathSegments[0]}/`
-            : '/';
+        const currentPath = location.pathname;
 
-        window.location.href = `${basePrefix}index.html`;
+        // Si estamos en /pages/, volver a la raíz
+        if (currentPath.includes('/pages/')) {
+            // Si estamos en GitHub Pages
+            if (location.hostname.includes('github.io')) {
+                const pathSegments = currentPath.split('/').filter(Boolean);
+                const repoName = pathSegments.length > 0 && pathSegments[0] !== 'pages'
+                    ? pathSegments[0]
+                    : '';
+
+                window.location.href = repoName ? `/${repoName}/index.html` : '/index.html';
+            } else {
+                // Localhost - volver a raíz
+                window.location.href = '/index.html';
+            }
+        } else {
+            // Ya estamos en la raíz o en otra ubicación
+            window.location.href = '/index.html';
+        }
     } else {
-        // Para archivos locales
+        // Para archivos locales (file://)
         if (location.pathname.includes('/pages/') || location.pathname.includes('\\pages\\')) {
             window.location.href = '../index.html';
         } else {
