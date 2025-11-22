@@ -24,11 +24,7 @@
     }
 
     // ========== USER ICON ==========
-    .user-icon {
-        position: absolute;
-        left: $spacing-xl;
-        top: $spacing-lg;
-    }
+    // Nota: El user-icon ahora está dentro de user-container, no necesita posicionamiento absoluto propio
 
     // ========== TOP BAR ==========
     .top-bar {
@@ -53,6 +49,30 @@
         justify-content: center;
     }
 
+    // ========== USER CONTAINER ==========
+    .user-container {
+        position: absolute;
+        left: $spacing-xl;
+        top: $spacing-lg; // Alineado con el hamburger
+        @include flex-column;
+        align-items: flex-start;
+        gap: $spacing-xs; // Espacio pequeño entre user-icon y cart
+    }
+
+    // ========== CART CONTAINER ==========
+    .cart-container {
+        position: relative;
+        left: 0;
+        top: 0;
+    }
+
+    // ========== PRODUCT GRID ==========
+    .productos-contenedor {
+        grid-template-columns: repeat(2, 1fr); // 2 columnas en mobile
+        gap: $spacing-lg;
+        padding: 0 $spacing-md;
+    }
+
     // ========== NAV ==========
     nav {
         width: 100%;
@@ -61,8 +81,8 @@
         left: 0;
         background-color: #ddb28a;
         border-top: 1px solid $border-color;
-        display: none;
-        @include flex-column;
+        display: none; // Oculto por defecto
+        flex-direction: column; // Preparado para cuando se active
         align-items: center;
         z-index: 1000;
         transition: all $transition-normal;
