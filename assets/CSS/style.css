@@ -1845,3 +1845,81 @@ main {
 .btn-reset-style i {
   font-size: 11px;
 }
+
+/* RESPONSIVE HEADER */
+@media (max-width: 768px) {
+    .top-bar {
+        flex-direction: column;
+        height: auto;
+        padding: 15px;
+        gap: 15px;
+    }
+
+    .logo {
+        flex-direction: column;
+        text-align: center;
+        width: 100%;
+    }
+
+    .logo img {
+        margin-bottom: 10px;
+    }
+
+    .logo h1 {
+        font-size: 1.5rem;
+        margin-left: 0;
+        text-align: center;
+    }
+
+    .search-container {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .search-form {
+        width: 100%;
+        display: flex;
+    }
+
+    .search-form input {
+        width: 100%;
+        flex: 1;
+    }
+
+    .user-container {
+        width: 100%;
+        justify-content: center;
+        margin-top: 5px;
+    }
+}
+
+@media (max-width: 768px) {
+    .logo {
+        gap: 0 !important;
+    }
+
+    .productos-contenedor {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px !important;
+        padding: 0 10px;
+    }
+
+    .producto {
+        width: 100% !important;
+        height: auto !important;
+    }
+}
+
+    footer { justify-content: space-between; }
+
+    .redes {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        width: 100%;
+    }
+
+    .redes a {
+        margin: 5px 0;
+    }
+
