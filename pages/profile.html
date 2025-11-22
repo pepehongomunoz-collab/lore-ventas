@@ -89,6 +89,58 @@
                 <button id="edit-btn" class="btn-enviar">
                     <i class="fa-solid fa-pen"></i> Editar Perfil
                 </button>
+
+                <!-- NUEVO: Sección de Seguridad -->
+                <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #ddd;">
+                    <h3 style="color: #333; margin-bottom: 15px;">
+                        <i class="fa-solid fa-shield-halved"></i> Seguridad de la Cuenta
+                    </h3>
+
+                    <button type="button" id="toggle-password-change" class="btn-enviar"
+                        style="background-color: #6c757d;">
+                        <i class="fa-solid fa-lock"></i> Cambiar Contraseña
+                    </button>
+
+                    <!-- Formulario de Cambio de Contraseña (inicialmente oculto) -->
+                    <div id="password-change-section"
+                        style="display: none; margin-top: 20px; padding: 20px; background-color: #f8f9fa; border-radius: 8px;">
+                        <form id="password-change-form">
+                            <div class="form-group">
+                                <label for="current-password">
+                                    <i class="fa-solid fa-key"></i> Contraseña Actual
+                                </label>
+                                <input type="password" id="current-password" placeholder="Tu contraseña actual"
+                                    required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="new-password">
+                                    <i class="fa-solid fa-lock"></i> Nueva Contraseña
+                                </label>
+                                <input type="password" id="new-password"
+                                    placeholder="Nueva contraseña (mínimo 6 caracteres)" required minlength="6">
+                                <small style="color: #888;">La contraseña debe tener al menos 6 caracteres</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="confirm-password">
+                                    <i class="fa-solid fa-lock"></i> Confirmar Nueva Contraseña
+                                </label>
+                                <input type="password" id="confirm-password" placeholder="Confirma tu nueva contraseña"
+                                    required minlength="6">
+                            </div>
+
+                            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                                <button type="submit" class="btn-enviar">
+                                    <i class="fa-solid fa-save"></i> Guardar Nueva Contraseña
+                                </button>
+                                <button type="button" id="cancel-password-change" class="btn-cancelar">
+                                    <i class="fa-solid fa-times"></i> Cancelar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
 
             <!-- Edit Mode -->
@@ -181,6 +233,7 @@
     <script src="../assets/JS/menu.js"></script>
     <script src="../assets/JS/userMenu.js" type="module"></script>
     <script src="../assets/JS/profile.js" type="module"></script>
+    <script src="../assets/JS/passwordChange.js"></script>
 </body>
 
 </html>
