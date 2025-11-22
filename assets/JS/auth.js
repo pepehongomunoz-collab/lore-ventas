@@ -37,53 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
    * - Usamos saveAuthData() para guardar token y usuario
    * - Usamos redirectToHome() en lugar de lógica duplicada
    */
-  if (registerLink) {
-    registerLink.addEventListener('click', async (e) => {
-      e.preventDefault();
-
-      const name = prompt('Nombre (opcional)');
-      const email = prompt('Email para registro');
-      const password = prompt('Contraseña para registro');
-
-      if (!email || !password) {
-        return alert('Email y contraseña requeridos');
-      }
-
-      try {
-        // Hacer la petición
-        const response = await fetch(`${API_BASE}/api/auth/register`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, email, password })
-        });
-
-        // ANTES: Teníamos 10 líneas de código para manejar la respuesta
-        // AHORA: Una sola función hace todo el trabajo
-        const data = await handleApiResponse(response);
-
-        if (data.token) {
-          // ANTES: 
-          // localStorage.setItem('token', data.token);
-          // if (data.user) localStorage.setItem('user', JSON.stringify(data.user));
-
-          // AHORA: Una función centralizada
-          saveAuthData(data.token, data.user);
-
-          alert('Registro exitoso');
-
-          // ANTES: Teníamos 10 líneas de lógica de redirección
-          // AHORA: Una función hace todo
-          redirectToHome();
-        } else {
-          console.error('Registro falló:', data);
-          alert(data.message || 'Error en registro');
-        }
-      } catch (err) {
-        console.error('Error de registro:', err);
-        alert('Error: ' + err.message);
-      }
-    });
-  }
+  // La lógica de registro se ha movido a register.js y register.html
+  // if (registerLink) { ... }
 
   /**
    * LOGIN DE USUARIO
