@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carrito de Compras - Lore Ventas</title>
+    <title>Pago Exitoso - Lore Ventas</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <link rel="stylesheet" href="../assets/CSS/style.css">
 </head>
@@ -48,37 +48,26 @@
         <i class="fa-solid fa-bars hamburguesa"></i>
     </header>
 
-    <main class="cart-page">
-        <h2><i class="fa-solid fa-shopping-cart"></i> Mi Carrito</h2>
+    <main class="payment-result-page">
+        <div class="result-container success">
+            <div class="result-icon">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <h2>¡Pago Exitoso!</h2>
+            <p class="result-message">Tu compra ha sido procesada correctamente.</p>
 
-        <!-- Contenedor de items del carrito -->
-        <div id="cart-items-container">
-            <!-- Se llenará dinámicamente con JavaScript -->
-        </div>
+            <div class="result-details">
+                <p>Recibirás un correo de confirmación con los detalles de tu pedido.</p>
+                <p>¡Gracias por tu compra!</p>
+            </div>
 
-        <!-- Resumen del carrito -->
-        <div id="cart-summary" style="display: none;">
-            <div class="cart-summary">
-                <div class="cart-summary-row">
-                    <span>Subtotal:</span>
-                    <span id="cart-subtotal">$0</span>
-                </div>
-                <div class="cart-summary-row total">
-                    <span>Total:</span>
-                    <span id="cart-total">$0</span>
-                </div>
-
-                <div class="cart-actions">
-                    <button class="btn-clear-cart" id="clear-cart-btn">
-                        <i class="fa-solid fa-trash"></i> Vaciar Carrito
-                    </button>
-                    <button class="btn-continue-shopping" onclick="window.location.href='../index.html'">
-                        <i class="fa-solid fa-arrow-left"></i> Seguir Comprando
-                    </button>
-                    <button class="btn-checkout" onclick="window.location.href='./checkout.html'">
-                        <i class="fa-solid fa-credit-card"></i> Proceder al Pago
-                    </button>
-                </div>
+            <div class="result-actions">
+                <button class="btn-primary" onclick="window.location.href='../index.html'">
+                    <i class="fa-solid fa-home"></i> Volver al Inicio
+                </button>
+                <button class="btn-secondary" onclick="window.location.href='./profile.html'">
+                    <i class="fa-solid fa-user"></i> Ver Mis Pedidos
+                </button>
             </div>
         </div>
     </main>
@@ -114,10 +103,12 @@
     <script type="module">
         import { initCartBadge } from '../assets/JS/cart.js';
         import { initSearch } from '../assets/JS/search.js';
-        import '../assets/JS/cartPage.js';
+
+        // Clear cart after successful payment
+        localStorage.removeItem('cart');
 
         initCartBadge();
-        initSearc
+        initSearch();
     </script>
 </body>
 

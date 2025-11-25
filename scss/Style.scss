@@ -7,6 +7,15 @@
 
 // 2. Base & Reset
 @import 'base';
+// ========== LORE VENTAS - MAIN STYLESHEET ==========
+// Organized SCSS structure with modular partials
+
+// 1. Configuration
+@import 'variables';
+@import 'mixins';
+
+// 2. Base & Reset
+@import 'base';
 
 // 3. Layout Components
 @import 'header';
@@ -19,6 +28,7 @@
 @import 'admin'; // NUEVO: Estilos para panel de administración
 @import 'products';
 @import 'cart'; // NUEVO: Estilos para el carrito de compras
+@import 'checkout'; // NUEVO: Estilos para checkout y pagos
 
 // 5. Responsive
 @import 'responsive';

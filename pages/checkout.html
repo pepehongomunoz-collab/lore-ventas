@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carrito de Compras - Lore Ventas</title>
+    <title>Checkout - Lore Ventas</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <link rel="stylesheet" href="../assets/CSS/style.css">
 </head>
@@ -48,38 +48,69 @@
         <i class="fa-solid fa-bars hamburguesa"></i>
     </header>
 
-    <main class="cart-page">
-        <h2><i class="fa-solid fa-shopping-cart"></i> Mi Carrito</h2>
+    <main class="checkout-page">
+        <h2><i class="fa-solid fa-credit-card"></i> Finalizar Compra</h2>
 
-        <!-- Contenedor de items del carrito -->
-        <div id="cart-items-container">
-            <!-- Se llenará dinámicamente con JavaScript -->
-        </div>
-
-        <!-- Resumen del carrito -->
-        <div id="cart-summary" style="display: none;">
-            <div class="cart-summary">
-                <div class="cart-summary-row">
-                    <span>Subtotal:</span>
-                    <span id="cart-subtotal">$0</span>
-                </div>
-                <div class="cart-summary-row total">
-                    <span>Total:</span>
-                    <span id="cart-total">$0</span>
+        <!-- Order Summary -->
+        <div class="checkout-container">
+            <div class="order-summary">
+                <h3>Resumen del Pedido</h3>
+                <div id="checkout-items-container">
+                    <!-- Populated by JavaScript -->
                 </div>
 
-                <div class="cart-actions">
-                    <button class="btn-clear-cart" id="clear-cart-btn">
-                        <i class="fa-solid fa-trash"></i> Vaciar Carrito
-                    </button>
-                    <button class="btn-continue-shopping" onclick="window.location.href='../index.html'">
-                        <i class="fa-solid fa-arrow-left"></i> Seguir Comprando
-                    </button>
-                    <button class="btn-checkout" onclick="window.location.href='./checkout.html'">
-                        <i class="fa-solid fa-credit-card"></i> Proceder al Pago
-                    </button>
+                <div class="order-totals">
+                    <div class="order-row">
+                        <span>Subtotal:</span>
+                        <span id="checkout-subtotal">$0</span>
+                    </div>
+                    <div class="order-row total">
+                        <span>Total:</span>
+                        <span id="checkout-total">$0</span>
+                    </div>
                 </div>
             </div>
+
+            <!-- Payment Section -->
+            <div class="payment-section">
+                <h3>Método de Pago</h3>
+                <div class="payment-info">
+                    <i class="fa-brands fa-cc-mastercard"></i>
+                    <i class="fa-brands fa-cc-visa"></i>
+                    <i class="fa-solid fa-money-bill"></i>
+                    <p>Pago seguro procesado por MercadoPago</p>
+                </div>
+
+                <button id="pay-button" class="btn-pay">
+                    <i class="fa-solid fa-lock"></i> Proceder al Pago
+                </button>
+
+                <button class="btn-back" onclick="window.location.href='./cart.html'">
+                    <i class="fa-solid fa-arrow-left"></i> Volver al Carrito
+                </button>
+
+                <!-- Loading State -->
+                <div id="payment-loading" class="payment-loading" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>Procesando pago...</p>
+                </div>
+
+                <!-- Error Message -->
+                <div id="payment-error" class="payment-error" style="display: none;">
+                    <i class="fa-solid fa-exclamation-circle"></i>
+                    <p id="error-message"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty Cart Message -->
+        <div id="empty-checkout" class="empty-state" style="display: none;">
+            <i class="fa-solid fa-shopping-cart"></i>
+            <h3>Tu carrito está vacío</h3>
+            <p>Agrega productos para continuar con la compra</p>
+            <button class="btn-continue-shopping" onclick="window.location.href='../index.html'">
+                <i class="fa-solid fa-shopping-bag"></i> Ir a Comprar
+            </button>
         </div>
     </main>
 
@@ -114,10 +145,11 @@
     <script type="module">
         import { initCartBadge } from '../assets/JS/cart.js';
         import { initSearch } from '../assets/JS/search.js';
-        import '../assets/JS/cartPage.js';
+        import { initCheckout } from '../assets/JS/checkout.js';
 
         initCartBadge();
-        initSearc
+        initSearch();
+        initCheckout();
     </script>
 </body>
 

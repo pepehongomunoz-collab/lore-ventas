@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test LocalStorage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .box {
+            background: #f5f5f5;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        button {
+            background: #ff6b35;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        pre {
+            background: white;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🔍 Test de LocalStorage</h1>
+
+    <div class="box">
+        <h2>Prueba 1: Verificar localStorage</h2>
+        <button onclick="checkLocalStorage()">Ver localStorage</button>
+        <pre id="storage-content">-</pre>
+    </div>
+
+    <div class="box">
+        <h2>Prueba 2: Navegar al Checkout</h2>
+        <p>Esto debería mantener el localStorage</p>
+        <button onclick="window.location.href='./checkout.html'">Ir al Checkout</button>
+    </div>
+
+    <div class="box">
+        <h2>Prueba 3: Ver URL actual</h2>
+        <pre id="url-info">-</pre>
+        <button onclick="showURLInfo()">Ver Info de URL</button>
+    </div>
+
+    <script>
+        function checkLocalStorage() {
+            const cart = localStorage.getItem('cart');
+            const output = document.getElementById('storage-content');
+
+            if (!cart) {
+                output.textContent = 'No hay datos de carrito en localStorage';
+                return;
+            }
+
+            try {
+                const parsed = JSON.parse(cart);
+                output.textContent = JSON.stringify(parsed, null, 2);
+            } catch (e) {
+                output.textContent = `Error: ${e.message}\nRaw: ${cart}`;
+            }
+        }
+
+        function showURLInfo() {
+            const output = document.getElementById('url-info');
+            output.textContent = `
+URL actual: ${window.location.href}
+Origin: ${window.location.origin}
+Protocol: ${window.location.protocol}
+Host: ${window.location.host}
+Pathname: ${window.location.pathname}
+            `.trim();
+        }
+
+        // Auto-run on load
+        window.onload = () => {
+            checkLocalStorage();
+            showURLInfo();
+        };
+    </script>
+</body>
+
+</html>

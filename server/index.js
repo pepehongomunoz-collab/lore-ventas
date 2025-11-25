@@ -9,6 +9,7 @@ const authRoutes = require('./routes/auth');
 const productRoutes = require('./routes/products');
 const uploadRoutes = require('./routes/uploads');
 const usersRoutes = require('./routes/users');
+const paymentRoutes = require('./routes/payments');
 
 const app = express();
 app.use(cors());
@@ -36,6 +37,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/uploads', uploadRoutes);
 app.use('/api/users', usersRoutes);
+app.use('/api/payments', paymentRoutes);
 
 app.get('/', (req, res) => res.json({ ok: true }));
 
