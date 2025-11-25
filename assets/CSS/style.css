@@ -977,7 +977,7 @@ main {
 }
 .checkout-page h2 {
   text-align: center;
-  color: #f5a938;
+  color: #000;
   margin-bottom: 2rem;
   font-size: 2rem;
 }
@@ -1084,7 +1084,7 @@ main {
 }
 .payment-info i {
   font-size: 2rem;
-  color: #f5a938;
+  color: #4a4a4a;
 }
 .payment-info p {
   color: #666;
@@ -1094,7 +1094,7 @@ main {
 .btn-pay {
   width: 100%;
   padding: 1.2rem;
-  background: linear-gradient(135deg, #f5a938, rgb(238.038277512, 147.1291866029, 11.961722488));
+  background: linear-gradient(135deg, #28a745, rgb(30.1449275362, 125.8550724638, 52));
   color: white;
   border: none;
   border-radius: 8px;
@@ -1109,7 +1109,7 @@ main {
 }
 .btn-pay:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(245, 169, 56, 0.3);
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
 }
 .btn-pay:disabled {
   opacity: 0.6;

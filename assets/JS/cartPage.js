@@ -5,6 +5,7 @@
  */
 
 import { getCart, removeFromCart, updateQuantity, clearCart, getCartTotal, initCartBadge } from './cart.js';
+import { getAuthToken } from './utils.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     renderCart();
@@ -12,6 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Event listener para vaciar carrito
     document.getElementById('clear-cart-btn')?.addEventListener('click', handleClearCart);
+
+    // Event listener para proceder al pago (con verificación de autenticación)
+    document.querySelector('.btn-checkout')?.addEventListener('click', handleCheckout);
 
     // Escuchar cambios en el carrito
     window.addEventListener('cartUpdated', renderCart);
@@ -153,5 +157,22 @@ function handleClearCart() {
     if (confirm('¿Estás seguro de que deseas vaciar el carrito?')) {
         clearCart();
         renderCart();
+    }
+}
+
+/**
+ * Manejar click en proceder al pago
+ * Verifica si el usuario está autenticado antes de permitir el checkout
+ */
+function handleCheckout() {
+    const token = getAuthToken();
+
+    if (!token) {
+        // Usuario no autenticado - mostrar mensaje y redirigir a login
+        alert('Debes iniciar sesión para proceder con la compra');
+        window.location.href = './login.html';
+    } else {
+        // Usuario autenticado - proceder al checkout
+        window.location.href = './checkout.html';
     }
 }
