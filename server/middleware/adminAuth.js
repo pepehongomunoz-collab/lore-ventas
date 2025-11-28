@@ -28,7 +28,10 @@ const adminAuth = async (req, res, next) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
         // Buscar el usuario en la base de datos
-        const user = await User.findById(decoded.userId);
+        // IMPORTANTE: El token puede tener 'id' o 'userId' dependiendo de cómo se generó
+        const userId = decoded.userId || decoded.id;
+
+        const user = await User.findById(userId);
 
         if (!user) {
             return res.status(401).json({

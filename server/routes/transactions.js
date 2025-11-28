@@ -1,14 +1,136 @@
-/**
- * TRANSACTION ROUTES
- * 
- * Rutas para gestionar transacciones (solo administradores)
- * Incluye listado, estadísticas, actualización de estados y notas
- */
-
 const express = require('express');
 const router = express.Router();
 const Transaction = require('../models/Transaction');
 const adminAuth = require('../middleware/adminAuth');
+const { verifyToken } = require('../middleware/auth');
+
+/**
+ * USER ROUTES - Para usuarios regulares
+ */
+
+/**
+ * GET /api/transactions/my-orders
+ * Obtener pedidos del usuario autenticado
+ * Query params:
+ *   - status: filtrar por estado
+ *   - limit: límite de resultados (default: 50)
+ */
+router.get('/my-orders', verifyToken, async (req, res) => {
+    try {
+        const { status, limit = 50 } = req.query;
+        const userId = req.user.userId || req.user.id;
+
+        // Construir filtro
+        const filter = {};
+
+        // Buscar por userId O por email del usuario
+        const User = require('../models/User');
+        const user = await User.findById(userId);
+
+        if (user) {
+            filter.$or = [
+                { userId: userId },
+                { 'customerInfo.email': user.email }
+            ];
+        } else {
+            filter.userId = userId;
+        }
+
+        if (status) {
+            filter.status = status;
+        }
+
+        // Obtener transacciones del usuario
+        const transactions = await Transaction.find(filter)
+            .sort({ createdAt: -1 })
+            .limit(parseInt(limit))
+            .select('-webhookData -statusHistory.changedBy') // No mostrar datos sensibles
+            .lean();
+
+        // Contar total
+        const total = await Transaction.countDocuments(filter);
+
+        // Calcular estadísticas del usuario
+        const stats = {
+            total: total,
+            pending: 0,
+            approved: 0,
+            rejected: 0,
+            in_process: 0
+        };
+
+        transactions.forEach(t => {
+            if (stats[t.status] !== undefined) {
+                stats[t.status]++;
+            }
+        });
+
+        res.json({
+            success: true,
+            orders: transactions,
+            stats,
+            total
+        });
+
+    } catch (error) {
+        console.error('Error fetching user orders:', error);
+        res.status(500).json({
+            success: false,
+            error: 'Error al obtener tus pedidos'
+        });
+    }
+});
+
+/**
+ * GET /api/transactions/my-orders/:id
+ * Obtener detalles de un pedido específico del usuario
+ */
+router.get('/my-orders/:id', verifyToken, async (req, res) => {
+    try {
+        const userId = req.user.userId || req.user.id;
+        const transaction = await Transaction.findById(req.params.id)
+            .select('-webhookData') // No mostrar datos del webhook
+            .lean();
+
+        if (!transaction) {
+            return res.status(404).json({
+                success: false,
+                error: 'Pedido no encontrado'
+            });
+        }
+
+        // Verificar que el pedido pertenece al usuario
+        const User = require('../models/User');
+        const user = await User.findById(userId);
+
+        const isOwner = transaction.userId?.toString() === userId.toString() ||
+            (user && transaction.customerInfo?.email === user.email);
+
+        if (!isOwner) {
+            return res.status(403).json({
+                success: false,
+                error: 'No tienes permiso para ver este pedido'
+            });
+        }
+
+        res.json({
+            success: true,
+            order: transaction
+        });
+
+    } catch (error) {
+        console.error('Error fetching order details:', error);
+        res.status(500).json({
+            success: false,
+            error: 'Error al obtener detalles del pedido'
+        });
+    }
+});
+
+/**
+ * ADMIN ROUTES - Solo para administradores
+ */
+
 
 /**
  * GET /api/transactions

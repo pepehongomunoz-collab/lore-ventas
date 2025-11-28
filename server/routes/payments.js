@@ -245,4 +245,117 @@ router.get('/status/:paymentId', async (req, res) => {
     }
 });
 
+/**
+ * POST /api/payments/create-test-order
+ * Crea una transacción de prueba sin usar dinero real
+ * Solo para desarrollo/testing
+ * 
+ * Request body:
+ * {
+ *   items: array de productos (opcional, usa carrito si no se proporciona)
+ * }
+ */
+router.post('/create-test-order', async (req, res) => {
+    try {
+        // Verificar autenticación
+        const { verifyToken } = require('../middleware/auth');
+
+        // Extraer token manualmente
+        const token = req.header('Authorization')?.replace('Bearer ', '');
+        if (!token) {
+            return res.status(401).json({
+                success: false,
+                error: 'Autenticación requerida'
+            });
+        }
+
+        const jwt = require('jsonwebtoken');
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const userId = decoded.userId || decoded.id;
+
+        // Obtener items del body o usar items de prueba
+        let items = req.body.items;
+
+        if (!items || items.length === 0) {
+            // Items de prueba por defecto
+            items = [
+                {
+                    title: 'Producto de Prueba 1',
+                    description: 'Este es un producto de prueba',
+                    unit_price: 100,
+                    quantity: 2,
+                    subtotal: 200
+                },
+                {
+                    title: 'Producto de Prueba 2',
+                    description: 'Otro producto de prueba',
+                    unit_price: 50,
+                    quantity: 1,
+                    subtotal: 50
+                }
+            ];
+        } else {
+            // Asegurar que los items tengan subtotal
+            items = items.map(item => ({
+                ...item,
+                subtotal: item.unit_price * item.quantity
+            }));
+        }
+
+        // Calcular total
+        const amount = items.reduce((sum, item) => sum + item.subtotal, 0);
+
+        // Obtener información del usuario
+        const User = require('../models/User');
+        const user = await User.findById(userId);
+
+        // Crear transacción de prueba
+        const testTransaction = new Transaction({
+            transactionId: 'TEST_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+            paymentId: 'TEST_PAYMENT_' + Date.now(),
+            userId: userId,
+            customerInfo: {
+                email: user?.email || 'test@example.com',
+                name: user?.name || 'Usuario de Prueba',
+                phone: user?.phone || '1234567890'
+            },
+            items: items,
+            amount: amount,
+            status: 'approved', // Por defecto aprobado para testing
+            paymentMethod: 'test_card',
+            paymentType: 'credit_card',
+            statusHistory: [{
+                status: 'approved',
+                changedAt: new Date(),
+                note: 'Transacción de prueba creada automáticamente'
+            }],
+            notes: '⚠️ TRANSACCIÓN DE PRUEBA - No involucra dinero real'
+        });
+
+        await testTransaction.save();
+
+        console.log('✅ Test transaction created:', testTransaction._id);
+
+        res.json({
+            success: true,
+            message: 'Transacción de prueba creada exitosamente',
+            transaction: {
+                id: testTransaction._id,
+                transactionId: testTransaction.transactionId,
+                amount: testTransaction.amount,
+                status: testTransaction.status,
+                items: testTransaction.items
+            }
+        });
+
+    } catch (error) {
+        console.error('Error creating test order:', error);
+        res.status(500).json({
+            success: false,
+            error: 'Error al crear transacción de prueba',
+            message: error.message
+        });
+    }
+});
+
 module.exports = router;

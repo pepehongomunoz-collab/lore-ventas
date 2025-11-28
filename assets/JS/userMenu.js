@@ -61,6 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ${adminLink}
         ${commercialLink}
         ${usersLink}
+        <a href="${getPageHref('my-orders.html')}" class="user-menu-item"><i class="fa-solid fa-shopping-bag"></i> Mis Compras</a>
         <a href="${getPageHref('profile.html')}" class="user-menu-item user-profile"><i class="fa-solid fa-user"></i> Cuenta</a>
         <button class="user-menu-item user-logout"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</button>
       `;

@@ -173,6 +173,10 @@ async function loadTransactions(filters = {}) {
 
     } catch (error) {
         console.error('Error loading transactions:', error);
+        console.error('Error details:', {
+            message: error.message,
+            stack: error.stack
+        });
         if (loading) loading.style.display = 'none';
         if (emptyState) {
             emptyState.style.display = 'block';
@@ -180,6 +184,7 @@ async function loadTransactions(filters = {}) {
                 <i class="fa-solid fa-exclamation-triangle"></i>
                 <h3>Error al cargar transacciones</h3>
                 <p>${error.message}</p>
+                <p style="font-size: 12px; color: #666;">Revisa la consola del navegador (F12) para más detalles</p>
             `;
         }
     }
