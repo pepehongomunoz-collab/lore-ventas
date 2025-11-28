@@ -23,7 +23,7 @@
 
 // ========== HEADER ==========
 header {
-    background-color: $secondary-color;
+    background-image: linear-gradient(to bottom, #eec17e, $background-light);
     border-bottom: 1px solid $border-color;
     padding: $spacing-md $spacing-xl;
     @include flex-column;
@@ -32,6 +32,7 @@ header {
     // Esto genera: header h1 { ... }
     h1 {
         font-size: $font-size-xxlarge;
+        font-family: 'Rubik', sans-serif;
         color: $text-color;
         margin: $spacing-md 0;
     }

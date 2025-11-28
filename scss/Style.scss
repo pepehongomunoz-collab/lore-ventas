@@ -7,6 +7,15 @@
 
 // 2. Base & Reset
 @import 'base';
+// ========== LORE VENTAS - MAIN STYLESHEET ==========
+// Organized SCSS structure with modular partials
+
+// 1. Configuration
+@import 'variables';
+@import 'mixins';
+
+// 2. Base & Reset
+@import 'base';
 
 // 3. Layout Components
 @import 'header';
@@ -21,6 +30,7 @@
 @import 'cart'; // NUEVO: Estilos para el carrito de compras
 @import 'checkout'; // NUEVO: Estilos para checkout y pagos
 @import 'brands'; // NUEVO: Estilos específicos por marca (Natura, Avon, Arbell)
+@import 'filters'; // NUEVO: Estilos para filtros de productos
 
 // 5. Responsive
 @import 'responsive';

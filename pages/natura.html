@@ -57,12 +57,56 @@
         </section>
         <!-- Catalogo -->
         <section class="catalogo">
-            <div class="productos-contenedor">
+            <div class="catalog-layout">
+                <!-- Filtros -->
+                <aside class="filters-sidebar">
+                    <h3><i class="fa-solid fa-filter"></i> Filtros</h3>
 
-                <!-- Contenedor para productos dinámicos -->
-                <!-- Los productos dinámicos se cargarán aquí -->
+                    <!-- Filtro por Precio -->
+                    <div class="filter-group">
+                        <h4><i class="fa-solid fa-dollar-sign"></i> Precio</h4>
+                        <div class="price-range">
+                            <div class="price-inputs">
+                                <input type="number" id="min-price" placeholder="Mín" min="0">
+                                <span>-</span>
+                                <input type="number" id="max-price" placeholder="Máx" min="0">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Filtro por Categoría -->
+                    <div class="filter-group">
+                        <h4><i class="fa-solid fa-tags"></i> Categoría</h4>
+                        <div class="filter-options">
+                            <label>
+                                <input type="checkbox" name="category" value="maquillaje">
+                                <span>Maquillaje</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="category" value="perfumeria">
+                                <span>Perfumería</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="category" value="cuidados">
+                                <span>Cuidados Diarios</span>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- Botones de acción -->
+                    <div class="filter-actions">
+                        <button class="apply-filters" id="apply-filters">
+                            <i class="fa-solid fa-check"></i> Aplicar
+                        </button>
+                        <button class="clear-filters" id="clear-filters">
+                            <i class="fa-solid fa-times"></i> Limpiar
+                        </button>
+                    </div>
+                </aside>
+                <!-- Productos -->
+                <div class="productos-contenedor">
+                    <!-- Contenedor para productos dinámicos -->
+                    <!-- Los productos dinámicos se cargarán aquí -->
+                </div>
             </div>
-
         </section>
     </main>
 
