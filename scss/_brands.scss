@@ -1,0 +1,99 @@
+/**
+ * BRAND THEMES - Estilos específicos por marca
+ * 
+ * Cada marca tiene sus propios colores y estilos
+ * que se aplican cuando el main tiene la clase correspondiente
+ */
+
+// ========== COLORES DE MARCA ==========
+$natura-primary: #f47920;    // Naranja Natura
+$natura-secondary: #ff9d5c;
+$natura-light: #fff5ed;
+
+$avon-primary: #e5004b;      // Rosa/Rojo Avon
+$avon-secondary: #ff4d88;
+$avon-light: #ffe6f0;
+
+$arbell-primary: #4288c1;    // Azul Arbell
+$arbell-secondary: #3ab7d0;
+$arbell-light: #f0f9e8;
+
+// ========== ESTILOS PARA NATURA ==========
+.main-natura {
+    .banner {
+        border-color: $natura-primary;
+        box-shadow: 0 2px 8px rgba($natura-primary, 0.15);
+    }
+
+    // Background de las cajas de imágenes de productos
+    .img-box {
+        background-color: rgba($natura-primary, 0.15);
+    }
+
+    // Botones o elementos personalizados
+    .btn-enviar,
+    .add-to-cart-checkbox:checked + label {
+        background-color: $natura-primary;
+        
+        &:hover {
+            background-color: darken($natura-primary, 10%);
+        }
+    }
+}
+
+// ========== ESTILOS PARA AVON ==========
+.main-avon {
+    .banner {
+        border-color: $avon-primary;
+        box-shadow: 0 2px 8px rgba($avon-primary, 0.15);
+    }
+
+    // Background de las cajas de imágenes de productos
+    .img-box {
+        background-color: rgba($avon-primary, 0.15);
+    }
+
+    .btn-enviar,
+    .add-to-cart-checkbox:checked + label {
+        background-color: $avon-primary;
+        
+        &:hover {
+            background-color: darken($avon-primary, 10%);
+        }
+    }
+}
+
+// ========== ESTILOS PARA ARBELL ==========
+.main-arbell {
+    .banner {
+        border-color: $arbell-primary;
+        box-shadow: 0 2px 8px rgba($arbell-primary, 0.15);
+    }
+
+    // Background de las cajas de imágenes de productos
+    .img-box {
+        background-color: rgba($arbell-primary, 0.15);
+    }
+
+    .btn-enviar,
+    .add-to-cart-checkbox:checked + label {
+        background-color: $arbell-primary;
+        
+        &:hover {
+            background-color: darken($arbell-primary, 10%);
+        }
+    }
+}
+
+/**
+ * EJEMPLO DE USO:
+ * 
+ * En natura.html: <main class="main-natura">
+ * En avon.html: <main class="main-avon">
+ * En arbell.html: <main class="main-arbell">
+ * 
+ * Esto aplicará automáticamente:
+ * - Colores del banner según la marca
+ * - Background de las cajas de productos (img-box) con el color de la marca
+ * - Botones con el color de la marca
+ */

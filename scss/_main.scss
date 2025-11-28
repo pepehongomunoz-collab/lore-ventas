@@ -70,11 +70,25 @@ main {
     &.active {
         background-color: $primary-color;
     }
+}
 
-    // EXPLICACIÓN: Podríamos agregar hover
-    // &:hover {
-    //   background-color: darken($border-color, 10%);
-    // }
+// ========== BANNER ESTILO CLASSROOM =========
+.banner {
+    max-width: 1400px;
+    max-height: 200px; // Altura limitada estilo Classroom
+    margin: 0 auto $spacing-lg; // Centrado y margen inferior
+    position: relative;
+    overflow: hidden;
+    border: 1px solid $border-color;
+    border-radius: $border-radius-xl;
+    padding: 0; // Sin padding para aprovechar todo el espacio
+    
+    img {
+        width: 100%;
+        height: 200px; // Altura fija para el banner
+        object-fit: cover; // Recorta la imagen manteniendo proporciones
+        display: block;
+    }
 }
 
 /**

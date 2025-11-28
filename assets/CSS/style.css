@@ -354,6 +354,23 @@ main {
   background-color: #f5a938;
 }
 
+.banner {
+  max-width: 1400px;
+  max-height: 200px;
+  margin: 0 auto 15px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 0;
+}
+.banner img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
 /**
  * PATRÓN COMÚN EN NESTING:
  * 
@@ -893,7 +910,6 @@ main {
 .img-box {
   width: 100%;
   height: 140px;
-  background-color: rgba(245, 193, 97, 0.7450980392);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1546,6 +1562,72 @@ main {
   }
 }
 /**
+ * BRAND THEMES - Estilos específicos por marca
+ * 
+ * Cada marca tiene sus propios colores y estilos
+ * que se aplican cuando el main tiene la clase correspondiente
+ */
+.main-natura .banner {
+  border-color: #f47920;
+  box-shadow: 0 2px 8px rgba(244, 121, 32, 0.15);
+}
+.main-natura .img-box {
+  background-color: rgba(244, 121, 32, 0.15);
+}
+.main-natura .btn-enviar,
+.main-natura .add-to-cart-checkbox:checked + label {
+  background-color: #f47920;
+}
+.main-natura .btn-enviar:hover,
+.main-natura .add-to-cart-checkbox:checked + label:hover {
+  background-color: rgb(214.4230769231, 96.1538461538, 10.5769230769);
+}
+
+.main-avon .banner {
+  border-color: #e5004b;
+  box-shadow: 0 2px 8px rgba(229, 0, 75, 0.15);
+}
+.main-avon .img-box {
+  background-color: rgba(229, 0, 75, 0.15);
+}
+.main-avon .btn-enviar,
+.main-avon .add-to-cart-checkbox:checked + label {
+  background-color: #e5004b;
+}
+.main-avon .btn-enviar:hover,
+.main-avon .add-to-cart-checkbox:checked + label:hover {
+  background-color: rgb(178, 0, 58.2969432314);
+}
+
+.main-arbell .banner {
+  border-color: #4288c1;
+  box-shadow: 0 2px 8px rgba(66, 136, 193, 0.15);
+}
+.main-arbell .img-box {
+  background-color: rgba(66, 136, 193, 0.15);
+}
+.main-arbell .btn-enviar,
+.main-arbell .add-to-cart-checkbox:checked + label {
+  background-color: #4288c1;
+}
+.main-arbell .btn-enviar:hover,
+.main-arbell .add-to-cart-checkbox:checked + label:hover {
+  background-color: rgb(51.3784860558, 109.3864541833, 156.6215139442);
+}
+
+/**
+ * EJEMPLO DE USO:
+ * 
+ * En natura.html: <main class="main-natura">
+ * En avon.html: <main class="main-avon">
+ * En arbell.html: <main class="main-arbell">
+ * 
+ * Esto aplicará automáticamente:
+ * - Colores del banner según la marca
+ * - Background de las cajas de productos (img-box) con el color de la marca
+ * - Botones con el color de la marca
+ */
+/**
  * RESPONSIVE DESIGN - CON ANIDAMIENTO SCSS
  * 
  * EXPLICACIÓN:
@@ -1785,3 +1867,5 @@ main {
  * - Menos repetición de selectores
  * - Más fácil de mantener
  */
+
+/*# sourceMappingURL=style.css.map */
