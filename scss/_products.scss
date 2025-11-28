@@ -52,7 +52,6 @@
 .img-box {
     width: 100%;
     height: 140px;
-    
     @include flex-center;
 
     // EXPLICACIÓN: Anidamos img dentro de .img-box

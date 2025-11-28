@@ -12,6 +12,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- EmailJS SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <!-- Alertas Bootstrap -->
     <script>
         function mostrarAlertaBootstrap(mensaje, tipo) {
             const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
@@ -26,6 +27,7 @@
             alertPlaceholder.append(wrapper);
         }
     </script>
+    <!-- EmailJS -->
     <script>
         (function () {
             emailjs.init({
@@ -60,6 +62,7 @@
 </head>
 
 <body>
+    <!-- Barra de navegacion -->
     <header>
         <div class="top-bar">
             <div class="logo">
@@ -92,6 +95,7 @@
         <i class="fa-solid fa-bars hamburguesa"></i>
     </header>
 
+    <!-- Formulario de Contacto -->
     <main class="contacto-container">
         <h2>Contáctanos</h2>
         <p>Completá el siguiente formulario y te responderemos a la brevedad.</p>
@@ -127,12 +131,14 @@
     </main>
 
     <footer>
+        <!-- Contacto -->
         <div class="contacto">
             <p>Lorena Fusillo Cosmética</p>
             <p>Buenos Aires, Argentina</p>
             <p>© 2025 - Todos los derechos reservados</p>
         </div>
         <div class="redes">
+            <!-- Redes Sociales -->
             <a href="https://www.instagram.com/lore.fusillo.makeup" target="_blank" rel="noopener noreferrer">
                 <i class="fa-brands fa-instagram"></i>Instagram</a>
             <a href="https://www.facebook.com/Natura.Argentina/?brand_redir=382381445421" target="_blank"
@@ -143,11 +149,11 @@
         </div>
         </div>
     </footer>
-</body>
-<script src="../assets/JS/menu.js"></script>
-<script src="../assets/JS/userMenu.js" type="module"></script>
-</body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Scripts -->
+    <script src="../assets/JS/menu.js"></script>
+    <script src="../assets/JS/userMenu.js" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
