@@ -10,6 +10,7 @@ const productRoutes = require('./routes/products');
 const uploadRoutes = require('./routes/uploads');
 const usersRoutes = require('./routes/users');
 const paymentRoutes = require('./routes/payments');
+const transactionRoutes = require('./routes/transactions');
 
 const app = express();
 app.use(cors());
@@ -38,6 +39,7 @@ app.use('/api/products', productRoutes);
 app.use('/api/uploads', uploadRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/payments', paymentRoutes);
+app.use('/api/transactions', transactionRoutes);
 
 app.get('/', (req, res) => res.json({ ok: true }));
 

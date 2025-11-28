@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { vexor } = require('../lib/vexor');
+const Transaction = require('../models/Transaction');
 
 /**
  * POST /api/payments/create
@@ -109,25 +110,90 @@ router.post('/webhook', async (req, res) => {
             status: webhookData.status
         });
 
-        // Here you would typically:
-        // 1. Update order status in database
-        // 2. Send confirmation email
-        // 3. Update inventory
-        // 4. Trigger any business logic based on payment status
+        // Crear o actualizar transacción en la base de datos
+        try {
+            // Buscar si ya existe una transacción con este payment_id
+            let transaction = await Transaction.findOne({
+                $or: [
+                    { transactionId: webhookData.payment_id },
+                    { paymentId: webhookData.payment_id }
+                ]
+            });
 
-        // Example: Log different payment statuses
+            if (transaction) {
+                // Actualizar transacción existente
+                console.log(`Updating existing transaction: ${transaction._id}`);
+
+                // Solo actualizar si el estado cambió
+                if (transaction.status !== webhookData.status) {
+                    transaction.addStatusChange(
+                        webhookData.status,
+                        null, // No hay usuario admin, es automático
+                        `Estado actualizado automáticamente por webhook de MercadoPago`
+                    );
+                    await transaction.save();
+                    console.log(`Transaction status updated to: ${webhookData.status}`);
+                }
+            } else {
+                // Crear nueva transacción
+                console.log(`Creating new transaction for payment: ${webhookData.payment_id}`);
+
+                // Extraer información del webhook
+                const items = webhookData.items || [];
+                const amount = webhookData.amount || 0;
+                const customerEmail = webhookData.payer?.email || webhookData.email;
+                const customerName = webhookData.payer?.name || webhookData.payer?.first_name;
+
+                transaction = new Transaction({
+                    transactionId: webhookData.payment_id,
+                    paymentId: webhookData.payment_id,
+                    customerInfo: {
+                        email: customerEmail,
+                        name: customerName,
+                        phone: webhookData.payer?.phone?.number
+                    },
+                    items: items.map(item => ({
+                        title: item.title,
+                        description: item.description,
+                        unit_price: item.unit_price,
+                        quantity: item.quantity,
+                        subtotal: item.unit_price * item.quantity
+                    })),
+                    amount: amount,
+                    status: webhookData.status,
+                    paymentMethod: webhookData.payment_method_id,
+                    paymentType: webhookData.payment_type_id,
+                    webhookData: webhookData, // Guardar todos los datos del webhook
+                    statusHistory: [{
+                        status: webhookData.status,
+                        changedAt: new Date(),
+                        note: 'Transacción creada desde webhook de MercadoPago'
+                    }]
+                });
+
+                await transaction.save();
+                console.log(`Transaction created successfully: ${transaction._id}`);
+            }
+        } catch (dbError) {
+            console.error('Error saving transaction to database:', dbError);
+            // No fallar el webhook si hay error en la BD
+            // MercadoPago necesita recibir 200 OK
+        }
+
+        // Lógica de negocio basada en el estado del pago
         switch (webhookData.status) {
             case 'approved':
                 console.log(`Payment ${webhookData.payment_id} approved`);
-                // Update order status to paid
+                // TODO: Enviar email de confirmación
+                // TODO: Actualizar inventario
                 break;
             case 'pending':
                 console.log(`Payment ${webhookData.payment_id} pending`);
-                // Keep order as pending
+                // TODO: Enviar email de pago pendiente
                 break;
             case 'rejected':
                 console.log(`Payment ${webhookData.payment_id} rejected`);
-                // Mark order as failed
+                // TODO: Enviar email de pago rechazado
                 break;
             default:
                 console.log(`Payment ${webhookData.payment_id} status: ${webhookData.status}`);

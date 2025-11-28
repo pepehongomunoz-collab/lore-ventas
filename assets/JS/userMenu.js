@@ -48,15 +48,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Enlaces de administración (solo si es admin o developer)
       let adminLink = '';
+      let commercialLink = '';
       let usersLink = '';
       if (isAdminOrDeveloper()) {
         adminLink = `<a href="${getPageHref('admin.html')}" class="user-menu-item"><i class="fa-solid fa-box"></i> Gestionar Productos</a>`;
+        commercialLink = `<a href="${getPageHref('transactions.html')}" class="user-menu-item"><i class="fa-solid fa-chart-line"></i> Gestión Comercial</a>`;
         usersLink = `<a href="${getPageHref('users.html')}" class="user-menu-item"><i class="fa-solid fa-users-gear"></i> Gestión de Usuarios</a>`;
       }
 
       menu.innerHTML = `
         <div class="user-menu-item user-menu-name">${name}</div>
         ${adminLink}
+        ${commercialLink}
         ${usersLink}
         <a href="${getPageHref('profile.html')}" class="user-menu-item user-profile"><i class="fa-solid fa-user"></i> Cuenta</a>
         <button class="user-menu-item user-logout"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</button>

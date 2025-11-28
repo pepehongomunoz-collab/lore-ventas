@@ -1,0 +1,295 @@
+/**
+ * TRANSACTION ROUTES
+ * 
+ * Rutas para gestionar transacciones (solo administradores)
+ * Incluye listado, estadísticas, actualización de estados y notas
+ */
+
+const express = require('express');
+const router = express.Router();
+const Transaction = require('../models/Transaction');
+const adminAuth = require('../middleware/adminAuth');
+
+/**
+ * GET /api/transactions
+ * Obtener todas las transacciones con filtros opcionales
+ * Query params:
+ *   - status: filtrar por estado
+ *   - startDate: fecha inicial
+ *   - endDate: fecha final
+ *   - search: buscar por email o transactionId
+ *   - limit: límite de resultados (default: 100)
+ *   - skip: saltar resultados para paginación
+ */
+router.get('/', adminAuth, async (req, res) => {
+    try {
+        const { status, startDate, endDate, search, limit = 100, skip = 0 } = req.query;
+
+        // Construir filtro
+        const filter = {};
+
+        if (status) {
+            filter.status = status;
+        }
+
+        if (startDate || endDate) {
+            filter.createdAt = {};
+            if (startDate) {
+                filter.createdAt.$gte = new Date(startDate);
+            }
+            if (endDate) {
+                filter.createdAt.$lte = new Date(endDate);
+            }
+        }
+
+        if (search) {
+            filter.$or = [
+                { transactionId: { $regex: search, $options: 'i' } },
+                { 'customerInfo.email': { $regex: search, $options: 'i' } },
+                { 'customerInfo.name': { $regex: search, $options: 'i' } }
+            ];
+        }
+
+        // Obtener transacciones
+        const transactions = await Transaction.find(filter)
+            .sort({ createdAt: -1 })
+            .limit(parseInt(limit))
+            .skip(parseInt(skip))
+            .populate('userId', 'name email')
+            .lean();
+
+        // Contar total de transacciones que coinciden con el filtro
+        const total = await Transaction.countDocuments(filter);
+
+        res.json({
+            success: true,
+            transactions,
+            pagination: {
+                total,
+                limit: parseInt(limit),
+                skip: parseInt(skip),
+                hasMore: total > (parseInt(skip) + parseInt(limit))
+            }
+        });
+
+    } catch (error) {
+        console.error('Error fetching transactions:', error);
+        res.status(500).json({
+            success: false,
+            error: 'Error al obtener transacciones'
+        });
+    }
+});
+
+/**
+ * GET /api/transactions/stats
+ * Obtener estadísticas y balance comercial
+ */
+router.get('/stats', adminAuth, async (req, res) => {
+    try {
+        const { startDate, endDate } = req.query;
+
+        // Construir filtro de fecha si se proporciona
+        const dateFilter = {};
+        if (startDate || endDate) {
+            dateFilter.createdAt = {};
+            if (startDate) {
+                dateFilter.createdAt.$gte = new Date(startDate);
+            }
+            if (endDate) {
+                dateFilter.createdAt.$lte = new Date(endDate);
+            }
+        }
+
+        // Obtener estadísticas por estado
+        const stats = await Transaction.aggregate([
+            { $match: dateFilter },
+            {
+                $group: {
+                    _id: '$status',
+                    count: { $sum: 1 },
+                    totalAmount: { $sum: '$amount' }
+                }
+            }
+        ]);
+
+        // Calcular totales generales
+        const totalTransactions = await Transaction.countDocuments(dateFilter);
+        const totalAmount = await Transaction.aggregate([
+            { $match: dateFilter },
+            { $group: { _id: null, total: { $sum: '$amount' } } }
+        ]);
+
+        // Calcular monto aprobado (solo transacciones aprobadas)
+        const approvedAmount = await Transaction.aggregate([
+            { $match: { ...dateFilter, status: 'approved' } },
+            { $group: { _id: null, total: { $sum: '$amount' } } }
+        ]);
+
+        // Formatear estadísticas por estado
+        const statsByStatus = {
+            pending: { count: 0, amount: 0 },
+            approved: { count: 0, amount: 0 },
+            rejected: { count: 0, amount: 0 },
+            cancelled: { count: 0, amount: 0 },
+            refunded: { count: 0, amount: 0 },
+            in_process: { count: 0, amount: 0 }
+        };
+
+        stats.forEach(stat => {
+            if (statsByStatus[stat._id]) {
+                statsByStatus[stat._id] = {
+                    count: stat.count,
+                    amount: stat.totalAmount
+                };
+            }
+        });
+
+        // Obtener transacciones recientes (últimas 5)
+        const recentTransactions = await Transaction.find(dateFilter)
+            .sort({ createdAt: -1 })
+            .limit(5)
+            .select('transactionId customerInfo amount status createdAt')
+            .lean();
+
+        res.json({
+            success: true,
+            stats: {
+                total: {
+                    transactions: totalTransactions,
+                    amount: totalAmount[0]?.total || 0
+                },
+                approved: {
+                    transactions: statsByStatus.approved.count,
+                    amount: approvedAmount[0]?.total || 0
+                },
+                byStatus: statsByStatus,
+                recent: recentTransactions
+            }
+        });
+
+    } catch (error) {
+        console.error('Error fetching stats:', error);
+        res.status(500).json({
+            success: false,
+            error: 'Error al obtener estadísticas'
+        });
+    }
+});
+
+/**
+ * GET /api/transactions/:id
+ * Obtener detalles de una transacción específica
+ */
+router.get('/:id', adminAuth, async (req, res) => {
+    try {
+        const transaction = await Transaction.findById(req.params.id)
+            .populate('userId', 'name email phone address')
+            .populate('statusHistory.changedBy', 'name email')
+            .lean();
+
+        if (!transaction) {
+            return res.status(404).json({
+                success: false,
+                error: 'Transacción no encontrada'
+            });
+        }
+
+        res.json({
+            success: true,
+            transaction
+        });
+
+    } catch (error) {
+        console.error('Error fetching transaction:', error);
+        res.status(500).json({
+            success: false,
+            error: 'Error al obtener transacción'
+        });
+    }
+});
+
+/**
+ * PUT /api/transactions/:id/status
+ * Actualizar el estado de una transacción
+ * Body: { status: string, note?: string }
+ */
+router.put('/:id/status', adminAuth, async (req, res) => {
+    try {
+        const { status, note } = req.body;
+
+        // Validar estado
+        const validStatuses = ['pending', 'approved', 'rejected', 'cancelled', 'refunded', 'in_process'];
+        if (!status || !validStatuses.includes(status)) {
+            return res.status(400).json({
+                success: false,
+                error: 'Estado inválido'
+            });
+        }
+
+        const transaction = await Transaction.findById(req.params.id);
+
+        if (!transaction) {
+            return res.status(404).json({
+                success: false,
+                error: 'Transacción no encontrada'
+            });
+        }
+
+        // Usar el método del modelo para agregar el cambio de estado
+        transaction.addStatusChange(status, req.user._id, note);
+        await transaction.save();
+
+        res.json({
+            success: true,
+            message: 'Estado actualizado correctamente',
+            transaction
+        });
+
+    } catch (error) {
+        console.error('Error updating transaction status:', error);
+        res.status(500).json({
+            success: false,
+            error: 'Error al actualizar estado de transacción'
+        });
+    }
+});
+
+/**
+ * PUT /api/transactions/:id/notes
+ * Actualizar las notas de una transacción
+ * Body: { notes: string }
+ */
+router.put('/:id/notes', adminAuth, async (req, res) => {
+    try {
+        const { notes } = req.body;
+
+        const transaction = await Transaction.findByIdAndUpdate(
+            req.params.id,
+            { notes },
+            { new: true }
+        );
+
+        if (!transaction) {
+            return res.status(404).json({
+                success: false,
+                error: 'Transacción no encontrada'
+            });
+        }
+
+        res.json({
+            success: true,
+            message: 'Notas actualizadas correctamente',
+            transaction
+        });
+
+    } catch (error) {
+        console.error('Error updating transaction notes:', error);
+        res.status(500).json({
+            success: false,
+            error: 'Error al actualizar notas de transacción'
+        });
+    }
+});
+
+module.exports = router;

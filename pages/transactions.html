@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Transacciones - Lore Ventas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link rel="stylesheet" href="../assets/CSS/style.css">
+    <style>
+        /* Estilos específicos para la página de transacciones */
+        .transactions-page {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card.approved {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+
+        .stat-card.pending {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .stat-card.rejected {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        .stat-card h3 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-card .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .stat-card .stat-label {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .filters-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            align-items: end;
+        }
+
+        .filter-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .filter-group input,
+        .filter-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .transactions-table-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .transactions-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .transactions-table thead {
+            background: #f8f9fa;
+        }
+
+        .transactions-table th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        .transactions-table td {
+            padding: 15px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .transactions-table tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-badge.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-badge.approved {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-badge.rejected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-badge.cancelled {
+            background: #e2e3e5;
+            color: #383d41;
+        }
+
+        .status-badge.refunded {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .status-badge.in_process {
+            background: #cfe2ff;
+            color: #084298;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-action {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-view {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-view:hover {
+            background: #0056b3;
+        }
+
+        .btn-edit {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background: #218838;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background: white;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 800px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            color: #333;
+        }
+
+        .close-modal {
+            font-size: 28px;
+            font-weight: bold;
+            color: #aaa;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        .close-modal:hover {
+            color: #000;
+        }
+
+        .modal-section {
+            margin-bottom: 25px;
+        }
+
+        .modal-section h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .detail-row {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #555;
+        }
+
+        .detail-value {
+            color: #333;
+        }
+
+        .items-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .items-list li {
+            padding: 10px;
+            background: #f8f9fa;
+            margin-bottom: 8px;
+            border-radius: 6px;
+        }
+
+        .status-update-form {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .status-update-form select,
+        .status-update-form input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+
+        .status-update-form button {
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .status-update-form button:hover {
+            background: #5568d3;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .empty-state i {
+            font-size: 64px;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filters-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .transactions-table {
+                font-size: 12px;
+            }
+
+            .transactions-table th,
+            .transactions-table td {
+                padding: 8px;
+            }
+
+            .detail-row {
+                grid-template-columns: 1fr;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="top-bar">
+            <div class="logo">
+                <img src="../assets/img/Logo.png" width="150" alt="Logo Lore">
+                <h1>Lorena Fusillo <br>Cosmetica</h1>
+            </div>
+            <div class="search-container">
+                <form class="search-form" role="search">
+                    <input type="search" name="buscar" placeholder="Buscar productos..." aria-label="Buscar productos">
+                    <button type="submit" aria-label="Buscar">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </form>
+            </div>
+            <div class="user-container">
+                <div class="user-icon">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Promociones</a></li>
+                <li><a href="./natura.html">Natura</a></li>
+                <li><a href="./avon.html">Avon</a></li>
+                <li><a href="./arbell.html">Arbell</a></li>
+                <li><a href="./Contacto.html">Contacto</a></li>
+            </ul>
+        </nav>
+        <i class="fa-solid fa-bars hamburguesa"></i>
+    </header>
+
+    <main class="transactions-page">
+        <h2><i class="fa-solid fa-chart-line"></i> Gestión de Transacciones</h2>
+        <p>Panel de administración para visualizar y gestionar todas las transacciones</p>
+
+        <!-- Balance Comercial -->
+        <div class="stats-grid" id="stats-grid">
+            <div class="stat-card">
+                <h3><i class="fa-solid fa-dollar-sign"></i> Total Recaudado</h3>
+                <div class="stat-value" id="total-amount">$0</div>
+                <div class="stat-label">Todas las transacciones</div>
+            </div>
+            <div class="stat-card approved">
+                <h3><i class="fa-solid fa-check-circle"></i> Ventas Aprobadas</h3>
+                <div class="stat-value" id="approved-amount">$0</div>
+                <div class="stat-label" id="approved-count">0 transacciones</div>
+            </div>
+            <div class="stat-card pending">
+                <h3><i class="fa-solid fa-clock"></i> Ventas Pendientes</h3>
+                <div class="stat-value" id="pending-amount">$0</div>
+                <div class="stat-label" id="pending-count">0 transacciones</div>
+            </div>
+            <div class="stat-card rejected">
+                <h3><i class="fa-solid fa-times-circle"></i> Ventas Rechazadas</h3>
+                <div class="stat-value" id="rejected-amount">$0</div>
+                <div class="stat-label" id="rejected-count">0 transacciones</div>
+            </div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="filters-section">
+            <h3><i class="fa-solid fa-filter"></i> Filtros</h3>
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label for="filter-status">Estado</label>
+                    <select id="filter-status">
+                        <option value="">Todos los estados</option>
+                        <option value="pending">Pendiente</option>
+                        <option value="approved">Aprobado</option>
+                        <option value="rejected">Rechazado</option>
+                        <option value="cancelled">Cancelado</option>
+                        <option value="refunded">Reembolsado</option>
+                        <option value="in_process">En Proceso</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="filter-search">Buscar</label>
+                    <input type="text" id="filter-search" placeholder="Email o ID de transacción...">
+                </div>
+                <div class="filter-group">
+                    <label for="filter-start-date">Desde</label>
+                    <input type="date" id="filter-start-date">
+                </div>
+                <div class="filter-group">
+                    <label for="filter-end-date">Hasta</label>
+                    <input type="date" id="filter-end-date">
+                </div>
+                <div class="filter-group">
+                    <button class="btn-enviar" onclick="applyFilters()" style="width: 100%;">
+                        <i class="fa-solid fa-search"></i> Aplicar Filtros
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla de Transacciones -->
+        <div class="transactions-table-container">
+            <div id="loading" class="loading" style="display: none;">
+                <i class="fa-solid fa-spinner fa-spin"></i> Cargando transacciones...
+            </div>
+            <div id="empty-state" class="empty-state" style="display: none;">
+                <i class="fa-solid fa-inbox"></i>
+                <h3>No hay transacciones</h3>
+                <p>No se encontraron transacciones con los filtros aplicados</p>
+            </div>
+            <table class="transactions-table" id="transactions-table" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Fecha</th>
+                        <th>Cliente</th>
+                        <th>Productos</th>
+                        <th>Monto</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="transactions-tbody">
+                    <!-- Populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <button onclick="window.location.href='./admin.html'" class="btn-enviar" style="margin-top: 30px;">
+            <i class="fa-solid fa-arrow-left"></i> Volver al Panel Admin
+        </button>
+    </main>
+
+    <!-- Modal de Detalles -->
+    <div id="transaction-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-receipt"></i> Detalles de Transacción</h2>
+                <button class="close-modal" onclick="closeModal()">&times;</button>
+            </div>
+
+            <div class="modal-section">
+                <h3>Información General</h3>
+                <div class="detail-row">
+                    <span class="detail-label">ID de Transacción:</span>
+                    <span class="detail-value" id="modal-transaction-id"></span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Fecha:</span>
+                    <span class="detail-value" id="modal-date"></span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Estado:</span>
+                    <span class="detail-value" id="modal-status"></span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Monto Total:</span>
+                    <span class="detail-value" id="modal-amount"></span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Método de Pago:</span>
+                    <span class="detail-value" id="modal-payment-method"></span>
+                </div>
+            </div>
+
+            <div class="modal-section">
+                <h3>Información del Cliente</h3>
+                <div class="detail-row">
+                    <span class="detail-label">Email:</span>
+                    <span class="detail-value" id="modal-customer-email"></span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Nombre:</span>
+                    <span class="detail-value" id="modal-customer-name"></span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Teléfono:</span>
+                    <span class="detail-value" id="modal-customer-phone"></span>
+                </div>
+            </div>
+
+            <div class="modal-section">
+                <h3>Productos</h3>
+                <ul class="items-list" id="modal-items">
+                    <!-- Populated by JavaScript -->
+                </ul>
+            </div>
+
+            <div class="modal-section">
+                <h3>Actualizar Estado</h3>
+                <div class="status-update-form">
+                    <select id="new-status">
+                        <option value="pending">Pendiente</option>
+                        <option value="approved">Aprobado</option>
+                        <option value="rejected">Rechazado</option>
+                        <option value="cancelled">Cancelado</option>
+                        <option value="refunded">Reembolsado</option>
+                        <option value="in_process">En Proceso</option>
+                    </select>
+                    <input type="text" id="status-note" placeholder="Nota (opcional)">
+                    <button onclick="updateTransactionStatus()">
+                        <i class="fa-solid fa-save"></i> Actualizar
+                    </button>
+                </div>
+            </div>
+
+            <div class="modal-section">
+                <h3>Notas Administrativas</h3>
+                <textarea id="admin-notes" rows="3" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;"></textarea>
+                <button class="btn-enviar" onclick="updateTransactionNotes()" style="margin-top: 10px;">
+                    <i class="fa-solid fa-save"></i> Guardar Notas
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="contacto">
+            <div class="payment">
+                <p>Métodos de pago:</p>
+                <div class="icons">
+                    <img src="../assets/img/metodos.png" width="100" alt="Métodos de pago">
+                </div>
+            </div>
+            <h2>
+                <p>Contacto</p>
+                <a href="./Contacto.html" target="_blank" rel="noopener noreferrer">
+                    <img src="../assets/img/contacto.png" class="contact-icon" alt="Contacto">
+                </a>
+            </h2>
+        </div>
+        <div class="redes">
+            <a href="https://www.instagram.com/lore.fusillo.makeup" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-instagram"></i>Instagram</a>
+            <a href="https://www.facebook.com/Natura.Argentina/?brand_redir=382381445421" target="_blank"
+                rel="noopener noreferrer">
+                <i class="fa-brands fa-facebook"></i> facebook</a>
+            <a href="https://x.com/NaturaArgentina" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-twitter"></i>X</a>
+        </div>
+    </footer>
+
+    <script src="../assets/JS/menu.js"></script>
+    <script src="../assets/JS/userMenu.js" type="module"></script>
+    <script src="../assets/JS/transactions.js" type="module"></script>
+</body>
+
+</html>
