@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const productPriceInput = document.getElementById('product-price');
     const productImageInput = document.getElementById('product-image');
     const productBrandSelect = document.getElementById('product-brand');
+    const productCategorySelect = document.getElementById('product-category');
     const filterBrandSelect = document.getElementById('filter-brand');
     const productsContainer = document.getElementById('products-container');
     const formTitle = document.getElementById('form-title');
@@ -113,7 +114,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     <h4 style="margin: 0 0 5px 0; color: #333;">${product.name}</h4>
                     <p style="margin: 0; color: #666; font-size: 14px;">${product.description || 'Sin descripción'}</p>
                     <p style="margin: 5px 0 0 0; font-weight: 600; color: #f5a938;">$${product.price.toLocaleString('es-AR')}</p>
-                    <span class="role-badge role-${product.brand}" style="font-size: 11px; padding: 2px 8px;">${product.brand.toUpperCase()}</span>
+                    <div style="margin-top: 5px;">
+                        <span class="role-badge role-${product.brand}" style="font-size: 11px; padding: 2px 8px;">${product.brand.toUpperCase()}</span>
+                        <span class="role-badge" style="font-size: 11px; padding: 2px 8px; background: #6c757d; color: white;">${product.category ? product.category.toUpperCase() : 'OTROS'}</span>
+                    </div>
                 </div>
                 <div style="display: flex; flex-direction: column; gap: 8px;">
                     <button onclick="window.editProduct('${product._id}')" class="btn-edit" style="padding: 8px 12px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">
@@ -196,7 +200,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 description: productDescInput.value.trim(),
                 price: parseFloat(productPriceInput.value),
                 image: imagePath,
-                brand: productBrandSelect.value
+                brand: productBrandSelect.value,
+                category: productCategorySelect.value
             };
 
             const url = editingProductId
@@ -255,6 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
             productPriceInput.value = product.price;
             currentImagePath = product.image; // Guardar la ruta de la imagen actual
             productBrandSelect.value = product.brand;
+            productCategorySelect.value = product.category || 'otros';
 
             // Mostrar preview de la imagen actual
             previewImg.src = product.image;

@@ -91,7 +91,7 @@ router.get('/all', verifyToken, authorize('admin', 'developer'), async (req, res
  */
 router.post('/', verifyToken, authorize('admin', 'developer'), async (req, res) => {
   try {
-    const { name, description, price, image, brand } = req.body;
+    const { name, description, price, image, brand, category } = req.body;
 
     // Validaciones
     if (!name || !price || !image || !brand) {
@@ -111,7 +111,8 @@ router.post('/', verifyToken, authorize('admin', 'developer'), async (req, res) 
       description,
       price,
       image,
-      brand: brand.toLowerCase()
+      brand: brand.toLowerCase(),
+      category: category ? category.toLowerCase() : 'otros'
     });
 
     await product.save();
@@ -133,7 +134,7 @@ router.post('/', verifyToken, authorize('admin', 'developer'), async (req, res) 
 router.put('/:id', verifyToken, authorize('admin', 'developer'), async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, description, price, image, brand } = req.body;
+    const { name, description, price, image, brand, category } = req.body;
 
     // Construir objeto de actualización
     const updateData = {};
@@ -149,6 +150,7 @@ router.put('/:id', verifyToken, authorize('admin', 'developer'), async (req, res
       }
       updateData.brand = brand.toLowerCase();
     }
+    if (category !== undefined) updateData.category = category.toLowerCase();
 
     const product = await Product.findByIdAndUpdate(
       id,

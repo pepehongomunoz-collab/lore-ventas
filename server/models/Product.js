@@ -30,6 +30,13 @@ const ProductSchema = new mongoose.Schema({
     enum: ['natura', 'avon', 'arbell'],
     lowercase: true
   },
+  category: {
+    type: String,
+    required: true,
+    enum: ['maquillaje', 'perfumeria', 'cuidados', 'otros'],
+    default: 'otros',
+    lowercase: true
+  },
   createdAt: {
     type: Date,
     default: Date.now

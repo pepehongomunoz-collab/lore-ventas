@@ -36,6 +36,7 @@ export async function loadProducts(brand, containerId = 'dynamic-products') {
             productCard.dataset.price = product.price;
             productCard.dataset.image = product.image;
             productCard.dataset.brand = product.brand;
+            productCard.dataset.category = product.category || 'otros';
 
             // Formatear precio
             const price = product.price.toLocaleString('es-AR');

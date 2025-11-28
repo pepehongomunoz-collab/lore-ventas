@@ -134,22 +134,167 @@
                 rel="noopener noreferrer">
                 <i class="fa-brands fa-facebook"></i> facebook</a>
             <a href="https://x.com/NaturaArgentina" target="_blank" rel="noopener noreferrer">
-                <i class="fa-brands fa-twitter"></i>X</a>
-        </div>
-    </footer>
-    <!-- Scripts -->
-    <script src="../assets/JS/menu.js"></script>
-    <script src="../assets/JS/userMenu.js" type="module"></script>
-    <script type="module">
-        import { loadProducts } from '../assets/JS/productLoader.js';
-        import { initCartBadge } from '../assets/JS/cart.js';
-        import { initSearch } from '../assets/JS/search.js';
-        import '../assets/JS/productCart.js';
+                <!DOCTYPE html>
+                <html lang="es">
 
-        loadProducts('natura');
-        initCartBadge();
-        initSearch();
-    </script>
-</body>
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Lore Ventas - NATURA</title>
+                    <!-- Enlace a Font Awesome para iconos -->
+                    <link rel="stylesheet"
+                        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+                    <link rel="stylesheet" href="../assets/CSS/style.css">
+                </head>
 
-</html>
+                <body>
+                    <!-- barra de navegacion-->
+                    <header>
+                        <div class="top-bar">
+                            <div class="logo">
+                                <img src="../assets/img/Logo.png" width="150" alt="Logo Lore">
+                                <h1>Lorena Fusillo <br>Cosmetica</h1>
+                            </div>
+                            <div class="search-container">
+                                <form class="search-form" role="search">
+                                    <input type="search" name="buscar" placeholder="Buscar productos..."
+                                        aria-label="Buscar productos">
+                                    <button type="submit" aria-label="Buscar">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="user-container">
+                                <div class="user-icon">
+                                    <i class="fa-solid fa-user"></i>
+                                </div>
+                                <div class="cart-container">
+                                    <a href="./cart.html" class="cart-icon">
+                                        <i class="fa-solid fa-shopping-cart"></i>
+                                        <span class="cart-badge">0</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <nav>
+                            <ul>
+                                <li><a href="../index.html">Promociones</a></li>
+                                <li><a href="./natura.html" class="active">Natura</a></li>
+                                <li><a href="./avon.html">Avon</a></li>
+                                <li><a href="./arbell.html">Arbell</a></li>
+                                <li><a href="./Contacto.html">Contacto</a></li>
+                            </ul>
+                        </nav>
+                        <i class="fa-solid fa-bars hamburguesa"></i>
+                    </header>
+
+                    <main class="main-natura">
+                        <!-- Banner -->
+                        <section class="banner">
+                            <img src="../assets/img/bannernatura.png" alt="Banner">
+                        </section>
+                        <!-- Catalogo -->
+                        <section class="catalogo">
+                            <div class="catalog-layout">
+                                <!-- Filtros -->
+                                <aside class="filters-sidebar">
+                                    <h3><i class="fa-solid fa-filter"></i> Filtros</h3>
+
+                                    <!-- Filtro por Precio -->
+                                    <div class="filter-group">
+                                        <h4><i class="fa-solid fa-dollar-sign"></i> Precio</h4>
+                                        <div class="price-range">
+                                            <div class="price-inputs">
+                                                <input type="number" id="min-price" placeholder="Mín" min="0">
+                                                <span>-</span>
+                                                <input type="number" id="max-price" placeholder="Máx" min="0">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Filtro por Categoría -->
+                                    <div class="filter-group">
+                                        <h4><i class="fa-solid fa-tags"></i> Categoría</h4>
+                                        <div class="filter-options">
+                                            <label>
+                                                <input type="checkbox" name="category" value="maquillaje">
+                                                <span>Maquillaje</span>
+                                            </label>
+                                            <label>
+                                                <input type="checkbox" name="category" value="perfumeria">
+                                                <span>Perfumería</span>
+                                            </label>
+                                            <label>
+                                                <input type="checkbox" name="category" value="cuidados">
+                                                <span>Cuidados Diarios</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <!-- Botones de acción -->
+                                    <div class="filter-actions">
+                                        <button class="apply-filters" id="apply-filters">
+                                            <i class="fa-solid fa-check"></i> Aplicar
+                                        </button>
+                                        <button class="clear-filters" id="clear-filters">
+                                            <i class="fa-solid fa-times"></i> Limpiar
+                                        </button>
+                                    </div>
+                                </aside>
+                                <!-- Productos -->
+                                <div class="productos-contenedor">
+                                    <!-- Contenedor para productos dinámicos -->
+                                    <!-- Los productos dinámicos se cargarán aquí -->
+                                </div>
+                            </div>
+                        </section>
+                    </main>
+
+                    <footer>
+                        <!-- Contacto -->
+                        <div class="contacto">
+                            <div class="payment">
+                                <p>Métodos de pago:</p>
+                                <div class="icons">
+                                    <img src="../assets/img/metodos.png" width="100" alt="Métodos de pago">
+                                </div>
+                            </div>
+                            <h2>
+                                <p>Contacto</p>
+                                <a href="./Contacto.html" target="_blank" rel="noopener noreferrer">
+                                    <img src="../assets/img/contacto.png" class="contact-icon" alt="Contacto">
+                                </a>
+                            </h2>
+                        </div>
+                        <!-- Redes Sociales -->
+                        <div class="redes">
+                            <a href="https://www.instagram.com/lore.fusillo.makeup" target="_blank"
+                                rel="noopener noreferrer">
+                                <i class="fa-brands fa-instagram"></i>Instagram</a>
+                            <a href="https://www.facebook.com/Natura.Argentina/?brand_redir=382381445421"
+                                target="_blank" rel="noopener noreferrer">
+                                <i class="fa-brands fa-facebook"></i> facebook</a>
+                            <a href="https://x.com/NaturaArgentina" target="_blank" rel="noopener noreferrer">
+                                <i class="fa-brands fa-twitter"></i>X</a>
+                        </div>
+                    </footer>
+                    <!-- Scripts -->
+                    <script src="../assets/JS/menu.js"></script>
+                    <script src="../assets/JS/userMenu.js" type="module"></script>
+                    <script type="module">
+                        import { loadProducts } from '../assets/JS/productLoader.js';
+                        import { initCartBadge } from '../assets/JS/cart.js';
+                        import { initSearch } from '../assets/JS/search.js';
+                        import { initFilters } from '../assets/JS/filters.js';
+                        import '../assets/JS/productCart.js';
+
+                        // Cargar productos y luego inicializar filtros
+                        (async () => {
+                            await loadProducts('natura');
+                            initFilters();
+                        })();
+
+                        initCartBadge();
+                        initSearch();
+                    </script>
+                </body>
+
+                </html>
