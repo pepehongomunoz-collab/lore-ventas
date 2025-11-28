@@ -139,3 +139,228 @@
         background-color: #5a6268;
     }
 }
+
+// ========== USER MANAGEMENT PAGE ==========
+.users-page {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: $spacing-xl;
+}
+
+.users-header {
+    text-align: center;
+    margin-bottom: 30px;
+
+    h2 {
+        font-size: 32px;
+        color: $text-color;
+        margin-bottom: 10px;
+
+        i {
+            color: $primary-color;
+            margin-right: 10px;
+        }
+    }
+
+    .users-subtitle {
+        color: #666;
+        font-size: 16px;
+    }
+}
+
+// Loading and error states
+.loading-state,
+.error-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    color: #888;
+
+    i {
+        font-size: 48px;
+        margin-bottom: 20px;
+    }
+
+    p {
+        font-size: 18px;
+    }
+}
+
+.error-state {
+    color: #d33;
+
+    i {
+        color: #d33;
+    }
+}
+
+// Users table container
+#users-table-container {
+    background: $white;
+    border-radius: $border-radius-lg;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+    margin: 0 auto;
+}
+
+// Users table
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    thead {
+        background-color: rgba($primary-color, 0.1);
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: $text-color;
+            border-bottom: 2px solid $primary-color;
+        }
+    }
+
+    tbody {
+        tr {
+            border-bottom: 1px solid #eee;
+            transition: background-color $transition-normal;
+
+            &:hover {
+                background-color: rgba($primary-color, 0.05);
+            }
+
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+
+        td {
+            padding: 15px;
+            vertical-align: middle;
+        }
+    }
+
+    .actions-cell {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+}
+
+// Role selector
+.role-selector {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: $border-radius-sm;
+    font-size: 14px;
+    cursor: pointer;
+    transition: border-color $transition-normal;
+
+    &:focus {
+        outline: none;
+        border-color: $primary-color;
+    }
+}
+
+// Save role button
+.btn-save-role {
+    padding: 8px 16px;
+    background: $primary-color;
+    color: $white;
+    border: none;
+    border-radius: $border-radius-sm;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all $transition-normal;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+
+    i {
+        font-size: 12px;
+    }
+
+    &:hover {
+        background: darken($primary-color, 10%);
+        transform: translateY(-1px);
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+}
+
+// Reset password button - styled like role badge but in red
+.btn-reset-style {
+    display: inline-block;
+    padding: 6px 12px;
+    background-color: #fee;
+    color: #d33;
+    border: 1px solid #fcc;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all $transition-normal;
+
+    i {
+        margin-right: 5px;
+        font-size: 11px;
+    }
+
+    &:hover {
+        background-color: #d33;
+        color: $white;
+        border-color: #d33;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(#d33, 0.2);
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+}
+
+// Notification
+.notification {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    background: $white;
+    padding: 15px 20px;
+    border-radius: $border-radius-md;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 9999;
+    min-width: 300px;
+
+    i {
+        font-size: 20px;
+    }
+
+    &.success {
+        border-left: 4px solid #28a745;
+
+        i {
+            color: #28a745;
+        }
+    }
+
+    &.error {
+        border-left: 4px solid #d33;
+
+        i {
+            color: #d33;
+        }
+    }
+}

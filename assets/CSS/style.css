@@ -657,6 +657,198 @@ main {
   background-color: #5a6268;
 }
 
+.users-page {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.users-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+.users-header h2 {
+  font-size: 32px;
+  color: #333;
+  margin-bottom: 10px;
+}
+.users-header h2 i {
+  color: #f5a938;
+  margin-right: 10px;
+}
+.users-header .users-subtitle {
+  color: #666;
+  font-size: 16px;
+}
+
+.loading-state,
+.error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: #888;
+}
+.loading-state i,
+.error-state i {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+.loading-state p,
+.error-state p {
+  font-size: 18px;
+}
+
+.error-state {
+  color: #d33;
+}
+.error-state i {
+  color: #d33;
+}
+
+#users-table-container {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+  margin: 0 auto;
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.users-table thead {
+  background-color: rgba(245, 169, 56, 0.1);
+}
+.users-table thead th {
+  padding: 15px;
+  text-align: left;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #f5a938;
+}
+.users-table tbody tr {
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.3s ease;
+}
+.users-table tbody tr:hover {
+  background-color: rgba(245, 169, 56, 0.05);
+}
+.users-table tbody tr:last-child {
+  border-bottom: none;
+}
+.users-table tbody td {
+  padding: 15px;
+  vertical-align: middle;
+}
+.users-table .actions-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.role-selector {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+.role-selector:focus {
+  outline: none;
+  border-color: #f5a938;
+}
+
+.btn-save-role {
+  padding: 8px 16px;
+  background: #f5a938;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.btn-save-role i {
+  font-size: 12px;
+}
+.btn-save-role:hover {
+  background: rgb(238.038277512, 147.1291866029, 11.961722488);
+  transform: translateY(-1px);
+}
+.btn-save-role:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-reset-style {
+  display: inline-block;
+  padding: 6px 12px;
+  background-color: #fee;
+  color: #d33;
+  border: 1px solid #fcc;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.btn-reset-style i {
+  margin-right: 5px;
+  font-size: 11px;
+}
+.btn-reset-style:hover {
+  background-color: #d33;
+  color: #fff;
+  border-color: #d33;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(221, 51, 51, 0.2);
+}
+.btn-reset-style:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.notification {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  background: #fff;
+  padding: 15px 20px;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 9999;
+  min-width: 300px;
+}
+.notification i {
+  font-size: 20px;
+}
+.notification.success {
+  border-left: 4px solid #28a745;
+}
+.notification.success i {
+  color: #28a745;
+}
+.notification.error {
+  border-left: 4px solid #d33;
+}
+.notification.error i {
+  color: #d33;
+}
+
 /**
  * PRODUCTS CATALOG - CON ANIDAMIENTO SCSS
  * 
