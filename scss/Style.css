@@ -62,12 +62,16 @@ header h1 {
   gap: 10px;
   min-width: 250px;
   cursor: default;
-  user-select: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
 }
 .logo img,
 .logo h1 {
   pointer-events: none;
-  user-select: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
 }
 
 .search-container {
@@ -510,18 +514,18 @@ main {
   margin-left: 6px;
 }
 .role-badge.role-user {
-  background-color: rgb(215.8369098712, 218.6566523605, 221.1630901288);
-  color: rgb(84.3605150215, 91.3905579399, 97.6394849785);
+  background-color: #d8dbdd;
+  color: #545b62;
   border: 1px solid #6c757d;
 }
 .role-badge.role-admin {
-  background-color: rgb(195.7028985507, 240.7971014493, 206);
-  color: rgb(25.2173913043, 105.2826086957, 43.5);
+  background-color: #c4f1ce;
+  color: #19692c;
   border: 1px solid #28a745;
 }
 .role-badge.role-developer {
-  background-color: rgb(229.5, 241.8, 255);
-  color: rgb(0, 98.4, 204);
+  background-color: #e6f2ff;
+  color: #0062cc;
   border: 1px solid #007bff;
 }
 
@@ -709,7 +713,8 @@ main {
 .img-box img {
   max-width: 100%;
   max-height: 100%;
-  object-fit: contain;
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 
 /**
@@ -836,7 +841,8 @@ main {
 .cart-item-image {
   width: 100px;
   height: 100px;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
   border-radius: 6px;
   border: 1px solid #ddd;
 }
@@ -954,7 +960,7 @@ main {
   color: #fff;
 }
 .btn-continue-shopping:hover {
-  background: rgb(238.038277512, 147.1291866029, 11.961722488);
+  background: #ee930c;
 }
 
 .btn-checkout {
@@ -962,7 +968,7 @@ main {
   color: #fff;
 }
 .btn-checkout:hover {
-  background: rgb(238.038277512, 147.1291866029, 11.961722488);
+  background: #ee930c;
 }
 
 .checkout-page {
@@ -1089,7 +1095,7 @@ main {
 .btn-pay {
   width: 100%;
   padding: 1.2rem;
-  background: linear-gradient(135deg, #28a745, rgb(30.1449275362, 125.8550724638, 52));
+  background: linear-gradient(135deg, #28a745, #1e7e34);
   color: white;
   border: none;
   border-radius: 8px;
@@ -1563,4 +1569,4 @@ main {
  * - Fácil ver qué estilos se aplican en móvil
  * - Menos repetición de selectores
  * - Más fácil de mantener
- */
+ *//*# sourceMappingURL=Style.css.map */

@@ -254,3 +254,12 @@
         background: darken($primary-color, 10%);
     }
 }
+
+.btn-checkout {
+    background: $primary-color;
+    color: $white;
+
+    &:hover {
+        background: darken($primary-color, 10%);
+    }
+}
