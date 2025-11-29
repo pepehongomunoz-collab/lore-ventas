@@ -69,6 +69,18 @@
                 </div>
             </div>
         </section>
+
+        <!-- Productos Destacados -->
+        <section class="destacados" style="padding: 40px 20px; text-align: center;">
+            <h2 style="margin-bottom: 30px; font-size: 2rem; color: #333;">
+                <i class="fa-solid fa-star" style="color: #f47920;"></i> Productos Destacados
+            </h2>
+            <div id="featured-products-container" class="productos-contenedor"
+                style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
+                <!-- Productos se cargarán aquí -->
+                <p>Cargando destacados...</p>
+            </div>
+        </section>
     </main>
 
     <footer>
@@ -103,8 +115,11 @@
     <script type="module">
         import { initCartBadge } from './assets/JS/cart.js';
         import { initSearch } from './assets/JS/search.js';
+        import { initFeaturedProducts } from './assets/JS/featuredProducts.js';
+
         initCartBadge();
         initSearch();
+        initFeaturedProducts();
     </script>
 </body>
 

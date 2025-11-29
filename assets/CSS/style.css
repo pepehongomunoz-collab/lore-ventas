@@ -1638,9 +1638,21 @@ main {
  * 
  * Esto aplicará automáticamente:
  * - Colores del banner según la marca
- * - Background de las cajas de productos (img-box) con el color de la marca
+ * - Background de las cajas de imágenes de productos (img-box) con el color de la marca
  * - Botones con el color de la marca
  */
+.img-box.brand-natura {
+  background-color: rgba(244, 121, 32, 0.15);
+}
+
+.img-box.brand-avon {
+  background-color: rgba(229, 0, 75, 0.15);
+}
+
+.img-box.brand-arbell {
+  background-color: rgba(66, 136, 193, 0.15);
+}
+
 /**
  * FILTERS SIDEBAR - Estilos para el panel de filtros
  */

@@ -94,6 +94,20 @@ $arbell-light: #f0f9e8;
  * 
  * Esto aplicará automáticamente:
  * - Colores del banner según la marca
- * - Background de las cajas de productos (img-box) con el color de la marca
+ * - Background de las cajas de imágenes de productos (img-box) con el color de la marca
  * - Botones con el color de la marca
  */
+
+// ========== HELPER CLASSES FOR FEATURED PRODUCTS ==========
+// Estas clases se usan en el index para los productos destacados
+.img-box.brand-natura {
+    background-color: rgba($natura-primary, 0.15);
+}
+
+.img-box.brand-avon {
+    background-color: rgba($avon-primary, 0.15);
+}
+
+.img-box.brand-arbell {
+    background-color: rgba($arbell-primary, 0.15);
+}
