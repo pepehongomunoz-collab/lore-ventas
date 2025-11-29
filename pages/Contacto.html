@@ -12,53 +12,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- EmailJS SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <!-- Alertas Bootstrap -->
-    <script>
-        function mostrarAlertaBootstrap(mensaje, tipo) {
-            const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
-            const wrapper = document.createElement('div');
-            wrapper.innerHTML = `
-        <div class="alert alert-${tipo} alert-dismissible fade show" role="alert">
-            ${mensaje}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
-        </div>
-    `;
-            alertPlaceholder.innerHTML = ''; // Limpia alertas anteriores
-            alertPlaceholder.append(wrapper);
-        }
-    </script>
-    <!-- EmailJS -->
-    <script>
-        (function () {
-            emailjs.init({
-                publicKey: "zN5poxSAc6404Q5HP" // 🔹 Tu clave pública real
-            });
-        })();
-
-        function enviarConsulta(e) {
-            e.preventDefault();
-
-            const templateParams = {
-                name: document.getElementById("nombre").value,
-                message:
-                    "📞 Teléfono: " + document.getElementById("telefono").value + "\n" +
-                    "📧 Correo: " + document.getElementById("email").value + "\n\n" +
-                    "📝 Consulta:\n" + document.getElementById("mensaje").value,
-                time: new Date().toLocaleString()
-            };
-
-            emailjs.send("service_bnvn7b9", "template_x1rc0b3", templateParams)
-                .then(function (response) {
-                    console.log("✅ Envío exitoso:", response);
-                    mostrarAlertaBootstrap("Tu consulta fue enviada correctamente. ¡Gracias por contactarte!", "success");
-                    document.getElementById("form-contacto").reset();
-                }, function (error) {
-                    console.error("❌ Error al enviar:", error);
-                    mostrarAlertaBootstrap("Ocurrió un error al enviar la consulta. Revisá la consola para más detalles.", "danger");
-                });
-
-        }
-    </script>
 </head>
 
 <body>
@@ -154,6 +107,7 @@
     <script src="../assets/JS/menu.js"></script>
     <script src="../assets/JS/userMenu.js" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/JS/contact.js"></script>
 </body>
 
 </html>
