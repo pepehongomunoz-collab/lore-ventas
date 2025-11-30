@@ -15,10 +15,17 @@ export function initCart() {
     const observer = new MutationObserver(() => {
         initializeCartCheckboxes();
     });
-    const productsContainer = document.querySelector('.productos-contenedor') || document.getElementById('search-results-container');
-    if (productsContainer) {
-        observer.observe(productsContainer, { childList: true, subtree: true });
-    }
+
+    // Observe all possible product containers
+    const containers = [
+        document.querySelector('.productos-contenedor'),
+        document.getElementById('search-results-container'),
+        document.getElementById('featured-products-container') // Added for index page
+    ].filter(Boolean); // Remove null values
+
+    containers.forEach(container => {
+        observer.observe(container, { childList: true, subtree: true });
+    });
 }
 
 /**
@@ -32,11 +39,16 @@ document.addEventListener('DOMContentLoaded', () => {
         initializeCartCheckboxes();
     });
 
-    // Observe the container that holds product cards. Use generic selector to cover both main and search pages.
-    const productsContainer = document.querySelector('.productos-contenedor') || document.getElementById('search-results-container');
-    if (productsContainer) {
-        observer.observe(productsContainer, { childList: true, subtree: true });
-    }
+    // Observe all possible product containers
+    const containers = [
+        document.querySelector('.productos-contenedor'),
+        document.getElementById('search-results-container'),
+        document.getElementById('featured-products-container') // Added for index page
+    ].filter(Boolean); // Remove null values
+
+    containers.forEach(container => {
+        observer.observe(container, { childList: true, subtree: true });
+    });
 });
 
 /**
