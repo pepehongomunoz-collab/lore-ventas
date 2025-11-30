@@ -12,13 +12,11 @@ export function getApiUrl() {
     const hostname = window.location.hostname;
 
     if (hostname === 'localhost' || hostname === '127.0.0.1') {
-        // Development environment
+        // Development environment - local backend
         return 'http://localhost:3000/api';
     } else {
-        // Production environment - use the same domain as the frontend
-        const protocol = window.location.protocol; // http: or https:
-        const host = window.location.host; // domain:port
-        return `${protocol}//${host}/api`;
+        // Production environment - Render backend
+        return 'https://lore-ventas-api.onrender.com/api';
     }
 }
 
