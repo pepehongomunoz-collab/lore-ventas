@@ -5,7 +5,8 @@
  * Incluye listado, filtros, estadísticas y actualización de estados
  */
 
-const API_URL = 'http://localhost:3000/api';
+import { API_URL } from './config.js';
+
 
 // Variable global para almacenar la transacción actual en el modal
 let currentTransaction = null;

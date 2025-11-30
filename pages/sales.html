@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Ventas - Lore Ventas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link rel="stylesheet" href="../assets/CSS/style.css">
+</head>
+
+<body>
+    <header>
+        <div class="top-bar">
+            <div class="logo">
+                <img src="../assets/img/Logo.png" width="150" alt="Logo Lore">
+                <h1>Lorena Fusillo <br>Cosmetica</h1>
+            </div>
+            <div class="search-container">
+                <form class="search-form" role="search">
+                    <input type="search" name="buscar" placeholder="Buscar productos..." aria-label="Buscar productos">
+                    <button type="submit" aria-label="Buscar">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </form>
+            </div>
+            <div class="user-container">
+                <div class="user-icon">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <div class="cart-container">
+                    <a href="./cart.html" class="cart-icon">
+                        <i class="fa-solid fa-shopping-cart"></i>
+                        <span class="cart-badge">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Promociones</a></li>
+                <li><a href="./natura.html">Natura</a></li>
+                <li><a href="./avon.html">Avon</a></li>
+                <li><a href="./arbell.html">Arbell</a></li>
+                <li><a href="./Contacto.html">Contacto</a></li>
+            </ul>
+        </nav>
+        <i class="fa-solid fa-bars hamburguesa"></i>
+    </header>
+
+    <main class="sales-page">
+        <!-- Header with title -->
+        <div class="sales-header">
+            <h2><i class="fa-solid fa-chart-line"></i> Gestión de Ventas</h2>
+            <p class="sales-subtitle">Panel de control de pedidos y estadísticas comerciales</p>
+        </div>
+
+        <!-- Dashboard metrics -->
+        <div id="dashboard-metrics" class="dashboard-metrics">
+            <!-- Will be filled by JavaScript -->
+        </div>
+
+        <!-- Filters -->
+        <div class="sales-filters">
+            <div class="filter-group">
+                <label for="status-filter">
+                    <i class="fa-solid fa-filter"></i> Estado:
+                </label>
+                <select id="status-filter">
+                    <option value="all">Todos</option>
+                    <option value="pending">Pendiente</option>
+                    <option value="processing">Procesando</option>
+                    <option value="shipped">Enviado</option>
+                    <option value="delivered">Entregado</option>
+                    <option value="cancelled">Cancelado</option>
+                </select>
+            </div>
+            <button id="refresh-btn" class="btn-refresh">
+                <i class="fa-solid fa-rotate"></i> Actualizar
+            </button>
+        </div>
+
+        <!-- Loading state -->
+        <div id="sales-loading" class="loading-state">
+            <i class="fa-solid fa-spinner fa-spin"></i>
+            <p>Cargando pedidos...</p>
+        </div>
+
+        <!-- Error state -->
+        <div id="sales-error" class="error-state" style="display: none;">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <p id="error-message">Error al cargar pedidos</p>
+        </div>
+
+        <!-- Orders table -->
+        <div id="orders-table-container" style="display: none;">
+            <table class="orders-table">
+                <thead>
+                    <tr>
+                        <th>ID Pedido</th>
+                        <th>Cliente</th>
+                        <th>Fecha</th>
+                        <th>Total</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="orders-tbody">
+                    <!-- Se llenará dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Order detail modal -->
+        <div id="order-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="modal-close">&times;</span>
+                <div id="order-detail">
+                    <!-- Will be filled by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Notification -->
+        <div id="notification" class="notification" style="display: none;">
+            <i class="fa-solid fa-check-circle"></i>
+            <span id="notification-message"></span>
+        </div>
+    </main>
+
+    <footer>
+        <div class="contacto">
+            <div class="payment">
+                <p>Métodos de pago:</p>
+                <div class="icons">
+                    <img src="../assets/img/metodos.png" width="100" alt="Métodos de pago">
+                </div>
+            </div>
+            <h2>
+                <p>Contacto</p>
+                <a href="./Contacto.html" target="_blank" rel="noopener noreferrer">
+                    <img src="../assets/img/contacto.png" class="contact-icon" alt="Contacto">
+                </a>
+            </h2>
+        </div>
+        <div class="redes">
+            <a href="https://www.instagram.com/lore.fusillo.makeup" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-instagram"></i>Instagram</a>
+            <a href="https://www.facebook.com/Natura.Argentina/?brand_redir=382381445421" target="_blank"
+                rel="noopener noreferrer">
+                <i class="fa-brands fa-facebook"></i> facebook</a>
+            <a href="https://x.com/NaturaArgentina" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-twitter"></i>X</a>
+        </div>
+    </footer>
+
+    <script src="../assets/JS/menu.js"></script>
+    <script src="../assets/JS/userMenu.js" type="module"></script>
+    <script type="module">
+        import { initCartBadge } from '../assets/JS/cart.js';
+        import { initSearch } from '../assets/JS/search.js';
+        import { initSalesPage } from '../assets/JS/sales.js';
+
+        initCartBadge();
+        initSearch();
+        initSalesPage();
+    </script>
+</body>
+
+</html>

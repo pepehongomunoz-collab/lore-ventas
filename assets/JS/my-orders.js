@@ -4,7 +4,8 @@
  * Módulo para que los usuarios vean su historial de compras
  */
 
-const API_URL = 'http://localhost:3000/api';
+import { API_URL } from './config.js';
+
 
 let currentOrder = null;
 

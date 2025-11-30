@@ -3,8 +3,9 @@
  * Handles payment processing using Vexor with MercadoPago
  */
 
-const API_URL = 'http://localhost:3000/api';
+import { API_URL } from './config.js';
 const CART_STORAGE_KEY = 'lore-ventas-cart'; // CRITICAL: Must match cart.js
+
 
 /**
  * Initialize checkout page
