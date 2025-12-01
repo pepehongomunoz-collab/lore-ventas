@@ -414,4 +414,50 @@ router.put('/:id/notes', adminAuth, async (req, res) => {
     }
 });
 
+/**
+ * PUT /api/transactions/:id/shipping
+ * Actualizar información de envío de una transacción
+ * Body: { shippingStatus?: string, trackingNumber?: string, note?: string }
+ */
+router.put('/:id/shipping', adminAuth, async (req, res) => {
+    try {
+        const { shippingStatus, trackingNumber, note } = req.body;
+
+        // Validar estado de envío si se proporciona
+        const validShippingStatuses = ['pending', 'preparing', 'dispatched', 'in_transit', 'delivered'];
+        if (shippingStatus && !validShippingStatuses.includes(shippingStatus)) {
+            return res.status(400).json({
+                success: false,
+                error: 'Estado de envío inválido'
+            });
+        }
+
+        const transaction = await Transaction.findById(req.params.id);
+
+        if (!transaction) {
+            return res.status(404).json({
+                success: false,
+                error: 'Transacción no encontrada'
+            });
+        }
+
+        // Usar el método del modelo para actualizar información de envío
+        transaction.updateShipping(shippingStatus, trackingNumber, req.user._id, note);
+        await transaction.save();
+
+        res.json({
+            success: true,
+            message: 'Información de envío actualizada correctamente',
+            transaction
+        });
+
+    } catch (error) {
+        console.error('Error updating shipping info:', error);
+        res.status(500).json({
+            success: false,
+            error: 'Error al actualizar información de envío'
+        });
+    }
+});
+
 module.exports = router;

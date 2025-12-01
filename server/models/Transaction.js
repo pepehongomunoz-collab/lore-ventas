@@ -9,33 +9,33 @@ const mongoose = require('mongoose');
 
 const TransactionSchema = new mongoose.Schema({
   // ID de la transacción de MercadoPago
-  transactionId: { 
-    type: String, 
+  transactionId: {
+    type: String,
     required: true,
     unique: true,
     index: true
   },
-  
+
   // ID del pago de MercadoPago (puede ser diferente al transactionId)
-  paymentId: { 
-    type: String, 
-    required: false 
+  paymentId: {
+    type: String,
+    required: false
   },
-  
+
   // Usuario que realizó la compra (puede ser null para compras sin login)
-  userId: { 
-    type: mongoose.Schema.Types.ObjectId, 
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: false 
+    required: false
   },
-  
+
   // Información del cliente
   customerInfo: {
     email: { type: String, required: false },
     name: { type: String, required: false },
     phone: { type: String, required: false }
   },
-  
+
   // Items comprados
   items: [{
     title: { type: String, required: true },
@@ -44,13 +44,13 @@ const TransactionSchema = new mongoose.Schema({
     quantity: { type: Number, required: true },
     subtotal: { type: Number, required: true } // unit_price * quantity
   }],
-  
+
   // Montos
-  amount: { 
-    type: Number, 
-    required: true 
+  amount: {
+    type: Number,
+    required: true
   },
-  
+
   // Estado de la transacción
   // pending: Pago pendiente
   // approved: Pago aprobado
@@ -64,7 +64,7 @@ const TransactionSchema = new mongoose.Schema({
     default: 'pending',
     index: true
   },
-  
+
   // Historial de cambios de estado
   statusHistory: [{
     status: { type: String, required: true },
@@ -72,30 +72,59 @@ const TransactionSchema = new mongoose.Schema({
     changedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // Admin que cambió el estado
     note: { type: String, required: false }
   }],
-  
+
   // Método de pago
-  paymentMethod: { 
-    type: String, 
-    required: false 
+  paymentMethod: {
+    type: String,
+    required: false
   },
-  
+
   // Tipo de pago (credit_card, debit_card, ticket, etc.)
-  paymentType: { 
-    type: String, 
-    required: false 
+  paymentType: {
+    type: String,
+    required: false
   },
-  
+
   // Notas administrativas
-  notes: { 
-    type: String, 
-    required: false 
+  notes: {
+    type: String,
+    required: false
   },
-  
+
   // Datos adicionales del webhook
   webhookData: {
     type: mongoose.Schema.Types.Mixed,
     required: false
-  }
+  },
+
+  // === SHIPPING INFORMATION ===
+
+  // Estado del envío
+  // pending: Sin enviar (default)
+  // preparing: En preparación
+  // dispatched: Despachado
+  // in_transit: En tránsito
+  // delivered: Entregado
+  shippingStatus: {
+    type: String,
+    enum: ['pending', 'preparing', 'dispatched', 'in_transit', 'delivered'],
+    default: 'pending'
+  },
+
+  // Número de seguimiento del envío
+  trackingNumber: {
+    type: String,
+    required: false
+  },
+
+  // Historial de cambios de estado del envío
+  shippingHistory: [{
+    shippingStatus: { type: String, required: true },
+    trackingNumber: { type: String, required: false },
+    changedAt: { type: Date, default: Date.now },
+    changedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // Admin que cambió el estado
+    note: { type: String, required: false }
+  }]
 }, {
   timestamps: true // Agrega createdAt y updatedAt automáticamente
 });
@@ -106,7 +135,7 @@ TransactionSchema.index({ status: 1, createdAt: -1 });
 TransactionSchema.index({ 'customerInfo.email': 1 });
 
 // Método para agregar un cambio de estado al historial
-TransactionSchema.methods.addStatusChange = function(newStatus, changedBy, note) {
+TransactionSchema.methods.addStatusChange = function (newStatus, changedBy, note) {
   this.statusHistory.push({
     status: newStatus,
     changedAt: new Date(),
@@ -114,6 +143,25 @@ TransactionSchema.methods.addStatusChange = function(newStatus, changedBy, note)
     note: note
   });
   this.status = newStatus;
+};
+
+// Método para actualizar información de envío
+TransactionSchema.methods.updateShipping = function (shippingStatus, trackingNumber, changedBy, note) {
+  this.shippingHistory.push({
+    shippingStatus: shippingStatus || this.shippingStatus,
+    trackingNumber: trackingNumber || this.trackingNumber,
+    changedAt: new Date(),
+    changedBy: changedBy,
+    note: note
+  });
+
+  if (shippingStatus) {
+    this.shippingStatus = shippingStatus;
+  }
+
+  if (trackingNumber !== undefined) {
+    this.trackingNumber = trackingNumber;
+  }
 };
 
 module.exports = mongoose.model('Transaction', TransactionSchema);

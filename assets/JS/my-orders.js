@@ -161,6 +161,20 @@ function getStatusText(status) {
 }
 
 /**
+ * Obtener texto del estado de envío en español
+ */
+function getShippingStatusText(status) {
+    const statusMap = {
+        'pending': 'Sin enviar',
+        'preparing': 'En preparación',
+        'dispatched': 'Despachado',
+        'in_transit': 'En tránsito',
+        'delivered': 'Entregado'
+    };
+    return statusMap[status] || status;
+}
+
+/**
  * Aplicar filtros
  */
 window.applyFilters = async function () {
@@ -223,6 +237,26 @@ function showOrderModal(order) {
                 ${item.description ? `<br><small>${item.description}</small>` : ''}
             </li>
         `).join('');
+    }
+
+    // Información de envío
+    const shippingSection = document.getElementById('modal-shipping-section');
+    if (shippingSection && order.shippingStatus) {
+        shippingSection.style.display = 'block';
+        const shippingStatusEl = document.getElementById('modal-order-shipping-status');
+        const trackingNumberEl = document.getElementById('modal-order-tracking-number');
+
+        if (shippingStatusEl) {
+            shippingStatusEl.innerHTML = `<span class="status-badge ${order.shippingStatus}">${getShippingStatusText(order.shippingStatus)}</span>`;
+        }
+        if (trackingNumberEl && order.trackingNumber) {
+            trackingNumberEl.textContent = order.trackingNumber;
+            trackingNumberEl.parentElement.style.display = 'flex';
+        } else if (trackingNumberEl) {
+            trackingNumberEl.parentElement.style.display = 'none';
+        }
+    } else if (shippingSection) {
+        shippingSection.style.display = 'none';
     }
 
     // Mostrar modal

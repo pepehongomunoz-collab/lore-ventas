@@ -247,6 +247,20 @@ function getStatusText(status) {
 }
 
 /**
+ * Obtener texto en español para el estado de envío
+ */
+function getShippingStatusText(status) {
+    const statusMap = {
+        'pending': 'Sin enviar',
+        'preparing': 'En preparación',
+        'dispatched': 'Despachado',
+        'in_transit': 'En tránsito',
+        'delivered': 'Entregado'
+    };
+    return statusMap[status] || status;
+}
+
+/**
  * Aplicar filtros
  */
 window.applyFilters = async function () {
@@ -329,6 +343,7 @@ window.viewTransaction = async function (transactionId) {
     }
 }
 
+
 /**
  * Mostrar modal con detalles de la transacción
  */
@@ -370,6 +385,25 @@ function showTransactionModal(transaction) {
     const adminNotes = document.getElementById('admin-notes');
     if (adminNotes) {
         adminNotes.value = transaction.notes || '';
+    }
+
+    // Información de envío
+    const shippingStatusEl = document.getElementById('modal-shipping-status');
+    const trackingNumberEl = document.getElementById('modal-tracking-number');
+    const newShippingStatusSelect = document.getElementById('new-shipping-status');
+    const newTrackingNumberInput = document.getElementById('new-tracking-number');
+
+    if (shippingStatusEl) {
+        shippingStatusEl.innerHTML = `<span class="status-badge ${transaction.shippingStatus || 'pending'}">${getShippingStatusText(transaction.shippingStatus || 'pending')}</span>`;
+    }
+    if (trackingNumberEl) {
+        trackingNumberEl.textContent = transaction.trackingNumber || 'No asignado';
+    }
+    if (newShippingStatusSelect) {
+        newShippingStatusSelect.value = transaction.shippingStatus || 'pending';
+    }
+    if (newTrackingNumberInput) {
+        newTrackingNumberInput.value = transaction.trackingNumber || '';
     }
 
     // Mostrar modal
@@ -467,6 +501,51 @@ window.updateTransactionNotes = async function () {
     } catch (error) {
         console.error('Error updating notes:', error);
         alert('Error al actualizar notas: ' + error.message);
+    }
+}
+
+/**
+ * Actualizar información de envío
+ */
+window.updateShippingInfo = async function () {
+    if (!currentTransaction) return;
+    const shippingStatus = document.getElementById('new-shipping-status')?.value;
+    const trackingNumber = document.getElementById('new-tracking-number')?.value;
+    try {
+        const token = localStorage.getItem('token');
+        const response = await fetch(`${API_URL}/transactions/${currentTransaction._id}/shipping`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                shippingStatus: shippingStatus,
+                trackingNumber: trackingNumber
+            })
+        });
+        if (!response.ok) {
+            throw new Error('Error al actualizar información de envío');
+        }
+        const data = await response.json();
+        if (data.success) {
+            alert('Información de envío actualizada correctamente');
+            // Actualizar la transacción actual
+            currentTransaction.shippingStatus = shippingStatus;
+            currentTransaction.trackingNumber = trackingNumber;
+            // Actualizar la visualización
+            const shippingStatusEl = document.getElementById('modal-shipping-status');
+            const trackingNumberEl = document.getElementById('modal-tracking-number');
+            if (shippingStatusEl) {
+                shippingStatusEl.innerHTML = `<span class="status-badge ${shippingStatus}">${getShippingStatusText(shippingStatus)}</span>`;
+            }
+            if (trackingNumberEl) {
+                trackingNumberEl.textContent = trackingNumber || 'No asignado';
+            }
+        }
+    } catch (error) {
+        console.error('Error updating shipping info:', error);
+        alert('Error al actualizar información de envío: ' + error.message);
     }
 }
 
