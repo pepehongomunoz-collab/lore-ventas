@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Desarrolladores - Lore Ventas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link rel="stylesheet" href="../assets/CSS/style.css">
+</head>
+
+<body>
+    <!-- Barra de navegacion -->
+    <header>
+        <div class="top-bar">
+            <div class="logo">
+                <img src="../assets/img/Logo.png" width="150" alt="Logo Lore">
+                <h1>Lorena Fusillo <br>Cosmetica</h1>
+            </div>
+            <div class="search-container">
+                <form class="search-form" role="search">
+                    <input type="search" name="buscar" placeholder="Buscar productos..." aria-label="Buscar productos">
+                    <button type="submit" aria-label="Buscar">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </form>
+            </div>
+            <div class="user-container">
+                <div class="user-icon">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Promociones</a></li>
+                <li><a href="./natura.html">Natura</a></li>
+                <li><a href="./avon.html">Avon</a></li>
+                <li><a href="./arbell.html">Arbell</a></li>
+                <li><a href="./Contacto.html">Contacto</a></li>
+            </ul>
+        </nav>
+        <i class="fa-solid fa-bars hamburguesa"></i>
+    </header>
+
+    <!-- Panel de Desarrolladores -->
+    <main class="contacto-container" style="max-width: 900px;">
+        <h2><i class="fa-solid fa-palette"></i> Panel de Desarrolladores</h2>
+        <p>Gestión de colores y banners del sitio web</p>
+
+        <!-- Sección de Colores -->
+        <div id="colors-section" style="margin-top: 40px; text-align: left;">
+            <h3 style="color: #f5a938; border-bottom: 2px solid rgba(221, 178, 138, 0.36); padding-bottom: 10px;">
+                <i class="fa-solid fa-palette"></i> Gestión de Colores
+            </h3>
+            <p style="color: #666; margin-bottom: 20px;">
+                Personaliza los colores principales del sitio. Los cambios se aplicarán globalmente para todos los
+                usuarios.
+            </p>
+
+            <form id="color-form">
+                <div class="form-group">
+                    <label for="primary-color">
+                        <i class="fa-solid fa-circle" style="color: #f5a938;"></i> Color Primario
+                    </label>
+                    <input type="color" id="primary-color" value="#f5a938" required>
+                    <small style="color: #888;">Usado en botones, enlaces activos y elementos destacados</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="primary-hover">
+                        <i class="fa-solid fa-circle" style="color: #e08c1b;"></i> Color Primario Hover
+                    </label>
+                    <input type="color" id="primary-hover" value="#e08c1b" required>
+                    <small style="color: #888;">Color al pasar el mouse sobre elementos primarios</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="body-bg">
+                        <i class="fa-solid fa-circle" style="color: #f8f9fb;"></i> Fondo del Body
+                    </label>
+                    <input type="color" id="body-bg" value="#f8f9fb" required>
+                    <small style="color: #888;">Color de fondo principal del sitio</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="header-gradient-start">
+                        <i class="fa-solid fa-circle" style="color: #eec17e;"></i> Header Gradient (Inicio)
+                    </label>
+                    <input type="color" id="header-gradient-start" value="#eec17e" required>
+                    <small style="color: #888;">Color inicial del gradiente del header</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="header-gradient-end">
+                        <i class="fa-solid fa-circle" style="color: #f8f9fb;"></i> Header Gradient (Fin)
+                    </label>
+                    <input type="color" id="header-gradient-end" value="#f8f9fb" required>
+                    <small style="color: #888;">Color final del gradiente del header</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="footer-bg">
+                        <i class="fa-solid fa-circle" style="color: #ddb28a;"></i> Fondo del Footer
+                    </label>
+                    <input type="color" id="footer-bg" value="#ddb28a" required>
+                    <small style="color: #888;">Color de fondo del footer (se aplicará con opacidad)</small>
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button type="submit" class="btn-enviar">
+                        <i class="fa-solid fa-save"></i> Aplicar Cambios
+                    </button>
+                    <button type="button" id="reset-colors-btn" class="btn-cancelar">
+                        <i class="fa-solid fa-rotate-left"></i> Restaurar Por Defecto
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Sección de Banners -->
+        <div id="banners-section" style="margin-top: 50px; text-align: left;">
+            <h3 style="color: #f5a938; border-bottom: 2px solid rgba(221, 178, 138, 0.36); padding-bottom: 10px;">
+                <i class="fa-solid fa-image"></i> Gestión de Banners
+            </h3>
+            <p style="color: #666; margin-bottom: 20px;">
+                Actualiza las imágenes de los banners de las páginas de marcas (Natura, Avon, Arbell).
+            </p>
+
+            <form id="banner-form">
+                <div class="form-group">
+                    <label for="banner-brand">
+                        <i class="fa-solid fa-building"></i> Marca
+                    </label>
+                    <select id="banner-brand" required>
+                        <option value="">Selecciona una marca</option>
+                        <option value="natura">Natura</option>
+                        <option value="avon">Avon</option>
+                        <option value="arbell">Arbell</option>
+                    </select>
+                </div>
+
+                <!-- Banner Actual -->
+                <div id="current-banner-preview" style="display: none; margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 6px; font-weight: 500;">
+                        <i class="fa-solid fa-eye"></i> Banner Actual
+                    </label>
+                    <img id="current-banner-img" src="" alt="Banner actual"
+                        style="max-width: 100%; height: 200px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd;">
+                </div>
+
+                <div class="form-group">
+                    <label for="banner-image">
+                        <i class="fa-solid fa-upload"></i> Nueva Imagen del Banner
+                    </label>
+                    <input type="file" id="banner-image" accept="image/*" required>
+                    <small style="color: #888;">Selecciona una imagen (máx. 5MB, recomendado 1400x200px)</small>
+                </div>
+
+                <!-- Preview de Nueva Imagen -->
+                <div id="new-banner-preview" style="display: none; margin-top: 10px;">
+                    <label style="display: block; margin-bottom: 6px; font-weight: 500;">
+                        <i class="fa-solid fa-eye"></i> Vista Previa
+                    </label>
+                    <img id="new-preview-img" src="" alt="Preview"
+                        style="max-width: 100%; height: 200px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd;">
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <button type="submit" class="btn-enviar">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Subir Banner
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <button onclick="window.history.back()" class="btn-enviar" style="margin-top: 40px;">
+            <i class="fa-solid fa-arrow-left"></i> Volver
+        </button>
+    </main>
+
+    <footer>
+        <!-- Contacto -->
+        <div class="contacto">
+            <div class="payment">
+                <p>Métodos de pago:</p>
+                <div class="icons">
+                    <img src="../assets/img/metodos.png" width="100" alt="Métodos de pago">
+                </div>
+            </div>
+            <h2>
+                <p>Contacto</p>
+                <a href="./Contacto.html" target="_blank" rel="noopener noreferrer">
+                    <img src="../assets/img/contacto.png" class="contact-icon" alt="Contacto">
+                </a>
+            </h2>
+        </div>
+        <!-- Redes Sociales -->
+        <div class="redes">
+            <a href="https://www.instagram.com/lore.fusillo.makeup" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-instagram"></i>Instagram</a>
+            <a href="https://www.facebook.com/Natura.Argentina/?brand_redir=382381445421" target="_blank"
+                rel="noopener noreferrer">
+                <i class="fa-brands fa-facebook"></i> facebook</a>
+            <a href="https://x.com/NaturaArgentina" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-twitter"></i>X</a>
+        </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../assets/JS/menu.js"></script>
+    <script src="../assets/JS/userMenu.js" type="module"></script>
+    <script src="../assets/JS/theme-loader.js" type="module"></script>
+    <script src="../assets/JS/developer-panel.js" type="module"></script>
+</body>
+
+</html>

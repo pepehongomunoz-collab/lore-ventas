@@ -5,7 +5,7 @@
  * Muestra opciones adicionales para administradores y desarrolladores.
  */
 
-import { getPageHref, getUserData, clearAuthData, isAdminOrDeveloper } from './utils.js';
+import { getPageHref, getUserData, clearAuthData, isAdminOrDeveloper, isDeveloper } from './utils.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   const userIcon = document.querySelector('.user-icon');
@@ -50,10 +50,17 @@ document.addEventListener('DOMContentLoaded', () => {
       let adminLink = '';
       let commercialLink = '';
       let usersLink = '';
+      let developerPanelLink = '';
+
       if (isAdminOrDeveloper()) {
         adminLink = `<a href="${getPageHref('admin.html')}" class="user-menu-item"><i class="fa-solid fa-box"></i> Gestionar Productos</a>`;
         commercialLink = `<a href="${getPageHref('transactions.html')}" class="user-menu-item"><i class="fa-solid fa-chart-line"></i> Gestión Comercial</a>`;
         usersLink = `<a href="${getPageHref('users.html')}" class="user-menu-item"><i class="fa-solid fa-users-gear"></i> Gestión de Usuarios</a>`;
+      }
+
+      // Panel de desarrolladores (solo para developers)
+      if (isDeveloper()) {
+        developerPanelLink = `<a href="${getPageHref('developer-panel.html')}" class="user-menu-item"><i class="fa-solid fa-palette"></i> Panel Desarrolladores</a>`;
       }
 
       menu.innerHTML = `
@@ -61,6 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ${adminLink}
         ${commercialLink}
         ${usersLink}
+        ${developerPanelLink}
         <a href="${getPageHref('my-orders.html')}" class="user-menu-item"><i class="fa-solid fa-shopping-bag"></i> Mis Compras</a>
         <a href="${getPageHref('profile.html')}" class="user-menu-item user-profile"><i class="fa-solid fa-user"></i> Cuenta</a>
         <button class="user-menu-item user-logout"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</button>

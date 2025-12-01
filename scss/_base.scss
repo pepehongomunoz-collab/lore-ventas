@@ -1,6 +1,18 @@
 // ========== RESET & BASE ==========
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap');
 
+// CSS Custom Properties para personalización dinámica
+// Estos valores pueden ser sobrescritos dinámicamente por JavaScript
+:root {
+    --primary-color: #{$primary-color};
+    --primary-hover: #{$primary-hover};
+    --body-bg: #{$background-light};
+    --header-gradient-start: #eec17e;
+    --header-gradient-end: #{$background-light};
+    --footer-bg: #{$secondary-color};
+    --accent-bg: #{$secondary-color};
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -9,6 +21,6 @@
 }
 
 body {
-    background-color: $background-light;
+    background-color: var(--body-bg);
     color: $text-color;
 }
