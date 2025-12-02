@@ -38,6 +38,16 @@ $transition-speed: 0.3s;
     }
 }
 
+.developer-container {
+    max-width: auto;
+    margin: 50px auto;
+    padding: 30px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
 // ========== LAYOUT PRINCIPAL ==========
 .dev-panel-wrapper {
     display: flex;
@@ -181,12 +191,12 @@ $transition-speed: 0.3s;
     border-left: 4px solid #ccc;
     transition: all $transition-speed ease;
 
-    &.online {
+    &.success {
         @include gradient-bg(#d4edda, #c3e6cb);
         border-left-color: $dev-success;
     }
 
-    &.offline {
+    &.error {
         @include gradient-bg(#f8d7da, #f5c6cb);
         border-left-color: $dev-error;
     }
@@ -219,11 +229,11 @@ $transition-speed: 0.3s;
     font-size: 0.85em;
     font-weight: 600;
 
-    &.online {
+    &.success {
         @include status-badge($dev-success);
     }
 
-    &.offline {
+    &.error {
         @include status-badge($dev-error);
     }
 
