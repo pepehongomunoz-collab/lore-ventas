@@ -1,9 +1,11 @@
 /**
- * DEVELOPER PANEL - Gestión de Colores y Banners
+ * DEVELOPER PANEL - Gestión Completa del Sitio
  * 
  * Panel exclusivo para desarrolladores que permite:
  * - Modificar colores globales del sitio
  * - Gestionar imágenes de banners de marcas
+ * - Monitorear estado de la API en tiempo real
+ * - Ejecutar scripts de testing
  */
 
 import {
@@ -29,6 +31,216 @@ document.addEventListener('DOMContentLoaded', () => {
         alert('❌ Acceso denegado. Solo desarrolladores pueden acceder a esta página.');
         window.location.href = '../index.html';
         return;
+    }
+
+    // ========== SIDEBAR TOGGLE (MOBILE) ==========
+    const sidebarToggle = document.getElementById('sidebar-toggle');
+    const sidebar = document.getElementById('dev-sidebar');
+    const sidebarOverlay = document.getElementById('sidebar-overlay');
+
+    if (sidebarToggle && sidebar && sidebarOverlay) {
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+            sidebarOverlay.classList.toggle('active');
+        });
+
+        sidebarOverlay.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+        });
+    }
+
+    // ========== API STATUS MONITORING ==========
+    let apiCheckInterval;
+
+    async function checkApiStatus() {
+        const startTime = Date.now();
+
+        try {
+            // Check server status
+            const serverResponse = await fetch(`${API_BASE}/api/health`, {
+                method: 'GET',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+
+            const responseTime = Date.now() - startTime;
+            const serverData = await serverResponse.json();
+
+            // Update Server Status
+            updateStatusCard('server', serverResponse.ok, {
+                status: serverResponse.ok ? 'Online' : 'Offline',
+                lastCheck: new Date().toLocaleTimeString('es-AR')
+            });
+
+            // Update Database Status
+            updateStatusCard('db', serverData.database === 'connected', {
+                status: serverData.database === 'connected' ? 'Conectada' : 'Desconectada',
+                lastCheck: new Date().toLocaleTimeString('es-AR')
+            });
+
+            // Update Response Time
+            updateStatusCard('response', responseTime < 1000, {
+                latency: `${responseTime} ms`,
+                lastCheck: new Date().toLocaleTimeString('es-AR')
+            });
+
+        } catch (error) {
+            console.error('Error checking API status:', error);
+
+            // Mark all as offline
+            updateStatusCard('server', false, {
+                status: 'Error de conexión',
+                lastCheck: new Date().toLocaleTimeString('es-AR')
+            });
+            updateStatusCard('db', false, {
+                status: 'No disponible',
+                lastCheck: new Date().toLocaleTimeString('es-AR')
+            });
+            updateStatusCard('response', false, {
+                latency: 'N/A',
+                lastCheck: new Date().toLocaleTimeString('es-AR')
+            });
+        }
+    }
+
+    function updateStatusCard(type, isOnline, details) {
+        const card = document.getElementById(`${type}-status-card`);
+        const badge = document.getElementById(`${type}-badge`);
+        const detailsDiv = document.getElementById(`${type}-details`);
+
+        if (!card || !badge || !detailsDiv) return;
+
+        // Update card class
+        card.className = `status-card ${isOnline ? 'online' : 'offline'}`;
+
+        // Update badge
+        badge.className = `status-badge ${isOnline ? 'online' : 'offline'}`;
+        badge.innerHTML = isOnline
+            ? '<i class="fa-solid fa-circle-check"></i> Online'
+            : '<i class="fa-solid fa-circle-xmark"></i> Offline';
+
+        // Update details
+        if (type === 'server') {
+            detailsDiv.innerHTML = `
+                <p><strong>Estado:</strong> ${details.status}</p>
+                <p><strong>Última verificación:</strong> ${details.lastCheck}</p>
+            `;
+        } else if (type === 'db') {
+            detailsDiv.innerHTML = `
+                <p><strong>Estado:</strong> ${details.status}</p>
+                <p><strong>Última verificación:</strong> ${details.lastCheck}</p>
+            `;
+        } else if (type === 'response') {
+            detailsDiv.innerHTML = `
+                <p><strong>Latencia:</strong> ${details.latency}</p>
+                <p><strong>Última medición:</strong> ${details.lastCheck}</p>
+            `;
+        }
+    }
+
+    // Initial check and set interval
+    checkApiStatus();
+    apiCheckInterval = setInterval(checkApiStatus, 30000); // Check every 30 seconds
+
+    // ========== TESTING SCRIPTS ==========
+    const testAuthBtn = document.getElementById('test-auth-btn');
+    const testDbBtn = document.getElementById('test-db-btn');
+    const createTestOrderBtn = document.getElementById('create-test-order-btn');
+    const clearCartBtn = document.getElementById('clear-cart-btn');
+    const testResult = document.getElementById('test-result');
+
+    // Test Authentication
+    if (testAuthBtn) {
+        testAuthBtn.addEventListener('click', async () => {
+            await runTest('auth', async () => {
+                const response = await fetch(`${API_BASE}/api/auth/verify`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await handleApiResponse(response);
+                return {
+                    success: true,
+                    message: `✅ Autenticación válida. Usuario: ${data.user.email}`
+                };
+            });
+        });
+    }
+
+    // Test Database
+    if (testDbBtn) {
+        testDbBtn.addEventListener('click', async () => {
+            await runTest('database', async () => {
+                const response = await fetch(`${API_BASE}/api/health`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await handleApiResponse(response);
+                return {
+                    success: data.database === 'connected',
+                    message: data.database === 'connected'
+                        ? '✅ Base de datos conectada correctamente'
+                        : '❌ Error de conexión a la base de datos'
+                };
+            });
+        });
+    }
+
+    // Create Test Order
+    if (createTestOrderBtn) {
+        createTestOrderBtn.addEventListener('click', async () => {
+            await runTest('test-order', async () => {
+                const response = await fetch(`${API_BASE}/api/payments/create-test-order`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ items: [] })
+                });
+                const data = await handleApiResponse(response);
+                return {
+                    success: true,
+                    message: `✅ Pedido de prueba creado. ID: ${data.transaction.transactionId}`
+                };
+            });
+        });
+    }
+
+    // Clear Cart
+    if (clearCartBtn) {
+        clearCartBtn.addEventListener('click', async () => {
+            await runTest('clear-cart', async () => {
+                localStorage.removeItem('cart');
+                return {
+                    success: true,
+                    message: '✅ Carrito limpiado correctamente'
+                };
+            });
+        });
+    }
+
+    async function runTest(testName, testFunction) {
+        const btn = event.target.closest('.test-btn');
+        const originalContent = btn.innerHTML;
+
+        try {
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Ejecutando...';
+            testResult.style.display = 'none';
+
+            const result = await testFunction();
+
+            testResult.className = `test-result ${result.success ? 'success' : 'error'}`;
+            testResult.innerHTML = result.message;
+            testResult.style.display = 'block';
+
+        } catch (error) {
+            console.error(`Error in test ${testName}:`, error);
+            testResult.className = 'test-result error';
+            testResult.innerHTML = `❌ Error: ${error.message}`;
+            testResult.style.display = 'block';
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = originalContent;
+        }
     }
 
     // ========== GESTIÓN DE COLORES ==========
