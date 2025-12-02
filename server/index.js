@@ -12,6 +12,7 @@ const usersRoutes = require('./routes/users');
 const paymentRoutes = require('./routes/payments');
 const transactionRoutes = require('./routes/transactions');
 const settingsRoutes = require('./routes/settings');
+const healthRoutes = require('./routes/health');
 
 const app = express();
 app.use(cors());
@@ -35,6 +36,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 });
 
 // Routes
+app.use('/api/health', healthRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/uploads', uploadRoutes);
