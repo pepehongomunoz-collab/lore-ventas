@@ -381,4 +381,116 @@ document.addEventListener('DOMContentLoaded', () => {
 
         return `#${r}${g}${b}`;
     }
+
+    // ========== GESTIÓN DE METADATOS DEL SITIO ==========
+
+    const metadataForm = document.getElementById('metadata-form');
+    const faviconUpload = document.getElementById('favicon-upload');
+    const currentFaviconImg = document.getElementById('current-favicon-img');
+
+    // Cargar metadatos actuales
+    if (metadataForm) {
+        loadSiteMetadata();
+        metadataForm.addEventListener('submit', handleMetadataSubmit);
+    }
+
+    /**
+     * Cargar metadatos actuales del sitio
+     */
+    async function loadSiteMetadata() {
+        try {
+            const response = await fetch(`${API_BASE}/api/settings/siteMetadata`);
+            const data = await handleApiResponse(response);
+
+            if (data.value) {
+                const metadata = data.value;
+
+                // Cargar valores de cada página
+                document.getElementById('index-title').value = metadata.index?.title || '';
+                document.getElementById('index-h1').value = metadata.index?.h1 || '';
+                document.getElementById('natura-title').value = metadata.natura?.title || '';
+                document.getElementById('natura-h1').value = metadata.natura?.h1 || '';
+                document.getElementById('avon-title').value = metadata.avon?.title || '';
+                document.getElementById('avon-h1').value = metadata.avon?.h1 || '';
+                document.getElementById('arbell-title').value = metadata.arbell?.title || '';
+                document.getElementById('arbell-h1').value = metadata.arbell?.h1 || '';
+
+                // Mostrar favicon actual
+                if (metadata.favicon) {
+                    currentFaviconImg.src = metadata.favicon;
+                }
+            }
+        } catch (err) {
+            console.error('Error loading site metadata:', err);
+        }
+    }
+
+    /**
+     * Guardar metadatos del sitio
+     */
+    async function handleMetadataSubmit(e) {
+        e.preventDefault();
+
+        try {
+            let faviconPath = currentFaviconImg.src;
+
+            // Si hay un nuevo favicon, subirlo primero
+            if (faviconUpload.files.length > 0) {
+                const formData = new FormData();
+                formData.append('image', faviconUpload.files[0]);
+
+                const uploadResponse = await fetch(`${API_BASE}/api/uploads`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: formData
+                });
+
+                const uploadData = await handleApiResponse(uploadResponse);
+                faviconPath = uploadData.imagePath;
+            }
+
+            // Construir objeto de metadatos
+            const metadata = {
+                index: {
+                    title: document.getElementById('index-title').value,
+                    h1: document.getElementById('index-h1').value
+                },
+                natura: {
+                    title: document.getElementById('natura-title').value,
+                    h1: document.getElementById('natura-h1').value
+                },
+                avon: {
+                    title: document.getElementById('avon-title').value,
+                    h1: document.getElementById('avon-h1').value
+                },
+                arbell: {
+                    title: document.getElementById('arbell-title').value,
+                    h1: document.getElementById('arbell-h1').value
+                },
+                favicon: faviconPath
+            };
+
+            // Guardar metadatos
+            const response = await fetch(`${API_BASE}/api/settings/siteMetadata`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ value: metadata })
+            });
+
+            await handleApiResponse(response);
+
+            alert('✅ Metadatos actualizados exitosamente. Los cambios se aplicarán en las páginas.');
+
+            // Recargar metadatos
+            loadSiteMetadata();
+        } catch (err) {
+            console.error('Error saving metadata:', err);
+            alert(`❌ Error al guardar metadatos: ${err.message}`);
+        }
+    }
 });

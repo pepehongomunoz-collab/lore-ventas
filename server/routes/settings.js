@@ -26,6 +26,25 @@ const DEFAULT_SETTINGS = {
         natura: '/assets/img/bannernatura.png',
         avon: '/assets/img/banneravon.png',
         arbell: '/assets/img/bannerarbell.png'
+    },
+    siteMetadata: {
+        index: {
+            title: 'Lore Ventas - Página Principal',
+            h1: 'Lorena Fusillo <br>Cosmetica'
+        },
+        natura: {
+            title: 'Lore Ventas - NATURA',
+            h1: 'Lorena Fusillo <br>Cosmetica'
+        },
+        avon: {
+            title: 'Lore Ventas - AVON',
+            h1: 'Lorena Fusillo <br>Cosmetica'
+        },
+        arbell: {
+            title: 'Lore Ventas - ARBELL',
+            h1: 'Lorena Fusillo <br>Cosmetica'
+        },
+        favicon: '/assets/img/Logo.png'
     }
 };
 

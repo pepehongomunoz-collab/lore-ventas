@@ -1,0 +1,85 @@
+<!-- Sección de Metadatos del Sitio -->
+<!-- INSERT THIS SECTION AFTER THE BANNERS SECTION IN developer-panel.html -->
+<section class="dev-section" id="metadata-section">
+    <h3><i class="fa-solid fa-file-code"></i> Gestión de Metadatos del Sitio</h3>
+    <p style="color: #666; margin-bottom: 20px;">
+        Personaliza los títulos, textos del encabezado y el favicon del sitio.
+    </p>
+
+    <form id="metadata-form">
+        <!-- Favicon -->
+        <div class="form-group">
+            <label for="favicon-upload">
+                <i class="fa-solid fa-image"></i> Favicon del Sitio
+            </label>
+            <input type="file" id="favicon-upload" accept="image/*">
+            <small style="color: #888;">Imagen que aparece en la pestaña del navegador</small>
+
+            <div id="current-favicon-preview" style="margin-top: 10px;">
+                <label style="display: block; margin-bottom: 6px; font-weight: 500;">
+                    <i class="fa-solid fa-eye"></i> Favicon Actual
+                </label>
+                <img id="current-favicon-img" src="" alt="Favicon actual"
+                    style="width: 64px; height: 64px; object-fit: contain; border: 1px solid #ddd; border-radius: 4px; padding: 4px;">
+            </div>
+        </div>
+
+        <!-- Página Index -->
+        <div class="metadata-page-group">
+            <h4><i class="fa-solid fa-home"></i> Página Principal (Index)</h4>
+            <div class="form-group">
+                <label for="index-title">Título HTML</label>
+                <input type="text" id="index-title" placeholder="Lore Ventas - Página Principal" required>
+            </div>
+            <div class="form-group">
+                <label for="index-h1">Texto del Encabezado (H1)</label>
+                <input type="text" id="index-h1" placeholder="Lorena Fusillo <br>Cosmetica" required>
+            </div>
+        </div>
+
+        <!-- Página Natura -->
+        <div class="metadata-page-group">
+            <h4><i class="fa-solid fa-leaf"></i> Página Natura</h4>
+            <div class="form-group">
+                <label for="natura-title">Título HTML</label>
+                <input type="text" id="natura-title" placeholder="Lore Ventas - NATURA" required>
+            </div>
+            <div class="form-group">
+                <label for="natura-h1">Texto del Encabezado (H1)</label>
+                <input type="text" id="natura-h1" placeholder="Lorena Fusillo <br>Cosmetica" required>
+            </div>
+        </div>
+
+        <!-- Página Avon -->
+        <div class="metadata-page-group">
+            <h4><i class="fa-solid fa-heart"></i> Página Avon</h4>
+            <div class="form-group">
+                <label for="avon-title">Título HTML</label>
+                <input type="text" id="avon-title" placeholder="Lore Ventas - AVON" required>
+            </div>
+            <div class="form-group">
+                <label for="avon-h1">Texto del Encabezado (H1)</label>
+                <input type="text" id="avon-h1" placeholder="Lorena Fusillo <br>Cosmetica" required>
+            </div>
+        </div>
+
+        <!-- Página Arbell -->
+        <div class="metadata-page-group">
+            <h4><i class="fa-solid fa-spa"></i> Página Arbell</h4>
+            <div class="form-group">
+                <label for="arbell-title">Título HTML</label>
+                <input type="text" id="arbell-title" placeholder="Lore Ventas - ARBELL" required>
+            </div>
+            <div class="form-group">
+                <label for="arbell-h1">Texto del Encabezado (H1)</label>
+                <input type="text" id="arbell-h1" placeholder="Lorena Fusillo <br>Cosmetica" required>
+            </div>
+        </div>
+
+        <div style="margin-top: 20px;">
+            <button type="submit" class="btn-enviar">
+                <i class="fa-solid fa-save"></i> Guardar Metadatos
+            </button>
+        </div>
+    </form>
+</section>
